@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use App\Jobs\OfferDeactivationJob;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use LDAP\Result;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -68,7 +69,8 @@ class CustomImportController extends BaseController
             return (array)$item;
         })->pluck('user_email','ID')->toArray();
         $item = $posts->where('ID',5980)->first();
-        dd($item['guid']);
+        Storage::disk('public')->put(time().'.png', file_get_contents($item['guid']));
+        dd("ok");
         try {
             DB::transaction(function ()use ($authors,$posts){
                 foreach ($posts as $post) {
