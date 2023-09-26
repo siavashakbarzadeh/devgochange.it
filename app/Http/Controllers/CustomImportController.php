@@ -71,7 +71,7 @@ class CustomImportController extends BaseController
                 foreach ($posts as $post) {
                     $row = DB::connection('mysql')->table('posts')->updateOrInsert(
                         [
-                            'id' => 0,
+                            'name' => $post['post_title'],
                         ]
                         ,
                         [
