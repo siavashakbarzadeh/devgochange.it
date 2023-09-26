@@ -69,7 +69,7 @@ class CustomImportController extends BaseController
         $item=$posts->where('ID',5973)->first();
         $array = array();
         preg_match( "~<img.*src\s*=\s*[\"']([^\"']+)[\"'][^>]*>~i", $item['post_content'], $array ) ;
-        dd($array);
+        dd($item['post_content'],$array);
         try {
             DB::transaction(function ()use ($authors,$posts){
                 foreach ($posts as $post) {
