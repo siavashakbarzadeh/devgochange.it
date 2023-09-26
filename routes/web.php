@@ -26,8 +26,9 @@ use Botble\Ecommerce\Http\Controllers\OfferTypeController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/importposts', [CustomImportController::class, 'importPost'])
+Route::get('/importDbfrom', function () {
+    return view('import');
+});
 
-    ->name('post.import');
 
-
+Route::get('/importposts', [CustomImportController::class, 'importPost'])->name('post.import');
