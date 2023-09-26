@@ -32,7 +32,7 @@ class CustomImportController extends BaseController
 {
 
     public function importPost(){
-        dd('ok');
+//        dd('ok');
         $posts=DB::connection('mysql2')->select('select * from wp_posts');
         $posts_updated=array();
         foreach ($posts as $post) {
