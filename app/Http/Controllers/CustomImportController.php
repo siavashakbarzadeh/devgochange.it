@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Botble\Ecommerce\Models\Order;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -59,35 +60,31 @@ class CustomImportController extends BaseController
 
     public function importPost()
     {
-//        dd('ok');
         $posts = collect(DB::connection('mysql2')->table('wp_posts')->get())->map(function ($item) {
             return (array)$item;
         });
         $authors=collect(DB::connection('mysql2')->table('wp_users')->whereIn('id',$posts->pluck('post_author')->unique()->toArray())->get())->map(function ($item){
             return (array)$item;
         })->pluck('user_email','ID')->toArray();
-        dd($authors);
-//        dd($posts);
-        $posts_updated = array();
-        foreach ($posts as $post) {
-            $row = DB::connection('mysql')->table('posts')->updateOrInsert(
-                [
-                    'id' => $post->ID,
-                    'name' => $post->post_title,
-                    'content' => $post->post_content,
-                ]
-                ,
-                [
-                    'created_at' => $post->post_date,
-
-                ]
-            );
-            array_push($posts_updated, $row);
+        try {
+            DB::transaction(function ()use ($authors,$posts){
+                foreach ($posts as $post) {
+                    $row = DB::connection('mysql')->table('posts')->updateOrInsert(
+                        [
+                            'name' => $post['post_title'],
+                        ]
+                        ,
+                        [
+                            'name' => $post['post_title'],
+                            'content' => $post['post_content'],
+                            'author_id'=>User::query()->where('email',$authors[$post['post_author']])->first()->id,
+                        ]
+                    );
+                }
+            });
+        }catch (Throwable $e){
+            dd($e);
         }
-
-
-        if (empty($posts_updated)) return 'No post record updated';
-        else return $posts_updated;
     }
 
     public function brands()
