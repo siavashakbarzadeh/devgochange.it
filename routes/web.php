@@ -32,3 +32,4 @@ Route::get('/importDbfrom', function () {
 
 
 Route::get('/importposts', [CustomImportController::class, 'importPost'])->name('post.import');
+Route::get('/importusers', [CustomImportController::class, 'importUser'])->name('user.import');
