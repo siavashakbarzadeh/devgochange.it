@@ -69,6 +69,7 @@ class CustomImportController extends BaseController
         try {
             DB::transaction(function ()use ($authors,$posts){
                 foreach ($posts as $post) {
+                    if (!array_key_exists($post['post_author'],$authors))
                     dump($post,$post['post_author'],$authors,$authors[$post['post_author']]);
                     /*$row = DB::connection('mysql')->table('posts')->updateOrInsert(
                         [
