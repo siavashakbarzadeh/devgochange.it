@@ -31,6 +31,28 @@ use Throwable;
 class CustomImportController extends BaseController
 {
 
+    public function importUser(){
+//        dd('ok');
+        $users=DB::connection('mysql2')->table('wp_users')->get();
+        try {
+            DB::transaction(function ()use ($users){
+                foreach ($users as $user) {
+                    $row=DB::connection('mysql')->table('users')->updateOrInsert(
+                        [
+                            'email'=>$user->user_email,
+                        ],[
+                            'first_name'=>$user->user_nicename,
+                            'email'=>$user->user_email,
+                            'password'=>bcrypt('12345678'),
+                            'email_verified_at'=>now(),
+                        ]
+                    );
+                }
+            });
+        }catch ($e){
+            dd($e);
+        }
+    }
     public function importPost(){
 //        dd('ok');
         $posts=DB::connection('mysql2')->select('select * from wp_posts');
