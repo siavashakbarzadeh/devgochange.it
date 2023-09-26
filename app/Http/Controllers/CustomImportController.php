@@ -66,7 +66,7 @@ class CustomImportController extends BaseController
         $authors=collect(DB::connection('mysql2')->table('wp_users')->whereIn('id',$posts->pluck('post_author')->unique()->toArray())->get())->map(function ($item){
             return (array)$item;
         })->pluck('user_email','ID')->toArray();
-        $item=$posts->where('ID',5973)->first;
+        $item=$posts->where('ID',5973)->first();
         dd($item->post_content);
         try {
             DB::transaction(function ()use ($authors,$posts){
