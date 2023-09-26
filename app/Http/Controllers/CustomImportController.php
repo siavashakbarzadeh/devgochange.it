@@ -31,42 +31,54 @@ use Throwable;
 class CustomImportController extends BaseController
 {
 
-    public function importUser(){
+    public function importUser()
+    {
 //        dd('ok');
-        $users=DB::connection('mysql2')->table('wp_users')->get();
+        $users = DB::connection('mysql2')->table('wp_users')->get();
         try {
-            DB::transaction(function ()use ($users){
+            DB::transaction(function () use ($users) {
                 foreach ($users as $user) {
-                    $row=DB::connection('mysql')->table('users')->updateOrInsert(
+                    $row = DB::connection('mysql')->table('users')->updateOrInsert(
                         [
-                            'email'=>$user->user_email,
-                        ],[
-                            'first_name'=>$user->user_nicename,
-                            'email'=>$user->user_email,
-                            'password'=>bcrypt('12345678'),
-                            'email_verified_at'=>now(),
+                            'email' => $user->user_email,
+                        ], [
+                            'first_name' => $user->user_nicename,
+                            'email' => $user->user_email,
+                            'password' => bcrypt('12345678'),
+                            'email_verified_at' => now(),
+                            'created_at' => now(),
+                            'updated_at' => now(),
                         ]
                     );
                 }
             });
-        }catch (Throwable $e){
+        } catch (Throwable $e) {
             dd($e);
         }
     }
-    public function importPost(){
+
+    public function importPost()
+    {
 //        dd('ok');
-        $posts=DB::connection('mysql2')->select('select * from wp_posts');
+        $posts = collect(DB::connection('mysql2')->table('wp_posts')->get())->map(function ($item) {
+            return (array)$item;
+        });
+        $authors=collect(DB::connection('mysql2')->table('wp_users')->whereIn('id',$posts->pluck('post_author')->unique()->toArray())->get())->map(function ($item){
+            return (array)$item;
+        })->pluck('user_email','ID')->toArray();
+        dd($authors);
 //        dd($posts);
-        $posts_updated=array();
+        $posts_updated = array();
         foreach ($posts as $post) {
-            $row=DB::connection('mysql')->table('posts')->updateOrInsert(
+            $row = DB::connection('mysql')->table('posts')->updateOrInsert(
                 [
                     'id' => $post->ID,
                     'name' => $post->post_title,
+                    'content' => $post->post_content,
                 ]
                 ,
                 [
-                    'created_at'=>$post->post_date,
+                    'created_at' => $post->post_date,
 
                 ]
             );
@@ -74,14 +86,16 @@ class CustomImportController extends BaseController
         }
 
 
-        if(empty($posts_updated)) return 'No post record updated';
+        if (empty($posts_updated)) return 'No post record updated';
         else return $posts_updated;
     }
-    public function brands(){
-        $brands=DB::connection('mysql2')->select('select * from acq_fornitore');
-        $brands_updated=array();
+
+    public function brands()
+    {
+        $brands = DB::connection('mysql2')->select('select * from acq_fornitore');
+        $brands_updated = array();
         foreach ($brands as $brand) {
-            $row=DB::connection('mysql')->table('ec_brands')->updateOrInsert(
+            $row = DB::connection('mysql')->table('ec_brands')->updateOrInsert(
                 [
                     'id' => $brand->pk_fornitore_id,
                     'name' => $brand->nome,
@@ -96,34 +110,34 @@ class CustomImportController extends BaseController
             array_push($brands_updated, $row);
 
         }
-        if(empty($brands_updated)) return 'No brands record updated';
+        if (empty($brands_updated)) return 'No brands record updated';
         else return $brands_updated;
     }
-    public function getCreateView(){
+
+    public function getCreateView()
+    {
         page_title()->setTitle('Creare offerte');
         return view('plugins/ecommerce::offerte.create');
     }
 
 
-    public function getSpedizioneView(){
+    public function getSpedizioneView()
+    {
         page_title()->setTitle('Config spedizione');
         $spedizione = DB::select("SELECT * FROM config_spedizione");
-        $spedizione=$spedizione[0];
-        return view('plugins/ecommerce::spedizione.view',compact('spedizione'));
+        $spedizione = $spedizione[0];
+        return view('plugins/ecommerce::spedizione.view', compact('spedizione'));
     }
-    public function createOfferView(){
+
+    public function createOfferView()
+    {
         page_title()->setTitle('Shipping offer creation');
         return view('plugins/ecommerce::spedizione.create-offer');
     }
 
 
-
-
-
-
-
-
-    public function spedizioneUpdate(Request $request){
+    public function spedizioneUpdate(Request $request)
+    {
         $request->validate([
             'min_order' => 'required|numeric|min:0',
             'contribution_lower_order' => 'required|numeric|min:0',
@@ -132,17 +146,18 @@ class CustomImportController extends BaseController
             'order_below_600' => 'required|numeric|min:0|max:1000',
         ]);
 
-        DB::update("UPDATE config_spedizione SET min_order = ? , contribution_lower_order = ? , order_600 = ? , order_below_600 = ? , supplement_over_50kg = ?  WHERE id = 0", [$request->min_order, $request->contribution_lower_order,$request->order_600,$request->order_below_600,$request->supplement_over_50kg]);
+        DB::update("UPDATE config_spedizione SET min_order = ? , contribution_lower_order = ? , order_600 = ? , order_below_600 = ? , supplement_over_50kg = ?  WHERE id = 0", [$request->min_order, $request->contribution_lower_order, $request->order_600, $request->order_below_600, $request->supplement_over_50kg]);
 
         $spedizione = DB::select("SELECT * FROM config_spedizione");
-        $spedizione=$spedizione[0];
+        $spedizione = $spedizione[0];
         return redirect()->route('admin.ecommerce.spedizione.view');
 
 
     }
 
 
-    public function updateExpirationDate(Request $request) {
+    public function updateExpirationDate(Request $request)
+    {
         $offerId = $request->input('offer_id');
         $newDate = $request->input('expiration_date');
 
@@ -154,7 +169,8 @@ class CustomImportController extends BaseController
     }
 
 
-    public function exportOffer(){
+    public function exportOffer()
+    {
         try {
             return DB::transaction(function () {
                 $items = \Botble\Ecommerce\Models\Offers::all();
@@ -162,7 +178,7 @@ class CustomImportController extends BaseController
                     $offerDetails = $item->offerDetails;
                     $item = collect($item)
                         ->put('u_id', $item->id)
-                        ->forget(['id','offer_details'])
+                        ->forget(['id', 'offer_details'])
                         ->mapWithKeys(function ($item, $key) {
                             if (str_ends_with($key, '_at')) {
                                 $item = date('Y-m-d H:i:s', strtotime($item));
@@ -178,15 +194,15 @@ class CustomImportController extends BaseController
                         ->updateOrInsert([
                             'u_id' => $item['u_id'],
                         ], $item);
-                    if ($offerDetails->count()){
-                        foreach ($offerDetails as $offerDetail){
+                    if ($offerDetails->count()) {
+                        foreach ($offerDetails as $offerDetail) {
                             DB::connection('mysql2')
                                 ->table('ec_offer_details')
                                 ->updateOrInsert([
-                                    'u_id'=>$offerDetail->id,
-                                ],collect($offerDetail)
+                                    'u_id' => $offerDetail->id,
+                                ], collect($offerDetail)
                                     ->put('u_id', $offerDetail->id)
-                                    ->forget(['id','offer_details'])
+                                    ->forget(['id', 'offer_details'])
                                     ->mapWithKeys(function ($item, $key) {
                                         if (str_ends_with($key, '_at')) {
                                             $item = date('Y-m-d H:i:s', strtotime($item));
@@ -198,50 +214,46 @@ class CustomImportController extends BaseController
                         }
                     }
                 }
-                return redirect()->back()->with(['success'=>"success"]);
+                return redirect()->back()->with(['success' => "success"]);
             });
         } catch (Throwable $e) {
             Log::error($e);
-            return redirect()->back()->with(['error'=>"error"]);
+            return redirect()->back()->with(['error' => "error"]);
         }
 
     }
 
 
-
-
-    public function getListView(){
+    public function getListView()
+    {
         page_title()->setTitle('Elenco delle offerte');
         $offers = Offers::with('offerDetails')->get();
-        return view('plugins/ecommerce::offerte.list',compact('offers'));
+        return view('plugins/ecommerce::offerte.list', compact('offers'));
     }
 
-    public function getCustomersByConsumabili(Request $request){
+    public function getCustomersByConsumabili(Request $request)
+    {
 
 
-        $consumabili=$request->input('consumabili');
-        $customers=[];
-        if($request->input('scontorange')){
+        $consumabili = $request->input('consumabili');
+        $customers = [];
+        if ($request->input('scontorange')) {
 
-            $id=intval($consumabili['id']);
+            $id = intval($consumabili['id']);
             $max = number_format((float)$consumabili['max'], 4, '.', '');
             $min = number_format((float)$consumabili['min'], 4, '.', '');
-            $records=DB::connection('mysql')->select("select * from ec_pricelist where (final_price < $max and final_price > $min) and product_id = $id");
+            $records = DB::connection('mysql')->select("select * from ec_pricelist where (final_price < $max and final_price > $min) and product_id = $id");
             $ids = array_column($records, 'customer_id');
-            $incustomers[]=$ids;
-        }
-        else{
-            foreach($consumabili as $cs){
-                $cs=intval($cs);
-                $records=DB::connection('mysql')->select("select * from ec_pricelist where product_id = $cs");
+            $incustomers[] = $ids;
+        } else {
+            foreach ($consumabili as $cs) {
+                $cs = intval($cs);
+                $records = DB::connection('mysql')->select("select * from ec_pricelist where product_id = $cs");
                 $ids = array_column($records, 'customer_id');
-                $incustomers[]=$ids;
+                $incustomers[] = $ids;
 
             }
         }
-
-
-
 
 
         $incustomers = array_reduce($incustomers, function ($carry, $array) {
@@ -250,73 +262,72 @@ class CustomImportController extends BaseController
             }
             return array_intersect($carry, $array);
         });
-        $customers=[];
-        $regione_ids=[];
-        $agents_ids=[];
-        foreach($incustomers as $id){
+        $customers = [];
+        $regione_ids = [];
+        $agents_ids = [];
+        foreach ($incustomers as $id) {
             $record = Customer::find($id);
-            if($record!=null){
-                $regione_ids[]=$record->region_id;
-                $agents_ids[]=$record->agent_id;
-                $customers[]=$record;
+            if ($record != null) {
+                $regione_ids[] = $record->region_id;
+                $agents_ids[] = $record->agent_id;
+                $customers[] = $record;
             }
         }
-        $agents_ids=array_unique($agents_ids);
-        $regione_ids=array_unique($regione_ids);
+        $agents_ids = array_unique($agents_ids);
+        $regione_ids = array_unique($regione_ids);
 
-        $regione=[];
-        $agents=[];
-        foreach($agents_ids as $agent_id){
+        $regione = [];
+        $agents = [];
+        foreach ($agents_ids as $agent_id) {
             $record = Agent::find($agent_id);
-            if($record!=null){
-                $agents[]=$record;
+            if ($record != null) {
+                $agents[] = $record;
             }
         }
 
 
-        foreach($regione_ids as $regione_id){
+        foreach ($regione_ids as $regione_id) {
             $record = Regione::find($regione_id);
-            if($record!=null){
-                $regione[]=$record;
+            if ($record != null) {
+                $regione[] = $record;
 
             }
         }
-        $strumenti=[];
-        foreach($customers as $customer){
-            $id=$customer->id;
-            $records=DB::connection('mysql')->select("select * from ec_customer_strument where customer_id = $id");
+        $strumenti = [];
+        foreach ($customers as $customer) {
+            $id = $customer->id;
+            $records = DB::connection('mysql')->select("select * from ec_customer_strument where customer_id = $id");
             $tag_ids = array_column($records, 'tag_id');
-            $strumenti_tmp=[];
-            foreach($tag_ids as $tag_id){
+            $strumenti_tmp = [];
+            foreach ($tag_ids as $tag_id) {
                 $product = Product::where('sku', $tag_id)->first();
-                $strumenti_tmp[]=$product;
+                $strumenti_tmp[] = $product;
             }
-            foreach($strumenti_tmp as $tmp){
-                $id=$tmp->id;
-                $strumenti[]=ProductTag::find($id);
+            foreach ($strumenti_tmp as $tmp) {
+                $id = $tmp->id;
+                $strumenti[] = ProductTag::find($id);
             }
         }
-        $strumenti=collect($strumenti)->unique('id')->values()->all();
+        $strumenti = collect($strumenti)->unique('id')->values()->all();
 
-        $data=[
-            'incustomers'=>$this->array_sort_by_column($customers,'name'),
-            'regione'=>$this->array_sort_by_column($regione,'name'),
-            'strumenti'=>$this->array_sort_by_column($strumenti,'name'),
-            'agents'=>$this->array_sort_by_column($agents,'nome'),
-            'count'=>count($customers)
+        $data = [
+            'incustomers' => $this->array_sort_by_column($customers, 'name'),
+            'regione' => $this->array_sort_by_column($regione, 'name'),
+            'strumenti' => $this->array_sort_by_column($strumenti, 'name'),
+            'agents' => $this->array_sort_by_column($agents, 'nome'),
+            'count' => count($customers)
         ];
         return $data;
-
-
 
 
     }
 
 
-    private function array_sort_by_column(&$array, $column, $direction = SORT_ASC) {
+    private function array_sort_by_column(&$array, $column, $direction = SORT_ASC)
+    {
         $reference_array = array();
 
-        foreach($array as $key => $row) {
+        foreach ($array as $key => $row) {
             $reference_array[$key] = $row[$column];
         }
 
@@ -324,7 +335,8 @@ class CustomImportController extends BaseController
         return $array;
     }
 
-    public function filterCustomers(Request $request){
+    public function filterCustomers(Request $request)
+    {
         // $customers=$request->input('customers');
         // $query="select * from ec_customers where ";
         // foreach($customers as $customer){
@@ -334,19 +346,19 @@ class CustomImportController extends BaseController
         // $customers=DB::connection('mysql')->select($query);
 
 
-        $consumabili=$request->input('consumabili');
-        $customers=[];
+        $consumabili = $request->input('consumabili');
+        $customers = [];
 
 
-        foreach($consumabili as $cs){
+        foreach ($consumabili as $cs) {
             $ids = DB::table('ec_pricelist')->where('product_id', $cs)->pluck('customer_id')->toArray();
             $incustomers[] = $ids;
         }
         // $incustomers[0] is all we have
 
-        $agents=$request->input('agents');
-        $regione=$request->input('regions');
-        $strumenti=$request->input('strumenti');
+        $agents = $request->input('agents');
+        $regione = $request->input('regions');
+        $strumenti = $request->input('strumenti');
 
         $strumenti = array_filter($strumenti);
         $regione = array_filter($regione);
@@ -363,7 +375,7 @@ class CustomImportController extends BaseController
                 ['fromDate' => $fromDate, 'toDate' => $toDate]
             );
 
-            $filteredCustomerIDsByDate = array_map(function($product) {
+            $filteredCustomerIDsByDate = array_map(function ($product) {
                 return $product->fk_cliente_id;
             }, $oldProducts);
         }
@@ -383,7 +395,6 @@ class CustomImportController extends BaseController
             ->toArray();
 
 
-
         $intersection = array_reduce($incustomers, function ($carry, $item) {
             if ($carry === null) {
                 return $item;
@@ -398,18 +409,14 @@ class CustomImportController extends BaseController
         $finalDifference = array_values(array_diff($intersection, $finalIntersection));
 
 
-
-
-
-        $data=[
-            "customersToCheck"=>$finalIntersection,
-            "customersToUncheck"=>$finalDifference,
-            "count"=>count($finalIntersection)
+        $data = [
+            "customersToCheck" => $finalIntersection,
+            "customersToUncheck" => $finalDifference,
+            "count" => count($finalIntersection)
         ];
 
 
         return $data;
-
 
 
     }
@@ -500,43 +507,44 @@ class CustomImportController extends BaseController
         return $customersList;
     }
 
-    public function saveOffer(Request $request){
+    public function saveOffer(Request $request)
+    {
 
 
-        $offer_name=$request->offer_name;
-        $offer_starting_date=$request->start_date;
-        $offer_expiring_date=$request->expiring_date;
-        $offer_type=$request->offer_type;
-        $active=1;
+        $offer_name = $request->offer_name;
+        $offer_starting_date = $request->start_date;
+        $offer_expiring_date = $request->expiring_date;
+        $offer_type = $request->offer_type;
+        $active = 1;
 
-        $offer=new Offers();
-        $offer->offer_name=$offer_name;
+        $offer = new Offers();
+        $offer->offer_name = $offer_name;
 
-        $offer->offer_starting_date=$offer_starting_date;
-        $offer->offer_expiring_date=$offer_expiring_date;
-        $offer->offer_type=$offer_type;
-        $offer->active=$active;
+        $offer->offer_starting_date = $offer_starting_date;
+        $offer->offer_expiring_date = $offer_expiring_date;
+        $offer->offer_type = $offer_type;
+        $offer->active = $active;
 
         $offer->save();
 
         $expirationDate = Carbon::parse($offer->offer_expiring_date);
-        $offerJob=OfferDeactivationJob::dispatch($offer->id)->delay($expirationDate);
-        $offer_details=$request->offer_details;
-        foreach($offer_details as $offer_detail){
-            $productId=$offer_detail['product']['id'];
-            $customers=$offer_detail['customers'];
+        $offerJob = OfferDeactivationJob::dispatch($offer->id)->delay($expirationDate);
+        $offer_details = $request->offer_details;
+        foreach ($offer_details as $offer_detail) {
+            $productId = $offer_detail['product']['id'];
+            $customers = $offer_detail['customers'];
 
-            foreach($customers as $customer){
+            foreach ($customers as $customer) {
 
                 $offerDetail = new OffersDetail();
 
                 $offerDetail->offer_id = $offer->id;
                 $offerDetail->product_id = $productId;
                 $offerDetail->customer_id = $customer['id'];
-                $offerDetail->quantity =($offer_detail['quantita'])?$offer_detail['quantita']:null;
-                $offerDetail->product_price = ($offer_detail['offer_price'])?$offer_detail['offer_price']:null;
-                $offerDetail->gift_product_id = ($offer_detail['gift_product'])?$offer_detail['gift_product']['id']:null;
-                $offerDetail->flag_three =( $offer_detail['flag_three'])? $offer_detail['flag_three']:null;
+                $offerDetail->quantity = ($offer_detail['quantita']) ? $offer_detail['quantita'] : null;
+                $offerDetail->product_price = ($offer_detail['offer_price']) ? $offer_detail['offer_price'] : null;
+                $offerDetail->gift_product_id = ($offer_detail['gift_product']) ? $offer_detail['gift_product']['id'] : null;
+                $offerDetail->flag_three = ($offer_detail['flag_three']) ? $offer_detail['flag_three'] : null;
 
                 $offerDetail->save();
             }
@@ -545,52 +553,54 @@ class CustomImportController extends BaseController
         return Redirect::to('https://dev.marigo.collaudo.biz/admin/discounts');
 
 
-
     }
 
     // ruote /admin/ecommerce/offerte/update-offer
     //ruote name (admin.ecommerce.offerte.update-offer)
 
-    public function updateOffer(Request $request){
+    public function updateOffer(Request $request)
+    {
 
-        $id=$request->input('offerId');
-        $offer=Offers::find($id);
-        $status=$offer->active;
+        $id = $request->input('offerId');
+        $offer = Offers::find($id);
+        $status = $offer->active;
 
-        if($status==1){
+        if ($status == 1) {
             OfferDeactivationJob::dispatch($offer->id)->delete();
-            $offer->active=0;
+            $offer->active = 0;
             $offer->save();
             OffersDetail::where('offer_id', $offer->id)->update(['status' => 'deactive']);
-        }else{
+        } else {
             $expirationDate = Carbon::parse($offer->offer_expiring_date);
             OfferDeactivationJob::dispatch($offer->id)->delay($expirationDate);
-            $offer->active=1;
+            $offer->active = 1;
             $offer->save();
             OffersDetail::where('offer_id', $offer->id)->update(['status' => 'active']);
         }
         return true;
     }
 
-    public function delete(Request $request){
-        $id=$request->input('offerId');
+    public function delete(Request $request)
+    {
+        $id = $request->input('offerId');
         OffersDetail::where('offer_id', $id)->delete();
         Offers::find($id)->delete();
         return true;
     }
 
 
-    public function editView($id){
+    public function editView($id)
+    {
         page_title()->setTitle('Modificare offerta');
 
         $offer = Offers::find($id);
-        $offerDetails =  OffersDetail::where('offer_id', $id)->get();
+        $offerDetails = OffersDetail::where('offer_id', $id)->get();
 
         $productIds = $offerDetails->pluck('product_id')->unique();
         $products = Product::whereIn('id', $productIds)->get();
 
 
-        return view('plugins/ecommerce::offerte.edit',compact('offer','offerDetails','products'));
+        return view('plugins/ecommerce::offerte.edit', compact('offer', 'offerDetails', 'products'));
     }
 
     public function checkProductHasActiveOffer(Request $request)
@@ -644,28 +654,31 @@ class CustomImportController extends BaseController
         ];
     }
 
-    public function deactiveProductInoffer( Request $request ){
+    public function deactiveProductInoffer(Request $request)
+    {
         $offer_id = $request->input('offer_id');
         $product_id = $request->input('product_id');
-        $status=$request->input('status_to');
+        $status = $request->input('status_to');
         OffersDetail::where('offer_id', $offer_id)
             ->where('product_id', $product_id)
             ->update(['status' => $status]);
     }
 
-    public function deactiveCustomerInoffer( Request $request ){
+    public function deactiveCustomerInoffer(Request $request)
+    {
         $offer_id = $request->input('offer_id');
         $product_id = $request->input('product_id');
         $customer_id = $request->input('customer_id');
-        $status=$request->input('status_to');
+        $status = $request->input('status_to');
         return OffersDetail::where('offer_id', $offer_id)
             ->where('product_id', $product_id)
-            ->where('customer_id',$customer_id)
+            ->where('customer_id', $customer_id)
             ->update(['status' => $status]);
     }
 
-    public function exportOfferDetails( Request $request ){
-        $id=$request->input('offer_id');
+    public function exportOfferDetails(Request $request)
+    {
+        $id = $request->input('offer_id');
         $offer = Offers::find($id);
 
 
@@ -674,18 +687,18 @@ class CustomImportController extends BaseController
         $csvData .= "{$offer->offer_name}\n";
         $csvData .= "--------------\n";
 
-        $offerDetails =  OffersDetail::where('offer_id', $id)->get();
+        $offerDetails = OffersDetail::where('offer_id', $id)->get();
         $productIds = $offerDetails->pluck('product_id')->unique();
         $products = Product::whereIn('id', $productIds)->get();
         foreach ($products as $product) {
             // Check if the current offer name is different from the previous one
 
-            $offerDetail =  OffersDetail::where('offer_id', $id)->where('product_id',$product->id)->first();
+            $offerDetail = OffersDetail::where('offer_id', $id)->where('product_id', $product->id)->first();
             $csvData .= "SKU,PRODOTTO,PREZZO,PREZZO DI OFFERTA\n";
             $csvData .= "{$product->sku},{$product->name},{$product->price},{$offerDetail->product_price}\n";
-            $filteredRecords=$offerDetails->where('product_id', $product->id);
-            $customerIds=$filteredRecords->pluck('customer_id')->unique();
-            $customers=Customer::whereIn('id', $customerIds)->get();
+            $filteredRecords = $offerDetails->where('product_id', $product->id);
+            $customerIds = $filteredRecords->pluck('customer_id')->unique();
+            $customers = Customer::whereIn('id', $customerIds)->get();
             $csvData .= "--------------\n";
             foreach ($customers as $customer) {
                 $csvData .= "{$customer->codice},{$customer->name}\n";
@@ -704,7 +717,6 @@ class CustomImportController extends BaseController
         return $response;
 
 
-
     }
 
 
@@ -712,7 +724,7 @@ class CustomImportController extends BaseController
     {
         $userId = $request->input('user_id');
 
-        $offerDetails =  OffersDetail::where('customer_id', $userId)->get();
+        $offerDetails = OffersDetail::where('customer_id', $userId)->get();
         $offerIds = OffersDetail::where('customer_id', $userId)
             ->where('status', 'active')
             ->pluck('offer_id')
@@ -724,7 +736,7 @@ class CustomImportController extends BaseController
 
 
         // Prepare the CSV file content
-        foreach($offers as $offer){
+        foreach ($offers as $offer) {
             $csvData = "offer_name\n";
             $csvData .= "{$offer->offer_name}\n";
             $csvData .= "--------------\n";
@@ -734,12 +746,12 @@ class CustomImportController extends BaseController
             foreach ($products as $product) {
                 // Check if the current offer name is different from the previous one
 
-                $offerDetail =  OffersDetail::where('offer_id', $offer->id)->first();
+                $offerDetail = OffersDetail::where('offer_id', $offer->id)->first();
                 $csvData .= "SKU,PRODOTTO,PREZZO,PREZZO DI OFFERTA\n";
                 $csvData .= "{$product->sku},{$product->name},{$product->price},{$offerDetail->product_price}\n";
-                $filteredRecords=$offerDetails->where('product_id', $product->id);
-                $customerIds=$filteredRecords->pluck('customer_id')->unique();
-                $customers=Customer::whereIn('id', $customerIds)->get();
+                $filteredRecords = $offerDetails->where('product_id', $product->id);
+                $customerIds = $filteredRecords->pluck('customer_id')->unique();
+                $customers = Customer::whereIn('id', $customerIds)->get();
                 $csvData .= "--------------\n";
                 foreach ($customers as $customer) {
                     $csvData .= "{$customer->codice},{$customer->name}\n\n\n\n\n";
@@ -750,7 +762,7 @@ class CustomImportController extends BaseController
 
 
         // Generate and serve the CSV file as a downloadable response
-        if(!isset($csvData)){
+        if (!isset($csvData)) {
             return response()->json(['message' => 'Offer not found for the given user ID'], 404);
         }
         $response = Response::stream(function () use ($csvData) {
@@ -768,7 +780,7 @@ class CustomImportController extends BaseController
     {
         $userId = $request->input('user_id');
 
-        if(in_array($userId, [13, 11])) {
+        if (in_array($userId, [13, 11])) {
             $userId = 2621;
         }
 
@@ -776,7 +788,7 @@ class CustomImportController extends BaseController
             ->select("SELECT * FROM `ec_customer_strument` WHERE customer_id=?", [$userId]);
         $str_ids = array_column($str_ids, 'tag_id');
 
-        if(!$str_ids) {
+        if (!$str_ids) {
             return response()->json(['message' => 'No products found for the given user ID'], 404);
         }
 
@@ -799,7 +811,6 @@ class CustomImportController extends BaseController
         return $response;
 
 
-
     }
 
 
@@ -807,7 +818,7 @@ class CustomImportController extends BaseController
     {
         $userId = $request->input('user_id');
 
-        if(in_array($userId, [13, 11])) {
+        if (in_array($userId, [13, 11])) {
             $userId = 2621;
         }
 
@@ -815,7 +826,7 @@ class CustomImportController extends BaseController
             ->select("SELECT * FROM `ec_pricelist` WHERE customer_id=?", [$userId]);
         $list_ids = array_column($list_ids, 'product_id');
 
-        if(!$list_ids) {
+        if (!$list_ids) {
             return response()->json(['message' => 'No products found for the given user ID'], 404);
         }
 
@@ -836,7 +847,6 @@ class CustomImportController extends BaseController
         ]);
 
         return $response;
-
 
 
     }
