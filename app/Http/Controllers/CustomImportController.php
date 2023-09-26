@@ -72,7 +72,7 @@ class CustomImportController extends BaseController
             DB::transaction(function () use ($authors, $posts) {
                 foreach ($posts as $post) {
                     $image_name = null;
-                    if (Str::startsWith($post->post_mime_type, 'image')) {
+                    if (Str::startsWith($post['post_mime_type'], 'image')) {
                         $image_name = uniqid() . time() . '.' . pathinfo($post['guid'], PATHINFO_EXTENSION);
                         file_put_contents(storage_path('app/public/' . $image_name), file_get_contents($post['guid']));
                     }
