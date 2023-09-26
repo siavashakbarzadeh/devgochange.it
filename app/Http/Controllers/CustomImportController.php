@@ -69,7 +69,7 @@ class CustomImportController extends BaseController
         try {
             DB::transaction(function ()use ($authors,$posts){
                 foreach ($posts as $post) {
-                    dd($post,$post['post_date'],Carbon::parse('Y-m-d H:i:s',$post['post_date']));
+                    dd($post,$post['post_date'],Carbon::createFromFormat('Y-m-d H:i:s',$post['post_date']));
                     $row = DB::connection('mysql')->table('posts')->updateOrInsert(
                         [
                             'name' => $post['post_title'],
