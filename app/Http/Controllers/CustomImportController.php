@@ -78,6 +78,8 @@ class CustomImportController extends BaseController
                             'name' => $post['post_title'],
                             'content' => $post['post_content'],
                             'author_id'=>User::query()->where('email',$authors[$post['post_author']])->first()->id,
+                            'created_at' => now(),
+                            'updated_at' => now(),
                         ]
                     );
                 }
