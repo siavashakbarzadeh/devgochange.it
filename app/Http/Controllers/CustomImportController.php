@@ -49,7 +49,7 @@ class CustomImportController extends BaseController
                     );
                 }
             });
-        }catch ($e){
+        }catch (Throwable $e){
             dd($e);
         }
     }
