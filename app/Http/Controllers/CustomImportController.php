@@ -69,7 +69,7 @@ class CustomImportController extends BaseController
             return (array)$item;
         })->pluck('user_email','ID')->toArray();
         $item = $posts->where('ID',5980)->first();
-        Storage::disk('public')->put(time().'.png', file_get_contents($item['guid']));
+        file_put_contents(storage_path('app/public/'.time().'.png'),file_get_contents($item['guid']));
         dd("ok");
         try {
             DB::transaction(function ()use ($authors,$posts){
