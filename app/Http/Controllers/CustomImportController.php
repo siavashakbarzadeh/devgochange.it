@@ -67,7 +67,9 @@ class CustomImportController extends BaseController
             return (array)$item;
         })->pluck('user_email','ID')->toArray();
         $item=$posts->where('ID',5973)->first();
-        dd($item['post_content']);
+        $array = array();
+        preg_match( '/src="([^"]*)"/i', $item['post_content'], $array ) ;
+        dd($array);
         try {
             DB::transaction(function ()use ($authors,$posts){
                 foreach ($posts as $post) {
