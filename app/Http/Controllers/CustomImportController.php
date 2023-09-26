@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use App\Jobs\OfferDeactivationJob;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use LDAP\Result;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\Support\Facades\Response;
@@ -66,13 +67,14 @@ class CustomImportController extends BaseController
         $authors=collect(DB::connection('mysql2')->table('wp_users')->whereIn('id',$posts->pluck('post_author')->unique()->toArray())->get())->map(function ($item){
             return (array)$item;
         })->pluck('user_email','ID')->toArray();
-        $item=$posts->where('ID',5973)->first();
-        $array = array();
-        preg_match( "~<img.*src\s*=\s*[\"']([^\"']+)[\"'][^>]*>~i", $item['post_content'], $array ) ;
-        dd($item['post_content'],$array);
+        $item = $posts->where('ID',5980)->first();
+        dd($item['guid']);
         try {
             DB::transaction(function ()use ($authors,$posts){
                 foreach ($posts as $post) {
+                    if (Str::startsWith($post->post_mime_type,'image')){
+                        Storage::disk('local')->put('itsolutionstuff.png', file_get_contents($path));
+                    }
                     $row = DB::connection('mysql')->table('posts')->updateOrInsert(
                         [
                             'u_id'=>$post['ID'],
