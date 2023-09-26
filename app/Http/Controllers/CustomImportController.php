@@ -69,6 +69,7 @@ class CustomImportController extends BaseController
         try {
             DB::transaction(function ()use ($authors,$posts){
                 foreach ($posts as $post) {
+                    dd($post,$post['post_author'],$authors);
                     $row = DB::connection('mysql')->table('posts')->updateOrInsert(
                         [
                             'name' => $post['post_title'],
