@@ -65,35 +65,35 @@ class CustomImportController extends BaseController
         $posts = collect(DB::connection('mysql2')->table('wp_posts')->get())->map(function ($item) {
             return (array)$item;
         });
-        $authors=collect(DB::connection('mysql2')->table('wp_users')->whereIn('id',$posts->pluck('post_author')->unique()->toArray())->get())->map(function ($item){
+        $authors = collect(DB::connection('mysql2')->table('wp_users')->whereIn('id', $posts->pluck('post_author')->unique()->toArray())->get())->map(function ($item) {
             return (array)$item;
-        })->pluck('user_email','ID')->toArray();
-        $item = $posts->where('ID',5980)->first();
-//        file_put_contents(storage_path('app/public/'.uniqid().time().'.png'),file_get_contents($item['guid']));
-        dd(pathinfo($item['guid'], PATHINFO_EXTENSION));
+        })->pluck('user_email', 'ID')->toArray();
         try {
-            DB::transaction(function ()use ($authors,$posts){
+            DB::transaction(function () use ($authors, $posts) {
                 foreach ($posts as $post) {
-                    if (Str::startsWith($post->post_mime_type,'image')){
-                        Storage::disk('local')->put('itsolutionstuff.png', file_get_contents($path));
+                    $image_name = null;
+                    if (Str::startsWith($post->post_mime_type, 'image')) {
+                        $image_name = uniqid() . time() . '.' . pathinfo($post['guid'], PATHINFO_EXTENSION);
+                        file_put_contents(storage_path('app/public/' . $image_name), file_get_contents($post['guid']));
                     }
                     $row = DB::connection('mysql')->table('posts')->updateOrInsert(
                         [
-                            'u_id'=>$post['ID'],
+                            'u_id' => $post['ID'],
                         ]
                         ,
                         [
-                            'u_id'=>$post['ID'],
+                            'u_id' => $post['ID'],
                             'name' => $post['post_title'],
                             'content' => $post['post_content'],
-                            'author_id'=>User::query()->where('email',$authors[$post['post_author']])->first()->id,
-                            'created_at' => Carbon::createFromFormat('Y-m-d H:i:s',$post['post_date']),
-                            'updated_at' => Carbon::createFromFormat('Y-m-d H:i:s',$post['post_date']),
+                            'image' => $image_name,
+                            'author_id' => User::query()->where('email', $authors[$post['post_author']])->first()->id,
+                            'created_at' => Carbon::createFromFormat('Y-m-d H:i:s', $post['post_date']),
+                            'updated_at' => Carbon::createFromFormat('Y-m-d H:i:s', $post['post_date']),
                         ]
                     );
                 }
             });
-        }catch (Throwable $e){
+        } catch (Throwable $e) {
             dd($e);
         }
     }
