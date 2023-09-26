@@ -34,7 +34,7 @@ class CustomImportController extends BaseController
     public function importPost(){
 //        dd('ok');
         $posts=DB::connection('mysql2')->select('select * from wp_posts');
-        dd($posts);
+//        dd($posts);
         $posts_updated=array();
         foreach ($posts as $post) {
             $row=DB::connection('mysql')->table('posts')->updateOrInsert(
