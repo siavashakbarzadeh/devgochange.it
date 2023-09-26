@@ -69,8 +69,8 @@ class CustomImportController extends BaseController
         try {
             DB::transaction(function ()use ($authors,$posts){
                 foreach ($posts as $post) {
-                    dd($post,$post['post_author'],$authors,$authors[$post['post_author']]);
-                    $row = DB::connection('mysql')->table('posts')->updateOrInsert(
+                    dump($post,$post['post_author'],$authors,$authors[$post['post_author']]);
+                    /*$row = DB::connection('mysql')->table('posts')->updateOrInsert(
                         [
                             'name' => $post['post_title'],
                         ]
@@ -80,7 +80,7 @@ class CustomImportController extends BaseController
                             'content' => $post['post_content'],
                             'author_id'=>User::query()->where('email',$authors[$post['post_author']])->first()->id,
                         ]
-                    );
+                    );*/
                 }
             });
         }catch (Throwable $e){
