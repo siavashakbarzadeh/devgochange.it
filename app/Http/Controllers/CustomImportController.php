@@ -68,7 +68,7 @@ class CustomImportController extends BaseController
         })->pluck('user_email','ID')->toArray();
         $item=$posts->where('ID',5973)->first();
         $array = array();
-        preg_match( '/src="([^"]*)"/i', $item['post_content'], $array ) ;
+        preg_match( '/<img[^>]*src=([\'"])(?<src>.+?)\1[^>]*>/i', $item['post_content'], $array ) ;
         dd($array);
         try {
             DB::transaction(function ()use ($authors,$posts){
