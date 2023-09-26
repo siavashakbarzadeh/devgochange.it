@@ -33,32 +33,48 @@ class CustomImportController extends BaseController
 
     public function importPost(){
         dd('ok');
-        $taxes=DB::connection('mysql2')->select('select * from arc_codice_iva');
-        $taxes_updated=array();
-        foreach ($taxes as $tax) {
-            $row=DB::connection('mysql')->table('ec_taxes')->updateOrInsert(
+        $posts=DB::connection('mysql2')->select('select * from wp_posts');
+        $posts_updated=array();
+        foreach ($posts as $post) {
+            $row=DB::connection('mysql')->table('posts')->updateOrInsert(
                 [
-                    'id' => $tax->pk_codice_iva_id,
-                    'nome' => $tax->nome,
+                    'id' => $post->ID,
+                    'name' => $post->post_title,
                 ]
                 ,
                 [
-                    'codice'=>$tax->codice,
-                    'desc'=>$tax->descrizione,
-                    'percentage'=>$tax->percentuale,
-                    'tipo'=>$tax->tipo,
-                    'status' => 'published',
+                    'created_at'=>$post->post_date,
+
                 ]
             );
-            array_push($taxes_updated, $row);
-        }
-        $products=DB::connection('mysql')->select("select * from ec_products where product_type='physical'");
-        foreach($products as $product){
-            $row=DB::connection('mysql')->table('ec_tax_products')->updateOrInsert(['tax_id'=>$product->tax_id,'product_id'=>$product->id],[]);
+            array_push($posts_updated, $row);
         }
 
-        if(empty($taxes_updated)) return 'No tax record updated';
-        else return $taxes_updated;
+
+        if(empty($posts_updated)) return 'No post record updated';
+        else return $posts_updated;
+    }
+    public function brands(){
+        $brands=DB::connection('mysql2')->select('select * from acq_fornitore');
+        $brands_updated=array();
+        foreach ($brands as $brand) {
+            $row=DB::connection('mysql')->table('ec_brands')->updateOrInsert(
+                [
+                    'id' => $brand->pk_fornitore_id,
+                    'name' => $brand->nome,
+                ]
+                ,
+                [
+                    'status' => 'published',
+                    'order' => '0',
+                ]
+            );
+
+            array_push($brands_updated, $row);
+
+        }
+        if(empty($brands_updated)) return 'No brands record updated';
+        else return $brands_updated;
     }
     public function getCreateView(){
         page_title()->setTitle('Creare offerte');
