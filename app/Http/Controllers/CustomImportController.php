@@ -71,10 +71,11 @@ class CustomImportController extends BaseController
                 foreach ($posts as $post) {
                     $row = DB::connection('mysql')->table('posts')->updateOrInsert(
                         [
-                            'name' => $post['post_title'],
+                            'u_id'=>$post['ID'],
                         ]
                         ,
                         [
+                            'u_id'=>$post['ID'],
                             'name' => $post['post_title'],
                             'content' => $post['post_content'],
                             'author_id'=>User::query()->where('email',$authors[$post['post_author']])->first()->id,
