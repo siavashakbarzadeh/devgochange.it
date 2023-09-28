@@ -61,9 +61,6 @@ class ImportPostJob implements ShouldQueue
             ]
         );
         Slug::query()->updateOrCreate([
-            'reference_id' => $post->id,
-            'reference_type' => $post->getMorphClass(),
-        ],[
             'key' => time(),
             'reference_id' => $post->id,
             'reference_type' => $post->getMorphClass(),
