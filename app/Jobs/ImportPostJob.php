@@ -64,7 +64,7 @@ class ImportPostJob implements ShouldQueue
             'reference_id' => $post->id,
             'reference_type' => $post->getMorphClass(),
         ],[
-            'key' => Str::slug($post->name),
+            'key' => Str::slug($post->name.$post->id),
             'reference_id' => $post->id,
             'reference_type' => $post->getMorphClass(),
             'prefix' => ""
