@@ -71,8 +71,10 @@ class CustomImportController extends BaseController
         })->pluck('user_email', 'ID')->toArray();
         try {
             DB::transaction(function () use ($authors, $posts) {
+                $i=1;
                 foreach ($posts as $post) {
-                    ImportPostJob::dispatch($post,$authors,time());
+                    ImportPostJob::dispatch($post,$authors,Str::slug($post['post_title'])."-".$i);
+                    $i++;
                 }
             });
         } catch (Throwable $e) {
