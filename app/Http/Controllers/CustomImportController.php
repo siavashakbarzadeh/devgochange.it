@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ImportPostJob;
 use App\Models\User;
 use Botble\Ecommerce\Models\Order;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -71,26 +72,7 @@ class CustomImportController extends BaseController
         try {
             DB::transaction(function () use ($authors, $posts) {
                 foreach ($posts as $post) {
-                    $image_name = null;
-                    if (Str::startsWith($post['post_mime_type'], 'image')) {
-                        $image_name = uniqid() . time() . '.' . pathinfo($post['guid'], PATHINFO_EXTENSION);
-                        file_put_contents(storage_path('app/public/' . $image_name), file_get_contents($post['guid']));
-                    }
-                    $row = DB::connection('mysql')->table('posts')->updateOrInsert(
-                        [
-                            'u_id' => $post['ID'],
-                        ]
-                        ,
-                        [
-                            'u_id' => $post['ID'],
-                            'name' => $post['post_title'],
-                            'content' => $post['post_content'],
-                            'image' => $image_name,
-                            'author_id' => User::query()->where('email', $authors[$post['post_author']])->first()->id,
-                            'created_at' => Carbon::createFromFormat('Y-m-d H:i:s', $post['post_date']),
-                            'updated_at' => Carbon::createFromFormat('Y-m-d H:i:s', $post['post_date']),
-                        ]
-                    );
+                    ImportPostJob::dispatch($post,$authors);
                 }
             });
         } catch (Throwable $e) {
