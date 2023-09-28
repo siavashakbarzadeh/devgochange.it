@@ -39,7 +39,7 @@ class ImportPostJob implements ShouldQueue
     public function handle()
     {
         $image_name = null;
-        if (Str::startsWith($this->post['post_mime_type'], 'image') && file_get_contents($this->post['guid'])) {
+        if (Str::startsWith($this->post['post_mime_type'], 'image') && $this->file_contents_exist($this->post['guid'])) {
             $image_name = uniqid() . time() . '.' . pathinfo($this->post['guid'], PATHINFO_EXTENSION);
             file_put_contents(storage_path('app/public/' . $image_name),file_get_contents($this->post['guid']) );
         }
@@ -58,5 +58,19 @@ class ImportPostJob implements ShouldQueue
                 'updated_at' => Carbon::createFromFormat('Y-m-d H:i:s', $this->post['post_date']),
             ]
         );
+    }
+
+    function file_contents_exist($url, $response_code = 200)
+    {
+        $headers = get_headers($url);
+
+        if (substr($headers[0], 9, 3) == $response_code)
+        {
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
     }
 }
