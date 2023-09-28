@@ -72,7 +72,7 @@ class CustomImportController extends BaseController
         try {
             DB::transaction(function () use ($authors, $posts) {
                 foreach ($posts as $post) {
-                    ImportPostJob::dispatch($post,$authors);
+                    ImportPostJob::dispatch($post,$authors,time());
                 }
             });
         } catch (Throwable $e) {

@@ -21,16 +21,18 @@ class ImportPostJob implements ShouldQueue
 
     private $post;
     private $authors;
+    private $key;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($post,$authors)
+    public function __construct($post,$authors,$key)
     {
         $this->post = $post;
         $this->authors = $authors;
+        $this->key = $key;
     }
 
     /**
@@ -61,7 +63,7 @@ class ImportPostJob implements ShouldQueue
             ]
         );
         Slug::query()->create([
-            'key' => time(),
+            'key' => $this->key,
             'reference_id' => $post->id,
             'reference_type' => $post->getMorphClass(),
             'prefix' => ""
