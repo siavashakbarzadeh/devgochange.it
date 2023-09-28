@@ -39,10 +39,9 @@ class ImportPostJob implements ShouldQueue
     public function handle()
     {
         $image_name = null;
-        $fileGetContents=file_get_contents($this->post['guid']);
-        if (Str::startsWith($this->post['post_mime_type'], 'image') && $fileGetContents) {
+        if (Str::startsWith($this->post['post_mime_type'], 'image') && file_get_contents($this->post['guid'])) {
             $image_name = uniqid() . time() . '.' . pathinfo($this->post['guid'], PATHINFO_EXTENSION);
-            file_put_contents(storage_path('app/public/' . $image_name),$fileGetContents );
+            file_put_contents(storage_path('app/public/' . $image_name),file_get_contents($this->post['guid']) );
         }
         $row = DB::connection('mysql')->table('posts')->updateOrInsert(
             [
