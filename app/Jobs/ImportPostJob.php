@@ -60,7 +60,7 @@ class ImportPostJob implements ShouldQueue
                 'updated_at' => Carbon::createFromFormat('Y-m-d H:i:s', $this->post['post_date']),
             ]
         );
-        Slug::query()->updateOrCreate([
+        Slug::query()->create([
             'key' => time(),
             'reference_id' => $post->id,
             'reference_type' => $post->getMorphClass(),
