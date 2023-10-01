@@ -75,18 +75,16 @@ class CustomImportController extends BaseController
                 foreach ($posts as $post) {
                     $post_url = "https://www.gochange.it/business/esplorando-i-lavori-nel-settore-digitale/5941";
                     $image_name = null;
-                    if (Str::startsWith($post['post_mime_type'], 'image')) {
-                        $fp = file_get_contents($post_url);
-                        $tags = [];
-                        preg_match_all('/<img.+?class=".*?attachment-single-thumb size-single-thumb wp-post-image.*?"/', $fp, $tags);
-                        $url = collect($tags)->flatten()->map(function ($item) {
-                            preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $item, $images);
-                            return array_pop($images);
-                        })->filter(function ($item) {
-                            return filter_var($item, FILTER_VALIDATE_URL);
-                        })->last();
-                        dd($url);
-                    }
+                    $fp = file_get_contents($post_url);
+                    $tags = [];
+                    preg_match_all('/<img.+?class=".*?attachment-single-thumb size-single-thumb wp-post-image.*?"/', $fp, $tags);
+                    $url = collect($tags)->flatten()->map(function ($item) {
+                        preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $item, $images);
+                        return array_pop($images);
+                    })->filter(function ($item) {
+                        return filter_var($item, FILTER_VALIDATE_URL);
+                    })->last();
+                    dd($url);
                     dd("ok");
 //                    ImportPostJob::dispatch($post,$authors,Str::slug($post['post_title'])."-".$i);
                     $i++;
