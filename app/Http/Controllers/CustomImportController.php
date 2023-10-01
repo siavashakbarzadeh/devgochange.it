@@ -72,7 +72,7 @@ class CustomImportController extends BaseController
         try {
             DB::transaction(function () use ($authors, $posts) {
                 $i=1;
-                foreach ($posts->take(20) as $post) {
+                foreach ($posts as $post) {
                     ImportPostJob::dispatch($post,$authors,Str::slug($post['post_title'])."-".$i);
                     $i++;
                 }
