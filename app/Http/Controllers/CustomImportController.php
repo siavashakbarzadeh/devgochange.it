@@ -72,7 +72,7 @@ class CustomImportController extends BaseController
         try {
             DB::transaction(function () use ($authors, $posts) {
                 $i=1;
-                foreach ($posts as $post) {
+                foreach ($posts->take(50) as $post) {
                     $post_url = "https://www.gochange.it/business/esplorando-i-lavori-nel-settore-digitale/".$post['ID'];
                     $fp = file_get_contents($post_url);
                     $tags = [];
