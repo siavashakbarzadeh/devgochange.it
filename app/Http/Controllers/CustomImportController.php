@@ -75,6 +75,7 @@ class CustomImportController extends BaseController
                 foreach ($posts->take(50) as $post) {
                     $url=null;
                     $post_url = "https://www.gochange.it/business/esplorando-i-lavori-nel-settore-digitale/".$post['ID'];
+                    dd($post_url,$this->file_contents_exist($post_url));
                     if ($this->file_contents_exist($post_url)){
                         $fp = file_get_contents($post_url);
                         $tags = [];
