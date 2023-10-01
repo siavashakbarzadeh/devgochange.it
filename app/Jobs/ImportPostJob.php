@@ -22,17 +22,19 @@ class ImportPostJob implements ShouldQueue
     private $post;
     private $authors;
     private $key;
+    private $post_url;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($post, $authors, $key)
+    public function __construct($post, $authors, $key,$post_url)
     {
         $this->post = $post;
         $this->authors = $authors;
         $this->key = $key;
+        $this->post_url = $post_url;
     }
 
     /**
@@ -43,9 +45,8 @@ class ImportPostJob implements ShouldQueue
     public function handle()
     {
         $image_name = null;
-        $post_url = "https://www.gochange.it/business/esplorando-i-lavori-nel-settore-digitale/".$this->post['ID'];
-        if ($this->file_contents_exist($post_url)){
-            $fp = file_get_contents($post_url);
+        if ($this->file_contents_exist($this->post_url)){
+            $fp = file_get_contents($this->post_url);
             $tags = [];
             preg_match_all('/<img.+?class=".*?attachment-single-thumb size-single-thumb wp-post-image.*?"/', $fp, $tags);
             $url = collect($tags)->flatten()->map(function ($item) {
