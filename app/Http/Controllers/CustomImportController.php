@@ -69,7 +69,8 @@ class CustomImportController extends BaseController
         $authors = collect(DB::connection('mysql2')->table('wp_users')->whereIn('id', $posts->pluck('post_author')->unique()->toArray())->get())->map(function ($item) {
             return (array)$item;
         })->pluck('user_email', 'ID')->toArray();
-        $fp = file_get_contents("https://www.gochange.it/business/esplorando-i-lavori-nel-settore-digitale/1200002155");
+        $post_url="https://www.gochange.it/business/esplorando-i-lavori-nel-settore-digitale/1200002155";
+        $fp = file_get_contents($post_url);
         $tags = [];
         preg_match_all('/<img.+?class=".*?attachment-single-thumb size-single-thumb wp-post-image.*?"/', $fp, $tags);
         $url = collect($tags)->flatten()->map(function ($item) {
@@ -78,7 +79,7 @@ class CustomImportController extends BaseController
         })->filter(function ($item) {
             return filter_var($item, FILTER_VALIDATE_URL);
         })->last();
-        dd($url);
+        dd(substr(get_headers($post_url)[0], 9, 3),$url);
         try {
             DB::transaction(function () use ($authors, $posts) {
                 $i=1;
