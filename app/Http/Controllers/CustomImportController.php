@@ -74,7 +74,22 @@ class CustomImportController extends BaseController
             DB::transaction(function () use ($authors, $posts) {
                 $i=1;
                 foreach ($posts as $post) {
-                    ImportPostJob::dispatch($post,$authors,Str::slug($post['post_title'])."-".$i);
+                    $post_url="https://www.gochange.it/business/aaa/".$this->post['ID'];
+                    if ($this->file_contents_exist($post_url)){
+                        $fp = file_get_contents($post_url);
+                        $tags = [];
+                        preg_match_all('/<img.+?class=".*?attachment-single-thumb size-single-thumb wp-post-image.*?"/', $fp, $tags);
+                        $url = collect($tags)->flatten()->map(function ($item) {
+                            preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $item, $images);
+                            return array_pop($images);
+                        })->filter(function ($item) {
+                            return filter_var($item, FILTER_VALIDATE_URL);
+                        })->last();
+                        if ($url && strlen($url) && $this->file_contents_exist($url)) {
+                            dump($post_url,$url);
+                        }
+                    }
+//                    ImportPostJob::dispatch($post,$authors,Str::slug($post['post_title'])."-".$i);
                     $i++;
                 }
             });
