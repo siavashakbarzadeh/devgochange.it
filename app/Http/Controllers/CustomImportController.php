@@ -75,7 +75,7 @@ class CustomImportController extends BaseController
                 foreach ($posts as $post) {
                     $post_url = "https://www.gochange.it/business/esplorando-i-lavori-nel-settore-digitale/5941";
                     $image_name = null;
-                    if (Str::startsWith($this->post['post_mime_type'], 'image')) {
+                    if (Str::startsWith($post['post_mime_type'], 'image')) {
                         $fp = file_get_contents($post_url);
                         $tags = [];
                         preg_match_all('/<img.+?class=".*?attachment-single-thumb size-single-thumb wp-post-image.*?"/', $fp, $tags);
