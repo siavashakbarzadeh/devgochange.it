@@ -22,17 +22,22 @@ class ImportPostJob implements ShouldQueue
     private $post;
     private $authors;
     private $key;
+    /**
+     * @var null
+     */
+    private $image_url;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($post, $authors, $key)
+    public function __construct($post, $authors, $key, $image_url = null)
     {
         $this->post = $post;
         $this->authors = $authors;
         $this->key = $key;
+        $this->image_url = $image_url;
     }
 
     /**
@@ -43,19 +48,9 @@ class ImportPostJob implements ShouldQueue
     public function handle()
     {
         $image_name = null;
-        $post_url = "https://www.gochange.it/business/esplorando-i-lavori-nel-settore-digitale/".$this->post['ID'];
-        $fp = file_get_contents($post_url);
-        $tags = [];
-        preg_match_all('/<img.+?class=".*?attachment-single-thumb size-single-thumb wp-post-image.*?"/', $fp, $tags);
-        $url = collect($tags)->flatten()->map(function ($item) {
-            preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $item, $images);
-            return array_pop($images);
-        })->filter(function ($item) {
-            return filter_var($item, FILTER_VALIDATE_URL);
-        })->last();
-        if (strlen($url) && $this->file_contents_exist($url)){
-            $image_name = uniqid() . time() . '.' . pathinfo($url, PATHINFO_EXTENSION);
-            file_put_contents(storage_path('app/public/' . $image_name), file_get_contents($url));
+        if ($this->image_url && strlen($this->image_url) && $this->file_contents_exist($this->image_url)) {
+            $image_name = uniqid() . time() . '.' . pathinfo($this->image_url, PATHINFO_EXTENSION);
+            file_put_contents(storage_path('app/public/' . $image_name), file_get_contents($this->image_url));
         }
         $post = Post::query()->updateOrCreate(
             [
