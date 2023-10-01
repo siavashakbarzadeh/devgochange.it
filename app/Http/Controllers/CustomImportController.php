@@ -84,8 +84,11 @@ class CustomImportController extends BaseController
                     })->filter(function ($item) {
                         return filter_var($item, FILTER_VALIDATE_URL);
                     })->last();
-
-                    dd($this->file_contents_exist($url));
+                    if (strlen($url) && $this->file_contents_exist($url)){
+                        $image_name = uniqid() . time() . '.' . pathinfo($this->post['guid'], PATHINFO_EXTENSION);
+                        file_put_contents(storage_path('app/public/' . $image_name), file_get_contents($url));
+                    }
+                    dd("ok");
 //                    ImportPostJob::dispatch($post,$authors,Str::slug($post['post_title'])."-".$i);
                     $i++;
                 }
