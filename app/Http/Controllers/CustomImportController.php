@@ -85,8 +85,8 @@ class CustomImportController extends BaseController
                         })->filter(function ($item) {
                             return filter_var($item, FILTER_VALIDATE_URL);
                         })->last();
-                        dd($post_url,$url);
                     }
+                    dump($post_url);
 //                    ImportPostJob::dispatch($post,$authors,Str::slug($post['post_title'])."-".$i);
                     $i++;
                 }
