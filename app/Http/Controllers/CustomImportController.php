@@ -73,7 +73,7 @@ class CustomImportController extends BaseController
         try {
             DB::transaction(function () use ($authors, $posts) {
                 $i=1;
-                foreach ($posts as $post) {
+                foreach ($posts->take(50) as $post) {
                     $post_url="https://www.gochange.it/business/aaa/".$post['ID'];
                     if ($this->file_contents_exist($post_url)){
                         $fp = file_get_contents($post_url);
