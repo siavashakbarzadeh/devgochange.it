@@ -85,7 +85,7 @@ class CustomImportController extends BaseController
                         return filter_var($item, FILTER_VALIDATE_URL);
                     })->last();
                     if (strlen($url) && $this->file_contents_exist($url)){
-                        $image_name = uniqid() . time() . '.' . pathinfo($this->post['guid'], PATHINFO_EXTENSION);
+                        $image_name = uniqid() . time() . '.' . pathinfo($url, PATHINFO_EXTENSION);
                         file_put_contents(storage_path('app/public/' . $image_name), file_get_contents($url));
                     }
                     dd("ok");
