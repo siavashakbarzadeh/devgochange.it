@@ -73,7 +73,7 @@ class CustomImportController extends BaseController
         try {
             DB::transaction(function () use ($authors, $posts) {
                 $i=1;
-                foreach ($posts->take(50) as $post) {
+                foreach ($posts->take(100) as $post) {
                     $post_url="https://www.gochange.it/business/aaa/".$post['ID'];
                     if ($this->file_contents_exist($post_url)){
                         $fp = file_get_contents($post_url);
@@ -85,8 +85,8 @@ class CustomImportController extends BaseController
                         })->filter(function ($item) {
                             return filter_var($item, FILTER_VALIDATE_URL);
                         })->last();
+                        dump($post_url);
                     }
-                    dump($post_url);
 //                    ImportPostJob::dispatch($post,$authors,Str::slug($post['post_title'])."-".$i);
                     $i++;
                 }
