@@ -21,7 +21,7 @@ class ImportPostJob implements ShouldQueue
 
     private $post;
     private $authors;
-    private $key
+    private $key;
 
     /**
      * Create a new job instance.
