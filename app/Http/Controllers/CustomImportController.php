@@ -73,7 +73,9 @@ class CustomImportController extends BaseController
             DB::transaction(function () use ($authors, $posts) {
                 $i=1;
                 foreach ($posts as $post) {
-                    ImportPostJob::dispatch($post,$authors,Str::slug($post['post_title'])."-".$i);
+                    $post_url = "https://www.gochange.it/business/esplorando-i-lavori-nel-settore-digitale/" . $post['ID'];
+                    dd($post_url);
+//                    ImportPostJob::dispatch($post,$authors,Str::slug($post['post_title'])."-".$i);
                     $i++;
                 }
             });
