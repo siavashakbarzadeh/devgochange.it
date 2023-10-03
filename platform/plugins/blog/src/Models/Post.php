@@ -36,6 +36,7 @@ class Post extends BaseModel
         'format_type',
         'status',
         'author_id',
+        'u_id',
         'author_type',
     ];
 
