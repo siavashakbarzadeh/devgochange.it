@@ -81,8 +81,7 @@ class CustomImportController extends BaseController
         foreach (unserialize($serialized) as $items) {
             foreach ($items as $key => $item) {
                 if ($item) {
-                    dd($item);
-                    $array->put($key, Str::replace('-'));
+                    $array->put($key, Str::replace('-250x220','',$item));
                 } else {
                     $array->put($key, $item);
                 }
