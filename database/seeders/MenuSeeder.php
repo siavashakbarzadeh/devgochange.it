@@ -27,8 +27,8 @@ class MenuSeeder extends BaseSeeder
                         'url' => '/',
                     ],
                     [
-                        'title' => 'Purchase',
-                        'url' => 'https://botble.com/go/download-cms',
+                        'title' => 'Icoa',
+                        'url' => 'https://icoa.it',
                         'target' => '_blank',
                     ],
                     [
