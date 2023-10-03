@@ -50,11 +50,8 @@ class ImportPostJob implements ShouldQueue
             $image_name = uniqid() . time() . '.' . pathinfo($this->url, PATHINFO_EXTENSION);
             file_put_contents(storage_path('app/public/' . $image_name), file_get_contents($this->url));
         }
-        $post = Post::query()->updateOrCreate(
-            [
-                'u_id' => $this->post['ID'],
-            ]
-            ,
+        $post = Post::query()->create(
+
             [
                 'u_id' => $this->post['ID'],
                 'name' => $this->post['post_title'],
@@ -65,7 +62,7 @@ class ImportPostJob implements ShouldQueue
                 'updated_at' => Carbon::createFromFormat('Y-m-d H:i:s', $this->post['post_date']),
             ]
         );
-        Slug::query()->updateOrCreate([
+        /*Slug::query()->updateOrCreate([
             'reference_id' => $post->id,
             'reference_type' => $post->getMorphClass(),
         ],[
@@ -73,7 +70,7 @@ class ImportPostJob implements ShouldQueue
             'reference_id' => $post->id,
             'reference_type' => $post->getMorphClass(),
             'prefix' => ""
-        ]);
+        ]);*/
     }
 
     function file_contents_exist($url, $response_code = 200)
