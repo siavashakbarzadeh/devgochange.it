@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Jobs\ImportPostJob;
 use App\Models\User;
 use Botble\Ecommerce\Models\Order;
+use DOMDocument;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
