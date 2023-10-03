@@ -6,6 +6,7 @@ use App\Jobs\ImportPostJob;
 use App\Models\User;
 use Botble\Blog\Models\Post;
 use Botble\Ecommerce\Models\Order;
+use Botble\Slug\Models\Slug;
 use DOMDocument;
 use DOMXPath;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -96,7 +97,7 @@ class CustomImportController extends BaseController
             DB::transaction(function () use ($authors, $array) {
                 foreach ($array->take(2) as $post => $url) {
                     $post = json_decode(json_encode(DB::connection('mysql2')->table('wp_posts')->where('ID', $post)->first()), true);
-                    Post::query()->updateOrCreate(
+                    $post = Post::query()->updateOrCreate(
                         [
                             'u_id' => $post['ID'],
                         ],
@@ -110,6 +111,15 @@ class CustomImportController extends BaseController
                             'updated_at' => Carbon::createFromFormat('Y-m-d H:i:s', $post['post_date']),
                         ]
                     );
+                    Slug::query()->updateOrCreate([
+                        'reference_id' => $post->id,
+                        'reference_type' => $post->getMorphClass(),
+                    ],[
+                        'key' => Str::slug($post['post_title'])."-".$post['ID'],
+                        'reference_id' => $post->id,
+                        'reference_type' => $post->getMorphClass(),
+                        'prefix' => ""
+                    ]);
 //                    ImportPostJob::dispatch($post,$authors,$url);
                 }
             });
