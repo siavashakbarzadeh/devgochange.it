@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\ImportPostJob;
 use App\Models\User;
+use Botble\Blog\Models\Post;
 use Botble\Ecommerce\Models\Order;
 use DOMDocument;
 use DOMXPath;
@@ -90,12 +91,24 @@ class CustomImportController extends BaseController
         $authors = collect(DB::connection('mysql2')->table('wp_users')->get())->map(function ($item) {
             return (array)$item;
         })->pluck('user_email', 'ID')->toArray();
-        dd(json_decode(json_encode(DB::connection('mysql2')->table('wp_posts')->where('ID',5)->first()),true));
 
         try {
             DB::transaction(function () use ($authors,$array) {
                 foreach ($array->take(2) as $post=>$url) {
-                    ImportPostJob::dispatch($post,$authors,$url);
+                    $post = json_decode(json_encode(DB::connection('mysql2')->table('wp_posts')->where('ID',$post)->first()),true);
+                    Post::query()->create(
+
+                        [
+                            'u_id' => $post['ID'],
+                            'name' => $post['post_title'],
+                            'content' => $post['post_content'],
+                            'image' => "aaaa",
+                            'author_id' => User::query()->where('email', $authors[$post['post_author']])->first()->id,
+                            'created_at' => Carbon::createFromFormat('Y-m-d H:i:s', $post['post_date']),
+                            'updated_at' => Carbon::createFromFormat('Y-m-d H:i:s', $post['post_date']),
+                        ]
+                    );
+//                    ImportPostJob::dispatch($post,$authors,$url);
                 }
             });
         } catch (Throwable $e) {
