@@ -79,6 +79,7 @@ class CustomImportController extends BaseController
         $array = collect();
         foreach (unserialize($serialized) as $items) {
             foreach ($items as $key=>$item) {
+                dd($item);
                 $array->put($key,$item);
             }
         }
