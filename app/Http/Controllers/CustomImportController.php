@@ -82,7 +82,7 @@ class CustomImportController extends BaseController
             foreach ($items as $key => $item) {
                 if ($item) {
                     $name=pathinfo($item, PATHINFO_FILENAME);
-                    dd(substr($name,0, strrpos($name, '/')));
+                    dd(substr($name,0, strrpos($name, '-')));
                 } else {
                     $array->put($key, $item);
                 }
