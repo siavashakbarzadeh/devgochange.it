@@ -63,11 +63,21 @@ class CustomImportController extends BaseController
         }
     }
 
+    function file_get_contents_curl($url) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //Set curl to return the data instead of printing it to the browser.
+        curl_setopt($ch, CURLOPT_URL, $url);
+        $data = curl_exec($ch);
+        curl_close($ch);
+        return $data;
+    }
+
     public function importPost()
     {
         $url = "https://www.gochange.it/category/business";
         $dom = resolve(DOMDocument::class);
-        dd(file_get_contents(urlencode($url)));
+        dd($this->file_get_contents_curl($url));
         @$dom->loadHTML(file_get_contents($url));
         $xpath = new DOMXpath($dom);
         $articles = $xpath->query('//div[@class="post-box-archives"] //article');
