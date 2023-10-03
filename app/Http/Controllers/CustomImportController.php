@@ -6,6 +6,7 @@ use App\Jobs\ImportPostJob;
 use App\Models\User;
 use Botble\Ecommerce\Models\Order;
 use DOMDocument;
+use DOMXPath;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -62,7 +63,7 @@ class CustomImportController extends BaseController
         }
     }
 
-    function getWebsite($url='http://mywebsite.com'){
+    function getWebsite($url){
 
         $ch = curl_init();
         $user_agent='Mozilla/5.0 (Windows NT 6.1; rv:8.0) Gecko/20100101 Firefox/'.rand(8,100).'.0';
@@ -87,9 +88,8 @@ class CustomImportController extends BaseController
     public function importPost()
     {
         $url = "https://www.gochange.it/category/business";
-        dd($this->getWebsite($url));
         $dom = resolve(DOMDocument::class);
-        @$dom->loadHTML(file_get_contents($url));
+        @$dom->loadHTML($this->getWebsite($url));
         $xpath = new DOMXpath($dom);
         $articles = $xpath->query('//div[@class="post-box-archives"] //article');
         dd(collect($articles)->mapWithKeys(function ($item) {
