@@ -115,7 +115,7 @@ class CustomImportController extends BaseController
                         'reference_id' => $post->id,
                         'reference_type' => $post->getMorphClass(),
                     ],[
-                        'key' => Str::slug($post['post_title'])."-".$post['ID'],
+                        'key' => Str::slug($post['name'])."-".$post,
                         'reference_id' => $post->id,
                         'reference_type' => $post->getMorphClass(),
                         'prefix' => ""
