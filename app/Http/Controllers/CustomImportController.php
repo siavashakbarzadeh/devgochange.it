@@ -82,7 +82,7 @@ class CustomImportController extends BaseController
         foreach (unserialize($serialized) as $items) {
             foreach ($items as $key => $item) {
                 if ($item) {
-                    $array->put($key, Str::replace('-250x220','',$item));
+                    $array->put($key, Str::replace('-250x220', '', $item));
                 } else {
                     $array->put($key, $item);
                 }
@@ -93,11 +93,13 @@ class CustomImportController extends BaseController
         })->pluck('user_email', 'ID')->toArray();
 
         try {
-            DB::transaction(function () use ($authors,$array) {
-                foreach ($array->take(2) as $post=>$url) {
-                    $post = json_decode(json_encode(DB::connection('mysql2')->table('wp_posts')->where('ID',$post)->first()),true);
-                    Post::query()->create(
-
+            DB::transaction(function () use ($authors, $array) {
+                foreach ($array->take(2) as $post => $url) {
+                    $post = json_decode(json_encode(DB::connection('mysql2')->table('wp_posts')->where('ID', $post)->first()), true);
+                    Post::query()->updateOrCreate(
+                        [
+                            'u_id' => $post['ID'],
+                        ],
                         [
                             'u_id' => $post['ID'],
                             'name' => $post['post_title'],
