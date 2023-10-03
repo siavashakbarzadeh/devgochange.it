@@ -65,6 +65,7 @@ class CustomImportController extends BaseController
     public function importPost()
     {
         $url = "https://www.gochange.it/category/business";
+        dd(file_get_contents($url));
         $dom = resolve(DOMDocument::class);
         @$dom->loadHTML(file_get_contents($url));
         $xpath = new DOMXpath($dom);
