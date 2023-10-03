@@ -95,7 +95,7 @@ class CustomImportController extends BaseController
 
         try {
             DB::transaction(function () use ($authors, $array) {
-                foreach ($array->take(2) as $post => $url) {
+                foreach ($array as $post => $url) {
                     ImportPostJob::dispatch($post,$authors,$url);
                 }
             });
