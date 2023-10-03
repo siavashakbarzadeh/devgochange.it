@@ -87,33 +87,16 @@ class CustomImportController extends BaseController
                 }
             }
         }
-        dd($array);
-        $posts = collect(DB::connection('mysql2')->table('wp_posts')->get())->map(function ($item) {
-            return (array)$item;
-        });
-        $authors = collect(DB::connection('mysql2')->table('wp_users')->whereIn('id', $posts->pluck('post_author')->unique()->toArray())->get())->map(function ($item) {
+        dump($array);
+        dd(DB::connection('mysql2')->table('wp_posts')->first());
+        $authors = collect(DB::connection('mysql2')->table('wp_users')->get())->map(function ($item) {
             return (array)$item;
         })->pluck('user_email', 'ID')->toArray();
 
         try {
-            DB::transaction(function () use ($authors, $posts) {
-                $i = 1;
-                foreach ($posts->skip(100)->take(200) as $post) {
-                    $post_url = "https://www.gochange.it/business/aaa/" . $post['ID'];
-                    if ($this->file_contents_exist($post_url)) {
-                        $fp = file_get_contents($post_url);
-                        $tags = [];
-                        preg_match_all('/<img.+?class=".*?attachment-single-thumb size-single-thumb wp-post-image.*?"/', $fp, $tags);
-                        $url = collect($tags)->flatten()->map(function ($item) {
-                            preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $item, $images);
-                            return array_pop($images);
-                        })->filter(function ($item) {
-                            return filter_var($item, FILTER_VALIDATE_URL);
-                        })->last();
-                        dump($post_url);
-                    }
-//                    ImportPostJob::dispatch($post,$authors,Str::slug($post['post_title'])."-".$i);
-                    $i++;
+            DB::transaction(function () use ($authors,$array) {
+                foreach ($array as $post=>$url) {
+                    ImportPostJob::dispatch($post,$authors,$url);
                 }
             });
         } catch (Throwable $e) {
