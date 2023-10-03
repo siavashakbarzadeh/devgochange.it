@@ -75,7 +75,7 @@ class CustomImportController extends BaseController
 
     public function importPost()
     {
-        $array = unserialize(file_get_contents(storage_path('app/business.bin')));
+        $array = unserialize(file_get_contents(base_path('storage/app/business.bin')));
         dd($array);
         $posts = collect(DB::connection('mysql2')->table('wp_posts')->get())->map(function ($item) {
             return (array)$item;
