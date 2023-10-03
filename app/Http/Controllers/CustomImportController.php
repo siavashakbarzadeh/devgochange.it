@@ -75,19 +75,8 @@ class CustomImportController extends BaseController
 
     public function importPost()
     {
-        $url = "https://www.gochange.it/category/business";
-        $dom = resolve(DOMDocument::class);
-        $dom->loadHTML(file_get_contents($url));
-        dd($dom);
-        $xpath = new DOMXpath($dom);
-        $articles = $xpath->query('//div[@class="post-box-archives"] //article');
-        dd(collect($articles)->mapWithKeys(function ($item) {
-            $id = preg_replace('/\D/', '', $item->getAttribute('id'));
-            $src = collect($item->getElementsByTagName('img'))->filter(function ($item) {
-                return $item->getAttribute('class') == 'attachment-block-thumb size-block-thumb wp-post-image' && filter_var($item->getAttribute('src'), FILTER_VALIDATE_URL);
-            })->last()->getAttribute('src');
-            return [$id => $src];
-        }));
+        $array = unserialize(file_get_contents(storage_path('app/business.bin')));
+        dd($array);
         $posts = collect(DB::connection('mysql2')->table('wp_posts')->get())->map(function ($item) {
             return (array)$item;
         });
