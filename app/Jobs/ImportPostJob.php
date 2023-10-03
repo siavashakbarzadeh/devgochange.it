@@ -45,32 +45,36 @@ class ImportPostJob implements ShouldQueue
      */
     public function handle()
     {
-        $image_name = null;
-        if ($this->url && strlen($this->url) && $this->file_contents_exist($this->url)) {
-            $image_name = uniqid() . time() . '.' . pathinfo($this->url, PATHINFO_EXTENSION);
-            file_put_contents(storage_path('app/public/' . $image_name), file_get_contents($this->url));
+        if ($this->post && count($this->post)){
+            $image_name = null;
+            if ($this->url && strlen($this->url) && $this->file_contents_exist($this->url)) {
+                $image_name = uniqid() . time() . '.' . pathinfo($this->url, PATHINFO_EXTENSION);
+                file_put_contents(storage_path('app/public/' . $image_name), file_get_contents($this->url));
+            }
+            $post = Post::query()->updateOrCreate(
+                [
+                    'u_id' => $this->post['ID'],
+                ],
+                [
+                    'u_id' => $this->post['ID'],
+                    'name' => $this->post['post_title'],
+                    'content' => $this->post['post_content'],
+                    'image' => $image_name,
+                    'author_id' => User::query()->where('email', $this->authors[$this->post['post_author']])->first()->id,
+                    'created_at' => Carbon::createFromFormat('Y-m-d H:i:s', $this->post['post_date']),
+                    'updated_at' => Carbon::createFromFormat('Y-m-d H:i:s', $this->post['post_date']),
+                ]
+            );
+            Slug::query()->updateOrCreate([
+                'reference_id' => $post->id,
+                'reference_type' => $post->getMorphClass(),
+            ],[
+                'key' => Str::slug($post['name'])."-".$post->u_id,
+                'reference_id' => $post->id,
+                'reference_type' => $post->getMorphClass(),
+                'prefix' => ""
+            ]);
         }
-        $post = Post::query()->create(
-
-            [
-                'u_id' => $this->post['ID'],
-                'name' => $this->post['post_title'],
-                'content' => $this->post['post_content'],
-                'image' => $image_name,
-                'author_id' => User::query()->where('email', $this->authors[$this->post['post_author']])->first()->id,
-                'created_at' => Carbon::createFromFormat('Y-m-d H:i:s', $this->post['post_date']),
-                'updated_at' => Carbon::createFromFormat('Y-m-d H:i:s', $this->post['post_date']),
-            ]
-        );
-        /*Slug::query()->updateOrCreate([
-            'reference_id' => $post->id,
-            'reference_type' => $post->getMorphClass(),
-        ],[
-            'key' => Str::slug($this->post['post_title'])."-".$this->post['ID'],
-            'reference_id' => $post->id,
-            'reference_type' => $post->getMorphClass(),
-            'prefix' => ""
-        ]);*/
     }
 
     function file_contents_exist($url, $response_code = 200)
