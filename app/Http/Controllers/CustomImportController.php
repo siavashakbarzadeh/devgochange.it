@@ -87,15 +87,13 @@ class CustomImportController extends BaseController
                 }
             }
         }
-        dump($array);
-        dd(DB::connection('mysql2')->table('wp_posts')->first());
         $authors = collect(DB::connection('mysql2')->table('wp_users')->get())->map(function ($item) {
             return (array)$item;
         })->pluck('user_email', 'ID')->toArray();
 
         try {
             DB::transaction(function () use ($authors,$array) {
-                foreach ($array as $post=>$url) {
+                foreach ($array->take(2) as $post=>$url) {
                     ImportPostJob::dispatch($post,$authors,$url);
                 }
             });
