@@ -81,8 +81,8 @@ class CustomImportController extends BaseController
         foreach (unserialize($serialized) as $items) {
             foreach ($items as $key => $item) {
                 if ($item) {
-                    $name=pathinfo($item, PATHINFO_FILENAME);
-                    dd(substr($name,0, strrpos($name, '-')));
+                    dd($item);
+                    $array->put($key, Str::replace('-'));
                 } else {
                     $array->put($key, $item);
                 }
