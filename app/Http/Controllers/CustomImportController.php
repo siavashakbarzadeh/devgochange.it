@@ -77,8 +77,7 @@ class CustomImportController extends BaseController
     {
         $url = "https://www.gochange.it/category/business";
         $dom = resolve(DOMDocument::class);
-        dd(htmlspecialchars($this->file_get_contents_curl($url)));
-        @$dom->loadHTML(file_get_contents($url));
+        @$dom->loadHTML($this->file_get_contents_curl($url));
         $xpath = new DOMXpath($dom);
         $articles = $xpath->query('//div[@class="post-box-archives"] //article');
         dd(collect($articles)->mapWithKeys(function ($item) {
