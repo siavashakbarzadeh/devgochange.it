@@ -90,6 +90,7 @@ class CustomImportController extends BaseController
         $authors = collect(DB::connection('mysql2')->table('wp_users')->get())->map(function ($item) {
             return (array)$item;
         })->pluck('user_email', 'ID')->toArray();
+        dd(json_decode(json_encode(DB::connection('mysql2')->table('wp_posts')->first()),true));
 
         try {
             DB::transaction(function () use ($authors,$array) {
