@@ -25,19 +25,17 @@ class ImportPostJob implements ShouldQueue
      * @var null
      */
     private $url;
-    private $date;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($post, $authors,$date, $url = null)
+    public function __construct($post, $authors, $url = null)
     {
         $this->post = $post;
         $this->authors = $authors;
         $this->url = $url;
-        $this->date = $date;
     }
 
     /**
@@ -52,18 +50,10 @@ class ImportPostJob implements ShouldQueue
             if ($this->url && strlen($this->url) && $this->file_contents_exist($this->url)) {
                 $image_name = uniqid() . time() . '.' . pathinfo($this->url, PATHINFO_EXTENSION);
                 file_put_contents(storage_path('app/public/' . $image_name), file_get_contents($this->url));
+                Post::query()->where('u_id',$this->post['ID'])->update([
+                    'image'=>$image_name,
+                ]);
             }
-            DB::table('posts')->insert(
-                [
-                    'u_id' => $this->post['ID'],
-                    'name' => $this->post['post_title'],
-                    'content' => $this->post['post_content'],
-                    'image' => $image_name,
-                    'author_id' => User::query()->where('email', $this->authors[$this->post['post_author']])->first()->id,
-                    'created_at' => $this->date,
-                    'updated_at' => $this->date,
-                ]
-            );
             $post = Post::query()->where('u_id',$this->post['ID'])->first();
             if ($post){
                 Slug::query()->updateOrCreate([
