@@ -61,8 +61,8 @@ class ImportPostJob implements ShouldQueue
                     'content' => $this->post['post_content'],
                     'image' => $image_name,
                     'author_id' => User::query()->where('email', $this->authors[$this->post['post_author']])->first()->id,
-                    'created_at' => Carbon::createFromFormat('Y-m-d H:i:s', $this->post['post_date']),
-                    'updated_at' => Carbon::createFromFormat('Y-m-d H:i:s', $this->post['post_date']),
+//                    'created_at' => Carbon::createFromFormat('Y-m-d H:i:s', $this->post['post_date']),
+//                    'updated_at' => Carbon::createFromFormat('Y-m-d H:i:s', $this->post['post_date']),
                 ]
             );
             $post = Post::query()->where('u_id',$this->post['ID'])->first();
