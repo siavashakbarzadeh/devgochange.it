@@ -110,7 +110,7 @@ class CustomImportController extends BaseController
                             'updated_at' => Carbon::createFromFormat('Y-m-d H:i:s', $post['post_date']),
                         ]
                     );
-                    ImportPostJob::dispatch($post,$authors,Carbon::createFromFormat('Y-m-d H:i:s', $post['post_date']),$url);
+                    ImportPostJob::dispatch($post,$authors,$url);
                 }
             });
         } catch (Throwable $e) {
