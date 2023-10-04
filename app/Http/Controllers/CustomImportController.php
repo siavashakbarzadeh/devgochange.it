@@ -95,8 +95,20 @@ class CustomImportController extends BaseController
 
         try {
             DB::transaction(function () use ($authors, $array) {
+                DB::table('posts')->truncate();
                 foreach ($array as $post => $url) {
                     $post=json_decode(json_encode(DB::connection('mysql2')->table('wp_posts')->where('ID',$post)->first()),true);
+                    DB::table('posts')->insert(
+                        [
+                            'u_id' => $post['ID'],
+                            'name' => $post['post_title'],
+                            'content' => $post['post_content'],
+//                            'image' => $image_name,
+                            'author_id' => User::query()->where('email', $authors[$post['post_author']])->first()->id,
+                            'created_at' => Carbon::createFromFormat('Y-m-d H:i:s', $post['post_date']),
+                            'updated_at' => Carbon::createFromFormat('Y-m-d H:i:s', $post['post_date']),
+                        ]
+                    );
                     dd($post,Carbon::createFromFormat('Y-m-d H:i:s', $post['post_date']));
                     ImportPostJob::dispatch($post,$authors,$url);
                 }
