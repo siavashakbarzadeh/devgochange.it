@@ -51,7 +51,7 @@ class ImportPostJob implements ShouldQueue
                 $image_name = uniqid() . time() . '.' . pathinfo($this->url, PATHINFO_EXTENSION);
                 file_put_contents(storage_path('app/public/' . $image_name), file_get_contents($this->url));
             }
-            $post = Post::query()->updateOrCreate(
+            Post::query()->updateOrInsert(
                 [
                     'u_id' => $this->post['ID'],
                 ],
@@ -65,15 +65,18 @@ class ImportPostJob implements ShouldQueue
                     'updated_at' => Carbon::createFromFormat('Y-m-d H:i:s', $this->post['post_date']),
                 ]
             );
-            Slug::query()->updateOrCreate([
-                'reference_id' => $post->id,
-                'reference_type' => $post->getMorphClass(),
-            ],[
-                'key' => Str::slug($post['name'])."-".$post->u_id,
-                'reference_id' => $post->id,
-                'reference_type' => $post->getMorphClass(),
-                'prefix' => ""
-            ]);
+            $post = Post::query()->where('u_id',$this->post['ID'])->first();
+            if ($post){
+                Slug::query()->updateOrCreate([
+                    'reference_id' => $post->id,
+                    'reference_type' => $post->getMorphClass(),
+                ],[
+                    'key' => Str::slug($post['name'])."-".$post->u_id,
+                    'reference_id' => $post->id,
+                    'reference_type' => $post->getMorphClass(),
+                    'prefix' => ""
+                ]);
+            }
         }
     }
 
