@@ -110,6 +110,10 @@ class CustomImportController extends BaseController
                             'updated_at' => Carbon::createFromFormat('Y-m-d H:i:s', $post['post_date']),
                         ]
                     );
+                    DB::table('post_categories')->insert([
+                        'post_id'=>Post::query()->where('u_id',$post['ID'])->first()->id,
+                        'category_id'=>8,
+                    ]);
                     ImportPostJob::dispatch($post,$authors,$url);
                 }
             });
