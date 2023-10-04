@@ -96,6 +96,8 @@ class CustomImportController extends BaseController
         try {
             DB::transaction(function () use ($authors, $array) {
                 foreach ($array as $post => $url) {
+                    $post=json_decode(json_encode(DB::connection('mysql2')->table('wp_posts')->where('ID',$post)->first()),true);
+                    dd($post);
                     ImportPostJob::dispatch($post,$authors,$url);
                 }
             });
