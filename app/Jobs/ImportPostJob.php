@@ -51,7 +51,7 @@ class ImportPostJob implements ShouldQueue
                 $image_name = uniqid() . time() . '.' . pathinfo($this->url, PATHINFO_EXTENSION);
                 file_put_contents(storage_path('app/public/' . $image_name), file_get_contents($this->url));
             }
-            Post::query()->updateOrInsert(
+            DB::table('posts')->updateOrInsert(
                 [
                     'u_id' => $this->post['ID'],
                 ],
