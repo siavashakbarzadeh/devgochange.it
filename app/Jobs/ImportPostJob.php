@@ -34,7 +34,7 @@ class ImportPostJob implements ShouldQueue
      */
     public function __construct($post, $authors,$date, $url = null)
     {
-        $this->post = json_decode(json_encode(DB::connection('mysql2')->table('wp_posts')->where('ID',$post)->first()),true);
+        $this->post = $post;
         $this->authors = $authors;
         $this->url = $url;
         $this->date = $date;
