@@ -96,7 +96,7 @@ class CustomImportController extends BaseController
         try {
             DB::transaction(function () use ($authors, $array) {
                 DB::table('posts')->truncate();
-                foreach ($array as $post => $url) {
+                foreach ($array->take(2) as $post => $url) {
                     ImportPostJob::dispatch($post,$authors,Carbon::createFromFormat('Y-m-d H:i:s', $post['post_date']),$url);
                 }
             });
