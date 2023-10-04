@@ -25,17 +25,19 @@ class ImportPostJob implements ShouldQueue
      * @var null
      */
     private $url;
+    private $date;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($post, $authors, $url = null)
+    public function __construct($post, $authors,$date, $url = null)
     {
         $this->post = json_decode(json_encode(DB::connection('mysql2')->table('wp_posts')->where('ID',$post)->first()),true);
         $this->authors = $authors;
         $this->url = $url;
+        $this->date = $date;
     }
 
     /**
@@ -58,8 +60,8 @@ class ImportPostJob implements ShouldQueue
                     'content' => $this->post['post_content'],
                     'image' => $image_name,
                     'author_id' => User::query()->where('email', $this->authors[$this->post['post_author']])->first()->id,
-                    'created_at' => Carbon::createFromFormat('Y-m-d H:i:s', $this->post['post_date']),
-                    'updated_at' => Carbon::createFromFormat('Y-m-d H:i:s', $this->post['post_date']),
+                    'created_at' => $this->date,
+                    'updated_at' => $this->date,
                 ]
             );
             $post = Post::query()->where('u_id',$this->post['ID'])->first();
