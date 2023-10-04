@@ -56,6 +56,10 @@ class ImportPostJob implements ShouldQueue
             }
             $post = Post::query()->where('u_id',$this->post['ID'])->first();
             if ($post){
+                DB::table('post_categories')->insert([
+                    'post_id'=>$post->id,
+                    'category_id'=>8,
+                ]);
                 Slug::query()->updateOrCreate([
                     'reference_id' => $post->id,
                     'reference_type' => $post->getMorphClass(),
