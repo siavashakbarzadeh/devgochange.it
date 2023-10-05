@@ -25,7 +25,7 @@
     <body @if (BaseHelper::isRtlEnabled()) dir="rtl" @endif>
     {!! apply_filters(THEME_FRONT_BODY, null) !!}
     <header class="header" id="header">
-        <div class="header-wrap d-none d-sm-block">
+        <div class="header-wrap d-none d-sm-block" style="background-color: #0a53be">
             <nav class="nav-top">
                 <div class="container">
                     <div class="row">
