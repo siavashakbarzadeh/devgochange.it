@@ -179,14 +179,14 @@
                 </x-core-setting::section>
             @endif
 
-            {!! apply_filters(BASE_FILTER_AFTER_SETTING_EMAIL_CONTENT, null) !!}
+{{--            {!! apply_filters(BASE_FILTER_AFTER_SETTING_EMAIL_CONTENT, null) !!}--}}
 
-            <div class="flexbox-annotated-section" style="border: none">
-                <div class="flexbox-annotated-section-annotation">&nbsp;</div>
-                <div class="flexbox-annotated-section-content">
-                    <button class="btn btn-info" type="submit">{{ trans('core/setting::setting.save_settings') }}</button>
-                </div>
-            </div>
+{{--            <div class="flexbox-annotated-section" style="border: none">--}}
+{{--                <div class="flexbox-annotated-section-annotation">&nbsp;</div>--}}
+{{--                <div class="flexbox-annotated-section-content">--}}
+{{--                    <button class="btn btn-info" type="submit">{{ trans('core/setting::setting.save_settings') }}</button>--}}
+{{--                </div>--}}
+{{--            </div>--}}
         {!! Form::close() !!}
     </div>
 
