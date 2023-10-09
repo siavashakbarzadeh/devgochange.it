@@ -26,7 +26,7 @@
     {!! apply_filters(THEME_FRONT_BODY, null) !!}
     <header class="header" id="header">
         <div class="header-wrap d-none d-sm-block" style="background-color: #0a53be !important;">
-            <nav class="nav-top">
+            <nav class="nav-top bg-info">
                 <div class="container">
                     <div class="row">
                         @if (theme_option('social_links') && $socialLinks = json_decode(theme_option('social_links'), true))
