@@ -38,7 +38,7 @@
         </a>
     </li>
 </ul>
-<ul>
+<ul class="sub-menu">
     <li class="nav-item" id="0">
         {{--    <a href="{{ route('admin.ecommerce.questionnaires.index') }}" class="nav-link nav-toggle">--}}
         <a href="" class="nav-link nav-toggle">
