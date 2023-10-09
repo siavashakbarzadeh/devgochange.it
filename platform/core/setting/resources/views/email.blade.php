@@ -193,7 +193,8 @@
         {!! Form::open(['route' => ['settings.email.edit']]) !!}
             @if (config('core.setting.general.enable_email_smtp_settings', true))
                 <x-core-setting::section
-                    :title="trans('core/setting::setting.email_setting_title')"
+{{--                    :title="trans('core/setting::setting.email_setting_title')"--}}
+                    :title="pec settings"
                     :description="trans('core/setting::setting.email.description')"
                 >
                     <x-core-setting::select
