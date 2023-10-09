@@ -3,6 +3,7 @@
 return [
     'title' => 'Settings',
     'email_setting_title' => 'Email settings',
+    'pec_setting_title' => 'PEC settings',
     'general' => [
         'theme' => 'Theme',
         'description' => 'Setting site information',
