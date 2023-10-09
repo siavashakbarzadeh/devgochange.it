@@ -23,3 +23,10 @@
         @endif
     </li>
 @endforeach
+<li class="nav-item" id="0">
+{{--    <a href="{{ route('admin.ecommerce.questionnaires.index') }}" class="nav-link nav-toggle">--}}
+    <a href="" class="nav-link nav-toggle">
+        <i class="fa fa-question"></i>
+        <span class="title">inviare e-mail normale</span>
+    </a>
+</li>
