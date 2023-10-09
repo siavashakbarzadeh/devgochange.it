@@ -23,7 +23,7 @@
         @endif
     </li>
 @endforeach
-<ul>
+<ul class="nav-item">
     <li class="nav-item" id="0">
         {{--    <a href="{{ route('admin.ecommerce.questionnaires.index') }}" class="nav-link nav-toggle">--}}
         <a href="" class="nav-link nav-toggle">
