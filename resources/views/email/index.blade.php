@@ -1,23 +1,6 @@
-@extends('layouts.admin')
-@section('page-title')
-    {{__('Manage Email')}}
-@endsection
-@section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{route('dashboard')}}">{{__('Dashboard')}}</a></li>
-    <li class="breadcrumb-item">{{__('Document')}}</li>
-@endsection
-
-@section('action-btn')
-    <div class="float-end">
-        @can('create document')
-            <a href="#" data-url="{{ route('document-upload.create') }}" data-ajax-popup="true" data-title="{{__('Create New Document Type')}}" data-bs-toggle="tooltip" title="{{__('Create')}}"  class="btn btn-sm btn-primary">
-                <i class="ti ti-plus"></i>
-            </a>
-
-        @endcan
-    </div>
-@endsection
+@extends(BaseHelper::getAdminMasterLayoutTemplate())
 @section('content')
+
 <section class="mt-3">
     <div class="container-fluid p-0">
 	    <div class="row">
