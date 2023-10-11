@@ -23,22 +23,22 @@
         @endif
     </li>
 @endforeach
-<ul class="nav-item">
-    <li class="nav-item" id="0">
-        {{--    <a href="{{ route('admin.ecommerce.questionnaires.index') }}" class="nav-link nav-toggle">--}}
-        <a href="" class="nav-link nav-toggle">
-            <i class="fa fa-question"></i>
-            <span class="title">impostazione e-mail normale</span>
-        </a>
-    </li>
-    <li>
-        <a href="" class="nav-link nav-toggle">
-            <i class="fa fa-question"></i>
-            <span class="title">inviare e-mail normale</span>
-        </a>
-    </li>
-</ul>
-<ul class="sub-menu">
+{{--<ul class="nav-item">--}}
+{{--    <li class="nav-item" id="0">--}}
+{{--        --}}{{--    <a href="{{ route('admin.ecommerce.questionnaires.index') }}" class="nav-link nav-toggle">--}}
+{{--        <a href="" class="nav-link nav-toggle">--}}
+{{--            <i class="fa fa-question"></i>--}}
+{{--            <span class="title">impostazione e-mail normale</span>--}}
+{{--        </a>--}}
+{{--    </li>--}}
+{{--    <li>--}}
+{{--        <a href="" class="nav-link nav-toggle">--}}
+{{--            <i class="fa fa-question"></i>--}}
+{{--            <span class="title">inviare e-mail normale</span>--}}
+{{--        </a>--}}
+{{--    </li>--}}
+{{--</ul>--}}
+
     <li class="nav-item" id="0">
             <a href="{{ route('email.index') }}" class="nav-link nav-toggle">
 {{--        <a href="" class="nav-link nav-toggle">--}}
@@ -46,12 +46,5 @@
             <span class="title">impostazione e-mail PEC</span>
         </a>
     </li>
-    <li class="nav-item" id="0">
-        {{--    <a href="{{ route('admin.ecommerce.questionnaires.index') }}" class="nav-link nav-toggle">--}}
-        <a href="" class="nav-link nav-toggle">
-            <i class="fa fa-question"></i>
-            <span class="title">inviare e-mail PEC</span>
-        </a>
-    </li>
-</ul>
+
 
