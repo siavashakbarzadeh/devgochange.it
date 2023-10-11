@@ -39,7 +39,7 @@ Route::get('/test',function (){
 
 //Email
 
-Route::get('/emails',[\App\Http\Controllers\EmailController::class,'index'])->name('email.index')->middleware(['auth', 'XSS']);
+Route::get('/emails',[\App\Http\Controllers\EmailController::class,'index'])->name('email.index');
 Route::get('/email/send',[\App\Http\Controllers\EmailController::class,'showFormSend'])->name('email.send');
 Route::post('/email/send',[\App\Http\Controllers\EmailController::class,'send']);
 Route::get('/check', function () {
