@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class EmailTemplate extends Model
 {
-    protected $table = 'mail_tracking';
+    protected $table = 'emails';
 
     /**
      * The attributes that are mass assignable.
