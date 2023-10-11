@@ -48,3 +48,10 @@
     </li>
 
 
+<li class="nav-item" id="0">
+    <a href="{{ route('email.send') }}" class="nav-link nav-toggle">
+        {{--        <a href="" class="nav-link nav-toggle">--}}
+        <i class="fa fa-question"></i>
+        <span class="title">send e-mail PEC</span>
+    </a>
+</li>
