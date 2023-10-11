@@ -9,6 +9,7 @@ use App\Models\Email;
 use App\Models\EmailTemplate;
 use App\Models\EmailTemplateLang;
 use App\Models\User;
+
 use App\Models\UserEmailTemplate;
 use App\Models\Utility;
 use Illuminate\Http\Request;
@@ -43,7 +44,8 @@ class EmailController extends Controller
 
     public function showFormSend()
     {
-        $customers = User::select(['name', 'email'])->get();
+//        $customers = User::select(['name', 'email'])->get();
+        $customers=EmailTemplate::all();
         return view('email.create', compact('customers'));
     }
 
