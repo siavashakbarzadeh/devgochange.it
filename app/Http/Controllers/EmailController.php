@@ -25,7 +25,7 @@ class EmailController extends Controller
      */
     public function index()
     {
-        dd('ok');
+//        dd('ok');
         $emails = EmailTemplate::all();
         return view('email.index', compact('emails'));
 //        return view('email.index');
