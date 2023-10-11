@@ -36,3 +36,20 @@ Route::get('/importusers', [CustomImportController::class, 'importUser'])->name(
 Route::get('/test',function (){
     \Illuminate\Support\Facades\Artisan::call('storage:link');
 });
+
+//Email
+
+Route::get('/emails',[\App\Http\Controllers\EmailController::class,'index'])->name('email.index')->middleware(['auth', 'XSS']);
+Route::get('/email/send',[\App\Http\Controllers\EmailController::class,'showFormSend'])->name('email.send');
+Route::post('/email/send',[\App\Http\Controllers\EmailController::class,'send']);
+Route::get('/check', function () {
+    Schema::create('failed_jobs', function (Blueprint $table) {
+        $table->increments('id');
+        $table->text('connection');
+        $table->text('queue');
+        $table->longText('payload');
+        $table->longText('exception');
+        $table->timestamp('failed_at')->useCurrent();
+    });
+});
+Route::get('/emailpendings',[\App\Http\Controllers\EmailController::class,'pending'])->name('email.pending');

@@ -40,8 +40,8 @@
 </ul>
 <ul class="sub-menu">
     <li class="nav-item" id="0">
-        {{--    <a href="{{ route('admin.ecommerce.questionnaires.index') }}" class="nav-link nav-toggle">--}}
-        <a href="" class="nav-link nav-toggle">
+            <a href="{{ route('email.index') }}" class="nav-link nav-toggle">
+{{--        <a href="" class="nav-link nav-toggle">--}}
             <i class="fa fa-question"></i>
             <span class="title">impostazione e-mail PEC</span>
         </a>
