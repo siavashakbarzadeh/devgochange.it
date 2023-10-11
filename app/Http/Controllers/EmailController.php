@@ -26,9 +26,9 @@ class EmailController extends Controller
     public function index()
     {
 //        dd('ok');
-//        $emails = EmailTemplate::all();
-//        return view('email.index', compact('emails'));
-        return view('email.index');
+        $emails = EmailTemplate::all();
+        return view('email.index', compact('emails'));
+//        return view('email.index');
 //        $usr = \Auth::user();
 //        if($usr->type == 'super admin' || $usr->type == 'company')
 //        {
