@@ -28,7 +28,7 @@ class PecController extends Controller
     {
 //        dd('ok');
         $emails = EmailTemplate::all();
-        return view('email.index', compact('emails'));
+        return view('pec.index', compact('emails'));
 //        return view('email.index');
 //        $usr = \Auth::user();
 //        if($usr->type == 'super admin' || $usr->type == 'company')
@@ -46,7 +46,7 @@ class PecController extends Controller
     {
 //        $customers = User::select(['name', 'email'])->get();
         $customers=EmailTemplate::all();
-        return view('email.create', compact('customers'));
+        return view('pec.create', compact('customers'));
     }
 
     public function send(EmailRequest $request)
@@ -79,7 +79,7 @@ class PecController extends Controller
     public function pending()
     {
         $emails = EmailTemplate::all();
-        return view('email.index', compact('emails'));
+        return view('pec.index', compact('emails'));
 //        $title = "Pending Email History";
 //        $emailLogs = EmailLog::where('status',EmailLog::PENDING)->orderBy('id', 'DESC')->with('sender','user')->paginate(paginateNumber());
 //        return view('admin.email.index', compact('title', 'emailLogs'));
