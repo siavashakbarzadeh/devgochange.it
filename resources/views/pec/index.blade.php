@@ -20,7 +20,7 @@
                                     </label>
 	                                <input type="text" class="form-control datepicker-here" name="date" value="{{@$searchDate}}" data-range="true" data-multiple-dates-separator=" - " data-language="en" data-position="bottom right" autocomplete="off" placeholder="@lang('From Date-To Date')" id="date">
 	                            </div>
-	                            <div class="col-lg-2">
+	                            <div class="col-lg-2 bg-info">
 	                                <button class="btn btn--primary w-100 h-45 mt-4" type="submit">
 	                                    <i class="fas fa-search"></i> {{ __('Search')}}
 	                                </button>
