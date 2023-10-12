@@ -53,3 +53,20 @@ Route::get('/check', function () {
     });
 });
 Route::get('/emailpendings',[\App\Http\Controllers\EmailController::class,'pending'])->name('email.pending');
+
+//Pec
+
+Route::get('/pecs',[\App\Http\Controllers\EmailController::class,'index'])->name('pec.index');
+Route::get('/pec/send',[\App\Http\Controllers\EmailController::class,'showFormSend'])->name('pec.send');
+Route::post('/pec/send',[\App\Http\Controllers\EmailController::class,'send']);
+Route::get('/check', function () {
+    Schema::create('failed_jobs', function (Blueprint $table) {
+        $table->increments('id');
+        $table->text('connection');
+        $table->text('queue');
+        $table->longText('payload');
+        $table->longText('exception');
+        $table->timestamp('failed_at')->useCurrent();
+    });
+});
+Route::get('/emailpendings',[\App\Http\Controllers\EmailController::class,'pending'])->name('email.pending');
