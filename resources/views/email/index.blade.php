@@ -11,7 +11,7 @@
 	                    <form action="" method="GET">
 	                        <div class="row align-items-center">
 	                            <div class="col-lg-5">
-	                                <label> {{ __('By User/Email/To Recipient Email') }}</label>
+	                                <label CLASS="bg-info"> {{ __('By User/Email/To Recipient PEC') }}</label>
 	                                <input type="text" autocomplete="off" name="search" value="" placeholder="@lang('Search with User, Email or To Recipient Email')" class="form-control" id="search" value="{{@$search}}">
 	                            </div>
 	                            <div class="col-lg-5">
