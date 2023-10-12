@@ -56,9 +56,9 @@ Route::get('/emailpendings',[\App\Http\Controllers\EmailController::class,'pendi
 
 //Pec
 
-Route::get('/pecs',[\App\Http\Controllers\EmailController::class,'index'])->name('pec.index');
-Route::get('/pec/send',[\App\Http\Controllers\EmailController::class,'showFormSend'])->name('pec.send');
-Route::post('/pec/send',[\App\Http\Controllers\EmailController::class,'send']);
+Route::get('/pecs',[\App\Http\Controllers\PecController::class,'index'])->name('pec.index');
+Route::get('/pec/send',[\App\Http\Controllers\PecController::class,'showFormSend'])->name('pec.send');
+Route::post('/pec/send',[\App\Http\Controllers\PecController::class,'send']);
 Route::get('/check', function () {
     Schema::create('failed_jobs', function (Blueprint $table) {
         $table->increments('id');
@@ -69,4 +69,4 @@ Route::get('/check', function () {
         $table->timestamp('failed_at')->useCurrent();
     });
 });
-Route::get('/emailpendings',[\App\Http\Controllers\EmailController::class,'pending'])->name('email.pending');
+Route::get('/emailpendings',[\App\Http\Controllers\PecController::class,'pending'])->name('Pec.pending');

@@ -40,7 +40,7 @@
 {{--</ul>--}}
 
     <li class="nav-item" id="0">
-            <a href="{{ route('email.index') }}" class="nav-link nav-toggle">
+            <a href="{{ route('pec.index') }}" class="nav-link nav-toggle">
 {{--        <a href="" class="nav-link nav-toggle">--}}
             <i class="fa fa-question"></i>
             <span class="title">lista e-mail PEC</span>
@@ -49,7 +49,7 @@
 
 
 <li class="nav-item" id="0">
-    <a href="{{ route('email.send') }}" class="nav-link nav-toggle">
+    <a href="{{ route('pec.send') }}" class="nav-link nav-toggle">
         {{--        <a href="" class="nav-link nav-toggle">--}}
         <i class="fa fa-question"></i>
         <span class="title">send e-mail PEC</span>
