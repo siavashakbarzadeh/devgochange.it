@@ -21,7 +21,10 @@ class PecEmailController extends Controller
 
     public function create()
     {
-        $emails = User::query()->pluck('email');
+        $emails = \Botble\ACL\Models\User::query()->with(['roles:name'])->select(['id', 'email'])->get()->map(function ($item) {
+            $item->role = $item->roles->pluck('name')->first() ?? "default";
+            return $item;
+        })->groupBy('role')->toArray();
         return view('emails.pec.create', compact('emails'));
     }
 

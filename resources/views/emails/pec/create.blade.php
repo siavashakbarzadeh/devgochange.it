@@ -6,8 +6,20 @@
 @push('footer')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('select').select2({ width: '100%' });
+        $(document).ready(function () {
+            $('select').select2({width: '100%'});
+            $(document).on('click', '.select2-results__group', function (event) {
+                const select = $('select');
+                const groupName = $(this).html()
+                const options = select.find('option');
+                $.each(options, function (key, value) {
+                    if ($(value)[0].parentElement.label.indexOf(groupName) >= 0) {
+                        $(value).prop("selected", "selected");
+                    }
+                });
+                select.trigger("change");
+                select.select2('close');
+            });
         });
     </script>
 @endpush
@@ -18,8 +30,13 @@
             <div class="mb-3">
                 <label for="emails" class="text-title-field">Emails</label>
                 <select name="emails[]" id="emails" multiple>
-                    @foreach($emails as $email)
-                        <option value="{{ $email }}" @if(old('emails') && in_array($email,old('emails'))) selected @endif>{{ $email }}</option>
+                    @foreach($emails as $key=>$email)
+                        <optgroup label="{{ $key }}">
+                            @foreach($email as $item)
+                                <option value="{{ $item['email'] }}"
+                                        @if(old('emails') && in_array($item['email'],old('emails'))) selected @endif>{{ $item['email'] }}</option>
+                            @endforeach
+                        </optgroup>
                     @endforeach
                 </select>
                 @error('emails')

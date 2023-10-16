@@ -4,13 +4,10 @@ namespace App\Http\Controllers\Email;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\NormalEmailJob;
-use App\Jobs\PecEmailJob;
-use App\Mail\TestMail;
 use App\Models\Email;
-use App\Models\User;
+use Botble\ACL\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 use Throwable;
 
 class NormalEmailController extends Controller
@@ -22,7 +19,10 @@ class NormalEmailController extends Controller
 
     public function create()
     {
-        $emails = User::query()->pluck('email');
+        $emails = User::query()->with(['roles:name'])->select(['id', 'email'])->get()->map(function ($item) {
+            $item->role = $item->roles->pluck('name')->first() ?? "default";
+            return $item;
+        })->groupBy('role')->toArray();
         return view('emails.normal.create', compact('emails'));
     }
 
