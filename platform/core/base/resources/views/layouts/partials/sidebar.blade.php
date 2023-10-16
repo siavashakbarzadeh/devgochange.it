@@ -6,7 +6,8 @@
             <span class="title">
                 {{ !is_array(trans($menu['name'])) ? trans($menu['name']) : null }}
                 {!! apply_filters(BASE_FILTER_APPEND_MENU_NAME, null, $menu['id']) !!}</span>
-            @if (isset($menu['children']) && count($menu['children'])) <span class="arrow @if ($menu['active']) open @endif"></span> @endif
+            @if (isset($menu['children']) && count($menu['children'])) <span
+                class="arrow @if ($menu['active']) open @endif"></span> @endif
         </a>
         @if (isset($menu['children']) && count($menu['children']))
             <ul class="sub-menu @if (!$menu['active']) hidden-ul @endif">
@@ -23,3 +24,24 @@
         @endif
     </li>
 @endforeach
+<li class="nav-item " id="cms-plugin-translation">
+    <a class="nav-link nav-toggle">
+        <i class="fas fa-mail-bulk"></i>
+        <span class="title">Emails</span>
+        <span class="arrow"></span>
+    </a>
+    <ul class="sub-menu hidden-ul">
+        <li class="nav-item">
+            <a href="{{ route('admin.emails.normal.index') }}" class="nav-link">
+                <i class=""></i>
+                Normal
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('admin.emails.pec.index') }}" class="nav-link">
+                <i class=""></i>
+                Pec
+            </a>
+        </li>
+    </ul>
+</li>
