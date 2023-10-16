@@ -34,6 +34,9 @@ use LDAP\Result;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\Support\Facades\Response;
 use Throwable;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 
 class CustomImportController extends BaseController
@@ -63,6 +66,21 @@ class CustomImportController extends BaseController
         } catch (Throwable $e) {
             dd($e);
         }
+    }
+    public function importtableUser()
+    {
+        Schema::create('email_user', function (Blueprint $table) {
+            $table->foreignId('user_id')
+                ->references('id')
+                ->on('users')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            $table->foreignId('email_id')
+                ->references('id')
+                ->on('emails')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+        });
     }
 
     function file_get_contents_curl($url)

@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Mail\NormalMail;
 use App\Mail\PecMail;
 use App\Mail\TestMail;
 use Illuminate\Bus\Queueable;
@@ -37,6 +38,6 @@ class NormalEmailJob implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to($this->email)->send(new PecMail($this->email, $this->request, 'smtp'));
+        Mail::to($this->email)->send(new NormalMail($this->email, $this->request, 'smtp'));
     }
 }

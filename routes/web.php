@@ -30,13 +30,12 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/importDbfrom', function () {
-    return view('import');
-});
+Route::get('/importtableUser', [CustomImportController::class, 'importtableUser'])->name('usertable.import');
 
 
 Route::get('/importposts', [CustomImportController::class, 'importPost'])->name('post.import');
 Route::get('/importusers', [CustomImportController::class, 'importUser'])->name('user.import');
+
 Route::get('/test', function () {
     \Illuminate\Support\Facades\Artisan::call('storage:link');
 });
