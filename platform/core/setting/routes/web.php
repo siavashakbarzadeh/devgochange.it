@@ -1,6 +1,7 @@
 <?php
 
 use Botble\Base\Facades\BaseHelper;
+use Botble\Setting\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => 'Botble\Setting\Http\Controllers', 'middleware' => ['web', 'core']], function () {
@@ -83,6 +84,16 @@ Route::group(['namespace' => 'Botble\Setting\Http\Controllers', 'middleware' => 
                 Route::post('edit', [
                     'as' => 'settings.email.edit',
                     'uses' => 'SettingController@postEditEmailConfig',
+                ]);
+
+                Route::post('normal-email-config', [
+                    'as' => 'settings.email.normal-email-config',
+                    'uses' => 'SettingController@normalEmailConfig',
+                ]);
+
+                Route::post('pec-email-config', [
+                    'as' => 'settings.email.pec-email-config',
+                    'uses' => 'SettingController@pecEmailConfig',
                 ]);
 
                 Route::get('templates/edit/{type}/{module}/{template}', [

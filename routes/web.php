@@ -1,5 +1,8 @@
 <?php
+
 use App\Http\Controllers\CustomImportController;
+use App\Http\Controllers\Email\NormalEmailController;
+use App\Http\Controllers\Email\PecEmailController;
 use Botble\Ecommerce\Jobs\OrderSubmittedJob;
 use Botble\Ecommerce\Jobs\SendQuestionnaireToCustomerJob;
 use Botble\Ecommerce\Mail\OrderConfirmed;
@@ -15,6 +18,7 @@ use App\Http\Controllers\FuckingRelatedBlog;
 use App\Http\Controllers\SPCController;
 use App\Http\Controllers\strumentazioniFilterController;
 use Botble\Ecommerce\Http\Controllers\OfferTypeController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +37,21 @@ Route::get('/importDbfrom', function () {
 
 Route::get('/importposts', [CustomImportController::class, 'importPost'])->name('post.import');
 Route::get('/importusers', [CustomImportController::class, 'importUser'])->name('user.import');
-Route::get('/test',function (){
+Route::get('/test', function () {
     \Illuminate\Support\Facades\Artisan::call('storage:link');
+});
+
+Route::group(['prefix' => 'admin', 'as' => 'admin.'], function (Router $router) {
+    $router->group(['prefix' => 'emails', 'as' => 'emails.'], function (Router $router) {
+        $router->group(['prefix' => 'pec', 'as' => 'pec.'], function (Router $router) {
+            Route::get('/', [PecEmailController::class, 'index'])->name('index');
+            Route::get('/create', [PecEmailController::class, 'create'])->name('create');
+            Route::post('/store', [PecEmailController::class, 'store'])->name('store');
+        });
+        $router->group(['prefix' => 'normal', 'as' => 'normal.'], function (Router $router) {
+            Route::get('/', [NormalEmailController::class, 'index'])->name('index');
+            Route::get('/create', [NormalEmailController::class, 'create'])->name('create');
+            Route::post('/store', [NormalEmailController::class, 'store'])->name('store');
+        });
+    });
 });

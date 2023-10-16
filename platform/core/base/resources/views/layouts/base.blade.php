@@ -55,6 +55,8 @@
         @stack('footer')
     </div>
 
+    @stack('footer')
+
     {!! apply_filters(BASE_FILTER_FOOTER_LAYOUT_TEMPLATE, null) !!}
 </body>
 </html>

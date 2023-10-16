@@ -2,6 +2,9 @@
 
 namespace Botble\Setting\Http\Controllers;
 
+use App\Http\Requests\Email\EmailConfigRequest;
+use App\Http\Requests\Email\PecEmailConfigRequest;
+use App\Mail\TestMail;
 use Botble\Base\Exceptions\LicenseIsAlreadyActivatedException;
 use Botble\Base\Facades\Assets;
 use Botble\Base\Facades\BaseHelper;
@@ -23,6 +26,7 @@ use Botble\Setting\Http\Requests\MediaSettingRequest;
 use Botble\Setting\Http\Requests\ResetEmailTemplateRequest;
 use Botble\Setting\Http\Requests\SendTestEmailRequest;
 use Botble\Setting\Http\Requests\SettingRequest;
+use Botble\Setting\Models\Setting as SettingModel;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Console\Application;
@@ -30,6 +34,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\ProcessUtils;
 use Throwable;
 
@@ -71,7 +76,7 @@ class SettingController extends BaseController
 
         $isDemoModeEnabled = BaseHelper::hasDemoModeEnabled();
 
-        if (! $isDemoModeEnabled) {
+        if (!$isDemoModeEnabled) {
             setting()->set('locale', $locale);
         }
 
@@ -80,7 +85,7 @@ class SettingController extends BaseController
             session()->put('admin-theme', $adminTheme);
         }
 
-        if (! $isDemoModeEnabled) {
+        if (!$isDemoModeEnabled) {
             setting()->set('default_admin_theme', $adminTheme);
         }
 
@@ -89,7 +94,7 @@ class SettingController extends BaseController
             session()->put('admin_locale_direction', $adminLocalDirection);
         }
 
-        if (! $isDemoModeEnabled) {
+        if (!$isDemoModeEnabled) {
             setting()->set('admin_locale_direction', $adminLocalDirection);
             setting()->save();
         }
@@ -114,6 +119,7 @@ class SettingController extends BaseController
 
     public function getEmailConfig()
     {
+//        dd(json_decode(Setting::get(SettingModel::MAILS),true));
         PageTitle::setTitle(trans('core/base::layouts.setting_email'));
 
         Assets::addScriptsDirectly('vendor/core/core/setting/js/setting.js')
@@ -128,10 +134,51 @@ class SettingController extends BaseController
     public function postEditEmailConfig(EmailSettingRequest $request, BaseHttpResponse $response)
     {
         $this->saveSettings($request->except(['_token']));
-
         return $response
             ->setPreviousUrl(route('settings.email'))
             ->setMessage(trans('core/base::notices.update_success_message'));
+    }
+
+    public function normalEmailConfig(EmailConfigRequest $request)
+    {
+        $mails = Setting::get(SettingModel::MAILS);
+        SettingModel::query()->updateOrInsert([
+            'key' => SettingModel::MAILS,
+        ], [
+            'id' => SettingModel::query()->max('id') + 1,
+            'key' => SettingModel::MAILS,
+            'value' => collect(json_decode($mails,true))->put('smtp', [
+                'host' => $request->host,
+                'port' => $request->port,
+                'username' => $request->username,
+                'password' => $request->password,
+                'encryption' => $request->encryption,
+                'from_name' => $request->from_name,
+                'from_address' => $request->from_address,
+            ])->toJson(),
+        ]);
+        return redirect()->back();
+    }
+
+    public function pecEmailConfig(PecEmailConfigRequest $request)
+    {
+        $mails = Setting::get(SettingModel::MAILS);
+        SettingModel::query()->updateOrInsert([
+            'key' => SettingModel::MAILS,
+        ], [
+            'id' => SettingModel::query()->max('id') + 1,
+            'key' => SettingModel::MAILS,
+            'value' => collect(json_decode($mails,true))->put('smtp_pec', [
+                'host' => $request->pec_host,
+                'port' => $request->pec_port,
+                'username' => $request->pec_username,
+                'password' => $request->pec_password,
+                'encryption' => $request->pec_encryption,
+                'from_name' => $request->pec_from_name,
+                'from_address' => $request->pec_from_address,
+            ])->toJson(),
+        ]);
+        return redirect()->back();
     }
 
     public function getEditEmailTemplate(string $type, string $module, string $template)
@@ -260,7 +307,7 @@ class SettingController extends BaseController
 
     public function getVerifyLicense(Request $request, Core $core, BaseHttpResponse $response)
     {
-        if ($request->expectsJson() && ! $core->checkConnection()) {
+        if ($request->expectsJson() && !$core->checkConnection()) {
             return response()->json([
                 'message' => __('Your server is not connected to the internet.'),
             ], 400);
@@ -270,12 +317,12 @@ class SettingController extends BaseController
 
         $licenseFilePath = $core->getLicenseFilePath();
 
-        if (! File::exists($licenseFilePath)) {
+        if (!File::exists($licenseFilePath)) {
             return $response->setError()->setMessage($invalidMessage);
         }
 
         try {
-            if (! $core->verifyLicense(true)) {
+            if (!$core->verifyLicense(true)) {
                 return $response->setError()->setMessage($invalidMessage);
             }
 
@@ -309,7 +356,7 @@ class SettingController extends BaseController
         $purchasedCode = $request->input('purchase_code');
 
         try {
-            if (! $core->activateLicense($purchasedCode, $buyer)) {
+            if (!$core->activateLicense($purchasedCode, $buyer)) {
                 return $response->setError()->setMessage('Your license is invalid.');
             }
 
@@ -320,7 +367,7 @@ class SettingController extends BaseController
             try {
                 $core->revokeLicense($purchasedCode, $buyer);
 
-                if (! $core->activateLicense($purchasedCode, $buyer)) {
+                if (!$core->activateLicense($purchasedCode, $buyer)) {
                     return $response->setError()->setMessage('Your license is invalid.');
                 }
 
@@ -357,7 +404,7 @@ class SettingController extends BaseController
     public function resetLicense(LicenseSettingRequest $request, BaseHttpResponse $response, Core $core)
     {
         try {
-            if (! $core->revokeLicense($request->input('purchase_code'), $request->input('buyer'))) {
+            if (!$core->revokeLicense($request->input('purchase_code'), $request->input('buyer'))) {
                 return $response->setError()->setMessage('Could not reset your license.');
             }
 
@@ -414,7 +461,7 @@ class SettingController extends BaseController
 
         $inputData = $request->only(array_keys($variables));
 
-        if (! empty($inputData)) {
+        if (!empty($inputData)) {
             foreach ($inputData as $key => $value) {
                 $inputData[BaseHelper::stringify($key)] = BaseHelper::clean(BaseHelper::stringify($value));
             }
@@ -447,7 +494,7 @@ class SettingController extends BaseController
         $inputData = $request->only(array_keys($variables));
 
         foreach ($variables as $key => $variable) {
-            if (! isset($inputData[$key])) {
+            if (!isset($inputData[$key])) {
                 $inputData[$key] = '{{ ' . $key . ' }}';
             } else {
                 $inputData[$key] = BaseHelper::clean(BaseHelper::stringify($inputData[$key]));

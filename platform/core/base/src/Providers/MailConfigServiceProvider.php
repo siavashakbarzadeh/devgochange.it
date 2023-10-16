@@ -10,7 +10,7 @@ class MailConfigServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        $this->app->booted(function () {
+        /*$this->app->booted(function () {
             $config = $this->app->make('config');
             $setting = $this->app->make(SettingStore::class);
 
@@ -106,6 +106,6 @@ class MailConfigServiceProvider extends ServiceProvider
 
                     break;
             }
-        });
+        });*/
     }
 }

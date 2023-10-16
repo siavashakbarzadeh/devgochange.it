@@ -23,35 +23,19 @@
         @endif
     </li>
 @endforeach
-<ul class="nav-item">
-    <li class="nav-item" id="0">
-        {{--    <a href="{{ route('admin.ecommerce.questionnaires.index') }}" class="nav-link nav-toggle">--}}
-        <a href="" class="nav-link nav-toggle">
-            <i class="fa fa-question"></i>
-            <span class="title">impostazione e-mail normale</span>
-        </a>
-    </li>
-    <li>
-        <a href="" class="nav-link nav-toggle">
-            <i class="fa fa-question"></i>
-            <span class="title">inviare e-mail normale</span>
-        </a>
-    </li>
-</ul>
-<ul class="sub-menu">
-    <li class="nav-item" id="0">
-        {{--    <a href="{{ route('admin.ecommerce.questionnaires.index') }}" class="nav-link nav-toggle">--}}
-        <a href="" class="nav-link nav-toggle">
-            <i class="fa fa-question"></i>
-            <span class="title">impostazione e-mail PEC</span>
-        </a>
-    </li>
-    <li class="nav-item" id="0">
-        {{--    <a href="{{ route('admin.ecommerce.questionnaires.index') }}" class="nav-link nav-toggle">--}}
-        <a href="" class="nav-link nav-toggle">
-            <i class="fa fa-question"></i>
-            <span class="title">inviare e-mail PEC</span>
-        </a>
-    </li>
-</ul>
-
+<li class="nav-item " id="cms-plugin-translation">
+    <a href="http://127.0.0.1:8000/admin/translations/admin" class="nav-link nav-toggle">
+        <i class="fas fa-mail-bulk"></i>
+        <span class="title">
+                Mails
+                </span>
+        <span class="arrow "></span>         </a>
+    <ul class="sub-menu hidden-ul">
+        <li class="nav-item">
+            <a href="{{ route('admin.emails.normal.index') }}" class="nav-link">impostazione e-mail normale</a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('admin.emails.pec.index') }}" class="nav-link">inviare e-mail normale</a>
+        </li>
+    </ul>
+</li>

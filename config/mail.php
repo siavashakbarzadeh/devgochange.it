@@ -45,6 +45,17 @@ return [
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
         ],
+        'smtp_pec' => [
+            'transport' => 'smtp',
+            'url' => env('MAIL_URL_PEC'),
+            'host' => env('MAIL_HOST_PEC', 'smtp.mailgun.org'),
+            'port' => env('MAIL_PORT_PEC', 587),
+            'encryption' => env('MAIL_ENCRYPTION_PEC', 'tls'),
+            'username' => env('MAIL_USERNAME_PEC'),
+            'password' => env('MAIL_PASSWORD_PEC'),
+            'timeout' => null,
+            'local_domain' => env('MAIL_EHLO_DOMAIN_PEC'),
+        ],
 
         'ses' => [
             'transport' => 'ses',
