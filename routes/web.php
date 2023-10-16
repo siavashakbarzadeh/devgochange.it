@@ -30,8 +30,20 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/importDbfrom', function () {
-    return view('import');
+Route::get('/importDb', function () {
+    Schema::create('emails', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('user_id')
+            ->references('id')
+            ->on('users')
+            ->cascadeOnUpdate()
+            ->cascadeOnDelete();
+        $table->string('subject')->nullable();
+        $table->string('reply_to')->nullable();
+        $table->longText('body');
+        $table->string('mailer');
+        $table->timestamps();
+    });
 });
 
 
