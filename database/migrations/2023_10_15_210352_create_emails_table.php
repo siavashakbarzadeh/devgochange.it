@@ -12,19 +12,7 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('emails', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')
-                ->references('id')
-                ->on('users')
-                ->cascadeOnUpdate()
-                ->cascadeOnDelete();
-            $table->string('subject')->nullable();
-            $table->string('reply_to')->nullable();
-            $table->longText('body');
-            $table->string('mailer');
-            $table->timestamps();
-        });
+
     }
 
     /**

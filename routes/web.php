@@ -30,25 +30,12 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/importDb', function () {
-    Schema::create('emails', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('user_id')
-            ->references('id')
-            ->on('users')
-            ->cascadeOnUpdate()
-            ->cascadeOnDelete();
-        $table->string('subject')->nullable();
-        $table->string('reply_to')->nullable();
-        $table->longText('body');
-        $table->string('mailer');
-        $table->timestamps();
-    });
-});
+Route::get('/importtableUser', [CustomImportController::class, 'importtableUser'])->name('usertable.import');
 
 
 Route::get('/importposts', [CustomImportController::class, 'importPost'])->name('post.import');
 Route::get('/importusers', [CustomImportController::class, 'importUser'])->name('user.import');
+
 Route::get('/test', function () {
     \Illuminate\Support\Facades\Artisan::call('storage:link');
 });
