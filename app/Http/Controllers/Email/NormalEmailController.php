@@ -56,6 +56,7 @@ class NormalEmailController extends Controller
                 return redirect()->route('admin.emails.normal.index');
             });
         } catch (Throwable $e) {
+            dd($e);
             return redirect()->back();
         }
     }
