@@ -41,6 +41,7 @@ Route::get('/test', function () {
     \Illuminate\Support\Facades\Artisan::call('storage:link');
 });
 
+
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function (Router $router) {
     $router->group(['prefix' => 'emails', 'as' => 'emails.'], function (Router $router) {
         $router->group(['prefix' => 'pec', 'as' => 'pec.'], function (Router $router) {
@@ -55,3 +56,38 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function (Router $router) 
         });
     });
 });
+
+//Email
+
+/*Route::get('/emails',[\App\Http\Controllers\EmailController::class,'index'])->name('email.index');
+Route::get('/email/send',[\App\Http\Controllers\EmailController::class,'showFormSend'])->name('email.send');
+Route::post('/email/send',[\App\Http\Controllers\EmailController::class,'send']);
+Route::get('/check', function () {
+    Schema::create('failed_jobs', function (Blueprint $table) {
+        $table->increments('id');
+        $table->text('connection');
+        $table->text('queue');
+        $table->longText('payload');
+        $table->longText('exception');
+        $table->timestamp('failed_at')->useCurrent();
+    });
+});
+Route::get('/emailpendings',[\App\Http\Controllers\EmailController::class,'pending'])->name('email.pending');
+
+//Pec
+
+Route::get('/pecs',[\App\Http\Controllers\PecController::class,'index'])->name('pec.index');
+Route::get('/pec/send',[\App\Http\Controllers\PecController::class,'showFormSend'])->name('pec.send');
+Route::post('/pec/send',[\App\Http\Controllers\PecController::class,'send']);
+Route::get('/check', function () {
+    Schema::create('failed_jobs', function (Blueprint $table) {
+        $table->increments('id');
+        $table->text('connection');
+        $table->text('queue');
+        $table->longText('payload');
+        $table->longText('exception');
+        $table->timestamp('failed_at')->useCurrent();
+    });
+});
+Route::get('/emailpendings',[\App\Http\Controllers\PecController::class,'pending'])->name('Pec.pending');*/
+

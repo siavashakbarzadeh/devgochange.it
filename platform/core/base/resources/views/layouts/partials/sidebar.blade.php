@@ -23,19 +23,3 @@
         @endif
     </li>
 @endforeach
-<li class="nav-item " id="cms-plugin-translation">
-    <a href="http://127.0.0.1:8000/admin/translations/admin" class="nav-link nav-toggle">
-        <i class="fas fa-mail-bulk"></i>
-        <span class="title">
-                Mails
-                </span>
-        <span class="arrow "></span>         </a>
-    <ul class="sub-menu hidden-ul">
-        <li class="nav-item">
-            <a href="{{ route('admin.emails.normal.index') }}" class="nav-link">impostazione e-mail normale</a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('admin.emails.pec.index') }}" class="nav-link">inviare e-mail normale</a>
-        </li>
-    </ul>
-</li>
