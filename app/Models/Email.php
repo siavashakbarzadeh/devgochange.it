@@ -12,6 +12,7 @@ class Email extends Model
         'subject',
         'reply_to',
         'body',
+        'mailer',
     ];
 
     public function users()

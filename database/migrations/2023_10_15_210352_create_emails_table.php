@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->string('subject')->nullable();
             $table->string('reply_to')->nullable();
             $table->longText('body');
+            $table->string('mailer');
             $table->timestamps();
         });
     }
