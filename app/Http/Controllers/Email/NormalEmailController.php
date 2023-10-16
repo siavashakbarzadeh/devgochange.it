@@ -51,7 +51,7 @@ class NormalEmailController extends Controller
                     return strlen($item);
                 })->toArray());
                 foreach ($request->emails as $email) {
-                    NormalEmailJob::dispatch($email, $request);
+                    NormalEmailJob::dispatch($email, $request->all());
                 }
                 return redirect()->route('admin.emails.normal.index');
             });

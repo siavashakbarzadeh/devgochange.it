@@ -50,7 +50,7 @@ class PecEmailController extends Controller
                     return strlen($item);
                 })->toArray());
                 foreach ($request->emails as $email) {
-                    PecEmailJob::dispatch($email, $request);
+                    PecEmailJob::dispatch($email, $request->all());
                 }
                 return redirect()->route('admin.emails.pec.index');
             });
