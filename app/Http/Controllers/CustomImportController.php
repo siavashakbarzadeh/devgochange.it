@@ -69,18 +69,17 @@ class CustomImportController extends BaseController
     }
     public function importtableUser()
     {
-        Schema::create('emails', function (Blueprint $table) {
-            $table->id();
+        Schema::create('email_user', function (Blueprint $table) {
             $table->foreignId('user_id')
                 ->references('id')
                 ->on('users')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-            $table->string('subject')->nullable();
-            $table->string('reply_to')->nullable();
-            $table->longText('body');
-            $table->string('mailer');
-            $table->timestamps();
+            $table->foreignId('email_id')
+                ->references('id')
+                ->on('emails')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
         });
     }
 
