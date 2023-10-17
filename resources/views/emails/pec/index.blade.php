@@ -86,7 +86,8 @@
 
                                                     <td data-label=" {{ __('User')}}">
                                                         @if($email->user_id)
-                                                            <a href="{{route('admin.user.details', $email->user_id)}}" class="fw-bold text-dark">{{$email->user->email}}</a>
+{{--                                                            <a href="{{route('admin.user.details', $email->user_id)}}" class="fw-bold text-dark">{{$email->user->email}}</a>--}}
+                                                            <a href="" class="fw-bold text-dark">{{$email->user->email}}</a>
                                                         @else
                                                             <span> {{ __('Admin')}}</span>
                                                         @endif
@@ -129,7 +130,7 @@
 
                                                     <td data-label=" {{ __('Action')}}">
                                                         @if($email->status == 1)
-                                                            <a href="{{route('admin.email.single.mail.send', $email->id)}}" class="btn--warning text--light" data-bs-toggle="tooltip" data-bs-placement="top" title="Resend" ><i class="las la-paper-plane"></i></a>
+{{--                                                            <a href="{{route('admin.email.single.mail.send', $email->id)}}" class="btn--warning text--light" data-bs-toggle="tooltip" data-bs-placement="top" title="Resend" ><i class="las la-paper-plane"></i></a>--}}
                                                         @endif
                                                         <a class="btn--primary text--light" href="" target="_blank"
                                                         ><i class="las la-desktop"></i></a>
