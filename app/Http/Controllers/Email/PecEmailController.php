@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Jobs\PecEmailJob;
 use App\Mail\TestMail;
 use App\Models\Email;
+use App\Models\EmailTemplate;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +17,9 @@ class PecEmailController extends Controller
 {
     public function index()
     {
-        return view('emails.pec.index');
+        $emails = Email::all();
+        return view('emails.pec.index', compact('emails'));
+
     }
 
     public function create()
