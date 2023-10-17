@@ -85,12 +85,12 @@
                                                     </td>
 
                                                     <td data-label=" {{ __('User')}}">
-                                                        @if($email->user_id)
+{{--                                                        @if($email->user_id)--}}
 {{--                                                            <a href="{{route('admin.user.details', $email->user_id)}}" class="fw-bold text-dark">{{$email->user->email}}</a>--}}
-                                                            <a href="" class="fw-bold text-dark">{{$email->user->email}}</a>
-                                                        @else
-                                                            <span> {{ __('Admin')}}</span>
-                                                        @endif
+{{--                                                            <a href="" class="fw-bold text-dark">{{$email->user->email}}</a>--}}
+{{--                                                        @else--}}
+{{--                                                            <span> {{ __('Admin')}}</span>--}}
+{{--                                                        @endif--}}
                                                     </td>
 
                                                     <td data-label=" {{ __('Sender')}}">
