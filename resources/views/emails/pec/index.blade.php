@@ -95,7 +95,12 @@
                                                     </td>
 
                                                     <td data-label=" {{ __('Sender')}}">
-                                                        <span class="text--primary fw-bold">{{ucfirst(@$email->sender->name)}}</span>
+                                                        @if ($email->sender!== null)
+                                                            {{$email->sender->name}}
+                                                        @else
+                                                            <span> {{ __('SMTP')}}</span>
+                                                        @endif
+
                                                     </td>
 
                                                     <td data-label=" {{ __('To')}}">
