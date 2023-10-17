@@ -133,11 +133,11 @@
 {{--                                                            <a href="{{route('admin.email.single.mail.send', $email->id)}}" class="btn--warning text--light" data-bs-toggle="tooltip" data-bs-placement="top" title="Resend" ><i class="las la-paper-plane"></i></a>--}}
                                                         @endif
                                                         <a class=" btn btn-primary text-light" href="" target="_blank"
-                                                        ><i class="fa fa-trash"></i></a>
+                                                        ><i class="fa fa-desktop"></i></a>
                                                         <a class="btn-primary text-light" href="" target="_blank"
-                                                        ><i class="fa fa-trash"></i></a>
+                                                        ><i class="fa fa-desktop"></i></a>
 
-                                                        <a href="javascript:void(0)" class="btn--danger tex-light emaildelete"
+                                                        <a  class="btn-danger tex-light emaildelete"
                                                            data-bs-toggle="modal"
                                                            data-bs-target="#delete"
                                                            data-delete_id="{{$email->id}}"
