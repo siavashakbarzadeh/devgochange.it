@@ -134,10 +134,10 @@
                                                         @endif
                                                         <a class=" btn btn-primary text-light" href="" target="_blank"
                                                         ><i class="fa fa-desktop"></i></a>
-                                                        <a class="btn-primary text-light" href="" target="_blank"
+                                                        <a class="btn btn-primary text-light" href="" target="_blank"
                                                         ><i class="fa fa-desktop"></i></a>
 
-                                                        <a  class="btn-danger tex-light emaildelete"
+                                                        <a  class="btn btn-danger tex-light emaildelete"
                                                            data-bs-toggle="modal"
                                                            data-bs-target="#delete"
                                                            data-delete_id="{{$email->id}}"
