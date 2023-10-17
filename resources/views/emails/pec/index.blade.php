@@ -86,7 +86,7 @@
 
                                                     <td data-label=" {{ __('User')}}">
 
-                                                        @if ($user !== null)
+                                                        @if ($email->user !== null)
                                                             {{$email->user->email}}
                                                           @else
                                                             <span> {{ __('Admin')}}</span>
