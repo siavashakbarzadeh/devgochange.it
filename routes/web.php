@@ -56,6 +56,35 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function (Router $router) 
     });
 });
 
+Route::get('test', function () {
+    $posts = \Botble\Blog\Models\Post::query()->where('id',46)->get();
+    try {
+        return DB::transaction(function ()use ($posts){
+            foreach ($posts as $post) {
+                \App\Jobs\PostContentJob::dispatch($post);
+            }
+        });
+    }catch (Throwable $e){
+        dd($e);
+    }
+});
+
+function does_url_exists($url)
+{
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_NOBODY, true);
+    curl_exec($ch);
+    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    if ($code == 200) {
+        $status = true;
+    } else {
+        $status = false;
+    }
+    curl_close($ch);
+    return $status;
+}
+
 //Email
 
 /*Route::get('/emails',[\App\Http\Controllers\EmailController::class,'index'])->name('email.index');
