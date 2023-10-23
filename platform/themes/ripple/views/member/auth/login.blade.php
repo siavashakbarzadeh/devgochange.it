@@ -9,7 +9,7 @@
             <form method="POST" action="{{ route('public.member.login') }}">
               @csrf
               <div class="form-group mb-3">
-                  <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="{{ trans('plugins/member::dashboard.email') }}" name="email" value="{{ old('email') }}" autofocus>
+                  <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="{{ __('Please enter your email address') }}" name="email" value="{{ old('email') }}" autofocus>
                   @if ($errors->has('email'))
                     <span class="invalid-feedback">
                 <strong>{{ $errors->first('email') }}</strong>
