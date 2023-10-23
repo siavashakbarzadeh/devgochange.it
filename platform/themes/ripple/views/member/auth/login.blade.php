@@ -17,7 +17,7 @@
                   @endif
                 </div>
               <div class="form-group mb-3">
-                  <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="{{ trans('plugins/member::dashboard.password') }}" name="password">
+                  <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="{{ __('Please enter your password') }}" name="password">
                   @if ($errors->has('password'))
                     <span class="invalid-feedback">
                 <strong>{{ $errors->first('password') }}</strong>
