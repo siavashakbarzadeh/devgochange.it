@@ -67,7 +67,7 @@ Route::get('test', function () {
                     return \Illuminate\Support\Str::endsWith($item,'.png') || \Illuminate\Support\Str::endsWith($item,'.jpg') || \Illuminate\Support\Str::endsWith($item,'.jpeg');
                 });
                 foreach ($urls as $url) {
-                    dd($url,\Illuminate\Support\Str::beforeLast('/',$url),\Illuminate\Support\Str::afterLast('/',$url));
+                    dd($url,\Illuminate\Support\Str::beforeLast($url,'/'),\Illuminate\Support\Str::afterLast($url,'/'));
                 }
             }
         });
