@@ -62,12 +62,8 @@ Route::get('test', function () {
     try {
         return DB::transaction(function ()use ($posts){
             foreach ($posts as $post) {
-                $dom = new DOMDocument();
-                $dom->loadHTML($post->content);
-                $urls = collect($dom->getElementsByTagName('a'))->map(function ($item) {
-                    return $item->getAttribute('href');
-                });
-                dd($urls);
+                preg_match_all('/<a[^>]+href=([\'"])(?<href>.+?)\1[^>]*>/i', $post->content, $result);
+                dd($result);
             }
         });
     }catch (Throwable $e){
