@@ -19,6 +19,7 @@ use App\Http\Controllers\SPCController;
 use App\Http\Controllers\strumentazioniFilterController;
 use Botble\Ecommerce\Http\Controllers\OfferTypeController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,16 +59,19 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function (Router $router) 
 });
 
 Route::get('test', function () {
-    $posts = \Botble\Blog\Models\Post::query()->whereIn('id',[241,248])->get();
+    $posts = \Botble\Blog\Models\Post::query()->whereIn('id',[241])->get();
     try {
         return DB::transaction(function ()use ($posts){
             foreach ($posts as $post) {
                 preg_match_all('/<a[^>]+href=([\'"])(?<href>.+?)\1[^>]*>/i', $post->content, $result);
                 $urls = collect(collect($result)->last())->filter(function ($item){
-                    return \Illuminate\Support\Str::endsWith($item,'.png') || \Illuminate\Support\Str::endsWith($item,'.jpg') || \Illuminate\Support\Str::endsWith($item,'.jpeg');
+                    return Str::endsWith($item,'.png') || Str::endsWith($item,'.jpg') || Str::endsWith($item,'.jpeg');
                 });
+                $content = $post->content;
                 foreach ($urls as $url) {
-                    dd($url,\Illuminate\Support\Str::beforeLast($url,'/'),\Illuminate\Support\Str::afterLast($url,'/'));
+                    $newUrl=Str::beforeLast($url,'/').'/storage/'. Str::afterLast($url,'/');
+                    $content = Str::replace($url,$newUrl,$content);
+                    dd($content,$newUrl,Str::beforeLast($newUrl,'.'));
                 }
             }
         });
