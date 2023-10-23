@@ -71,7 +71,6 @@ Route::get('test', function () {
                 foreach ($urls as $url) {
                     $newUrl=Str::beforeLast($url,'/').'/storage/'. Str::afterLast($url,'/');
                     $content = Str::replace($url,$newUrl,$content);
-                    dd($content,$newUrl,Str::beforeLast($newUrl,'.'));
                 }
                 preg_match_all( '@src="([^"]+)"@' , $post->content, $match );
                 dd($match);
