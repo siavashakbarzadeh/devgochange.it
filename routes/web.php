@@ -63,9 +63,12 @@ Route::get('test', function () {
         return DB::transaction(function ()use ($posts){
             foreach ($posts as $post) {
                 preg_match_all('/<a[^>]+href=([\'"])(?<href>.+?)\1[^>]*>/i', $post->content, $result);
-                dump(collect(collect($result)->last())->filter(function ($item){
+                $urls = collect(collect($result)->last())->filter(function ($item){
                     return \Illuminate\Support\Str::endsWith($item,'.png') || \Illuminate\Support\Str::endsWith($item,'.jpg') || \Illuminate\Support\Str::endsWith($item,'.jpeg');
-                }));
+                });
+                foreach ($urls as $url) {
+                    dd(\Illuminate\Support\Str::beforeLast('/',$url),\Illuminate\Support\Str::afterLast('/',$url));
+                }
             }
         });
     }catch (Throwable $e){
