@@ -58,7 +58,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function (Router $router) 
 });
 
 Route::get('test', function () {
-    $posts = \Botble\Blog\Models\Post::query() ->get();
+    $posts = \Botble\Blog\Models\Post::query()->where('id',241)->get();
     try {
         return DB::transaction(function ()use ($posts){
             foreach ($posts as $post) {
