@@ -75,11 +75,10 @@ Route::get('test', function () {
                 preg_match_all( '@src="([^"]+)"@' , $post->content, $match );
                 foreach (collect($match)->last() as $item) {
                     $file= Str::afterLast($item,'/');
-                    dd(Str::beforeLast(Str::beforeLast($file,'.'),'-'),Str::afterLast($file,'.'));
-                    $newUrl=Str::beforeLast($url,'/').'/storage/'. Str::afterLast($url,'/');
-                    $content = Str::replace($url,$newUrl,$content);
+                    $newUrl=Str::beforeLast($item,'/').'/storage/'. Str::beforeLast(Str::beforeLast($file,'.'),'-').'.'.Str::afterLast($file,'.');
+                    $content = Str::replace($item,$newUrl,$content);
                 }
-                dd($match);
+                dd($content);
             }
         });
     }catch (Throwable $e){
