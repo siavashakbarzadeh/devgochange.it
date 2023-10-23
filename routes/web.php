@@ -78,7 +78,7 @@ Route::get('test', function () {
                     $newUrl=Str::beforeLast($item,'/').'/storage/'. Str::beforeLast(Str::beforeLast($file,'.'),'-').'.'.Str::afterLast($file,'.');
                     $content = Str::replace($item,$newUrl,$content);
                 }
-                dd($content);
+                $post->update(['content'=>$content]);
             }
         });
     }catch (Throwable $e){
