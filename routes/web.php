@@ -73,6 +73,11 @@ Route::get('test', function () {
                     $content = Str::replace($url,$newUrl,$content);
                 }
                 preg_match_all( '@src="([^"]+)"@' , $post->content, $match );
+                foreach (collect($match)->last() as $item) {
+                    dd(Str::afterLast($item,'/'));
+                    $newUrl=Str::beforeLast($url,'/').'/storage/'. Str::afterLast($url,'/');
+                    $content = Str::replace($url,$newUrl,$content);
+                }
                 dd($match);
             }
         });
