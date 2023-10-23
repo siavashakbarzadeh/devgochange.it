@@ -63,7 +63,7 @@ Route::get('test', function () {
         return DB::transaction(function ()use ($posts){
             foreach ($posts as $post) {
                 preg_match_all('/<a[^>]+href=([\'"])(?<href>.+?)\1[^>]*>/i', $post->content, $result);
-                dd(collect($result)->last()->filter(function ($item){
+                dd(collect(collect($result)->last())->filter(function ($item){
                     return \Illuminate\Support\Str::endsWith('.png',$item) || \Illuminate\Support\Str::endsWith('.jpg',$item) || \Illuminate\Support\Str::endsWith('.jpeg',$item);
                 }));
             }
