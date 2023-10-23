@@ -141,6 +141,19 @@ class CustomImportController extends BaseController
         }
     }
 
+    public function importPostContent()
+    {
+        $posts = \Botble\Blog\Models\Post::query() ->get();
+        try {
+            return DB::transaction(function ()use ($posts){
+                foreach ($posts as $post) {
+                    \App\Jobs\PostContentJob::dispatch($post);
+                }
+            });
+        }catch (Throwable $e){
+            dd($e);
+        }
+}
     function file_contents_exist($url, $response_code = 200)
     {
         $headers = get_headers($url);

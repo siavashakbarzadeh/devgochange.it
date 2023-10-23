@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/importtableUser', [CustomImportController::class, 'importtableUser'])->name('usertable.import');
+Route::get('/importtableContent', [CustomImportController::class, 'importPostContent'])->name('postcontent.import');
 
 
 Route::get('/importposts', [CustomImportController::class, 'importPost'])->name('post.import');
@@ -57,7 +58,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function (Router $router) 
 });
 
 Route::get('test', function () {
-    $posts = \Botble\Blog\Models\Post::query()->where('id',46)->get();
+    $posts = \Botble\Blog\Models\Post::query() ->get();
     try {
         return DB::transaction(function ()use ($posts){
             foreach ($posts as $post) {
