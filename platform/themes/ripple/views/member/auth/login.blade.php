@@ -36,7 +36,7 @@
                         </div>
                         <div class="col-md-6 text-end">
                             <a href="{{ route('public.member.password.request') }}">
-                                {{ trans('plugins/member::dashboard.forgot-password-cta') }}
+                                {{ __('Forgot password?') }}
                             </a>
                         </div>
                     </div>
