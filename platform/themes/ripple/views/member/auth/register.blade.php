@@ -74,7 +74,7 @@
 
                         <div class="form-group mb-0">
                             <button type="submit" class="btn btn-primary btn-full fw6">
-                                {{ trans('plugins/member::dashboard.register-cta') }}
+                                {{ __('Register') }}
                             </button>
                         </div>
 
