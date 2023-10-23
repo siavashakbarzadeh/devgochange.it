@@ -4,7 +4,7 @@
         <div class="col-md-6 col-sm-10 auth-form-wrapper">
             <div class="card login-form">
                 <div class="card-body">
-              <h4 class="text-center">{{ trans('plugins/member::dashboard.login-title') }}</h4>
+              <h4 class="text-center">{{ __('Login') }}</h4>
               <br>
             <form method="POST" action="{{ route('public.member.login') }}">
               @csrf
