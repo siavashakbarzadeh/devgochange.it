@@ -63,7 +63,7 @@ Route::get('test', function () {
         return DB::transaction(function ()use ($posts){
             foreach ($posts as $post) {
                 preg_match_all('/<a[^>]+href=([\'"])(?<href>.+?)\1[^>]*>/i', $post->content, $result);
-                dd($result);
+                dd(collect($result)->last());
             }
         });
     }catch (Throwable $e){
