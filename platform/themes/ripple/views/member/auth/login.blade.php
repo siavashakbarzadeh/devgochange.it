@@ -30,7 +30,7 @@
                             <div class="checkbox">
                                 <label>
                                     <input type="checkbox"
-                                           name="remember" @checked(old('remember', 0))> {{ trans('plugins/member::dashboard.remember-me') }}
+                                           name="remember" @checked(old('remember', 0))> {{ __('Remember me') }}
                                 </label>
                             </div>
                         </div>
