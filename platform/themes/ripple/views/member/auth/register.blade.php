@@ -23,7 +23,7 @@
                             <input id="last_name" type="text"
                                    class="form-control{{ $errors->has('last_name') ? ' is-invalid' : '' }}"
                                    name="last_name" value="{{ old('last_name') }}" required
-                                   placeholder="{{ trans('plugins/member::dashboard.last_name') }}">
+                                   placeholder="{{ __('LastName') }}">
                             @if ($errors->has('last_name'))
                                 <span class="invalid-feedback">
                                 <strong>{{ $errors->first('last_name') }}</strong>
