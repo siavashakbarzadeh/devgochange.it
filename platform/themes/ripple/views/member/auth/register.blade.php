@@ -4,7 +4,7 @@
         <div class="col-md-6 col-sm-10 auth-form-wrapper">
             <div class="card login-form">
                 <div class="card-body">
-                    <h4 class="text-center">{{ trans('plugins/member::dashboard.register-title') }}</h4>
+                    <h4 class="text-center">{{ __('Register') }}</h4>
                     <br>
                     <form method="POST" action="{{ route('public.member.register') }}">
                         @csrf
@@ -12,7 +12,7 @@
                             <input id="first_name" type="text"
                                    class="form-control{{ $errors->has('first_name') ? ' is-invalid' : '' }}"
                                    name="first_name" value="{{ old('first_name') }}" required autofocus
-                                   placeholder="{{ trans('plugins/member::dashboard.first_name') }}">
+                                   placeholder="{{ __('Name') }}">
                             @if ($errors->has('first_name'))
                                 <span class="invalid-feedback">
                                 <strong>{{ $errors->first('first_name') }}</strong>
@@ -34,7 +34,7 @@
                             <input id="email" type="email"
                                    class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
                                    name="email" value="{{ old('email') }}" required
-                                   placeholder="{{ trans('plugins/member::dashboard.email') }}">
+                                   placeholder="{{ __('Email Address') }}">
                             @if ($errors->has('email'))
                                 <span class="invalid-feedback">
                                 <strong>{{ $errors->first('email') }}</strong>
@@ -45,7 +45,7 @@
                             <input id="password" type="password"
                                    class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
                                    name="password" required
-                                   placeholder="{{ trans('plugins/member::dashboard.password') }}">
+                                   placeholder="{{ __('Password') }}">
                             @if ($errors->has('password'))
                                 <span class="invalid-feedback">
                                 <strong>{{ $errors->first('password') }}</strong>
@@ -55,7 +55,7 @@
                         <div class="form-group mb-3">
                             <input id="password-confirm" type="password" class="form-control"
                                    name="password_confirmation" required
-                                   placeholder="{{ trans('plugins/member::dashboard.password-confirmation') }}">
+                                   placeholder="{{ __('Password confirmation') }}">
                         </div>
 
                         @if (is_plugin_active('captcha'))
