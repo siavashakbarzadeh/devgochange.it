@@ -43,7 +43,7 @@
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-full fw6">
-                        {{ trans('plugins/member::dashboard.login-cta') }}
+                        {{ __('Login') }}
                     </button>
                 </div>
 
