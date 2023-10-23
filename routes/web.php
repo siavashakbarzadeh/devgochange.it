@@ -62,7 +62,15 @@ Route::get('test', function () {
     try {
         return DB::transaction(function ()use ($posts){
             foreach ($posts as $post) {
-                \App\Jobs\PostContentJob::dispatch($post);
+                $dom = new DOMDocument();
+                $dom->loadHTML($post->content);
+                $urls = collect($dom->getElementsByTagName('a'))->map(function ($item) {
+                    return $item->getAttribute('href');
+                })->filter(function ($item) {
+                    if (filter_var($item, FILTER_VALIDATE_URL) && @getimagesize($item)) return true;
+                    return false;
+                });
+                dd($urls);
             }
         });
     }catch (Throwable $e){
