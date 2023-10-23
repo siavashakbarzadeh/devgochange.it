@@ -43,8 +43,8 @@ resources/docs
 /storage/installing
 /storage/installed
 
-/lang/*
-!/lang/en
+/lang/vendor
+
 
 /log
 
