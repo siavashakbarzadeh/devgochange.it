@@ -66,9 +66,6 @@ Route::get('test', function () {
                 $dom->loadHTML($post->content);
                 $urls = collect($dom->getElementsByTagName('a'))->map(function ($item) {
                     return $item->getAttribute('href');
-                })->filter(function ($item) {
-                    if (filter_var($item, FILTER_VALIDATE_URL) && @getimagesize($item)) return true;
-                    return false;
                 });
                 dd($urls);
             }
