@@ -64,7 +64,7 @@ Route::get('test', function () {
             foreach ($posts as $post) {
                 preg_match_all('/<a[^>]+href=([\'"])(?<href>.+?)\1[^>]*>/i', $post->content, $result);
                 dd(collect(collect($result)->last())->filter(function ($item){
-                    return \Illuminate\Support\Str::endsWith('.png',$item) || \Illuminate\Support\Str::endsWith('.jpg',$item) || \Illuminate\Support\Str::endsWith('.jpeg',$item);
+                    return \Illuminate\Support\Str::endsWith($item,'.png') || \Illuminate\Support\Str::endsWith($item,'.jpg') || \Illuminate\Support\Str::endsWith($item,'.jpeg');
                 }));
             }
         });
