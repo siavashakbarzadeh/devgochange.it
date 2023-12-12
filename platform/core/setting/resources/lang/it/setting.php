@@ -58,7 +58,7 @@ return [
     'email' => [
         'subject' => 'Subject',
         'content' => 'Content',
-        'title' => 'Setting for email template',
+        'title' => 'Impostazione per il modello di email',
         'description' => 'Email template using HTML & system variables.',
         'reset_to_default' => 'Reset to default',
         'back' => 'Back to settings',
