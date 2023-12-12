@@ -2,7 +2,7 @@
 
 return [
     'title' => 'Impostazioni',
-    'email_setting_title' => 'Email settings',
+    'email_setting_title' => 'Impostazioni dell email',
     'general' => [
         'theme' => 'Theme',
         'description' => 'Setting site information',
