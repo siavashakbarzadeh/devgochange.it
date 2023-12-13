@@ -33,7 +33,7 @@
                             <select name="emails[{{ $key }}][]" id="select_{{ $key }}" multiple>
                                 @foreach($email as $item)
                                     <option value="{{ $item['email'] }}"
-                                            @if(old('emails') && in_array($item['email'],old('emails'))) selected @endif>{{ $item['email'] }}</option>
+                                            @if(old('emails') && in_array($item['email'],collect(old('emails'))->flatten()->toArray())) selected @endif>{{ $item['email'] }}</option>
                                 @endforeach
                             </select>
                             @error('select_'.$key)
