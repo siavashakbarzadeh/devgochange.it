@@ -1,7 +1,7 @@
 @extends(BaseHelper::getAdminMasterLayoutTemplate())
 
 @push('header')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="{{ asset('filter-multi-select-main/filter_multi_select.css') }}" rel="stylesheet"/>
 @endpush
 @push('footer')
     @php
@@ -12,22 +12,12 @@
             Assets::addScriptsDirectly('https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/translations/' . App::getLocale() . '.js');
         }
     @endphp
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="{{ asset('filter-multi-select-main/filter-multi-select-bundle.min.js') }}"></script>
     <script>
         $(document).ready(function () {
-            $('select').select2({width: '100%'});
-            $(document).on('click', '.select2-results__group', function (event) {
-                const select = $('select');
-                const groupName = $(this).html()
-                const options = select.find('option');
-                $.each(options, function (key, value) {
-                    if ($(value)[0].parentElement.label.indexOf(groupName) >= 0) {
-                        $(value).prop("selected", "selected");
-                    }
-                });
-                select.trigger("change");
-                select.select2('close');
-            });
+            document.querySelectorAll('select').forEach((el) => {
+                $(el).filterMultiSelect();
+            })
         });
     </script>
 @endpush
@@ -35,21 +25,23 @@
     <div class="wrapper-content pd-all-20">
         <form action="{{ route('admin.emails.pec.store') }}" method="post">
             @csrf
-            <div class="mb-3">
-                <label for="emails" class="text-title-field">Emails</label>
-                <select name="emails[]" id="emails" multiple>
-                    @foreach($emails as $key=>$email)
-                        <optgroup label="{{ $key }}">
-                            @foreach($email as $item)
-                                <option value="{{ $item['email'] }}"
-                                        @if(old('emails') && in_array($item['email'],old('emails'))) selected @endif>{{ $item['email'] }}</option>
-                            @endforeach
-                        </optgroup>
-                    @endforeach
-                </select>
-                @error('emails')
-                <span class="text-danger">{{ $message }}</span>
-                @enderror
+            <div class="row">
+                @foreach($emails as $key=>$email)
+                    <div class="col-12 col-md-6">
+                        <div class="mb-3">
+                            <label for="select_{{ $key }}" class="text-title-field">{{ $key }}</label>
+                            <select name="emails[{{ $key }}][]" id="select_{{ $key }}" multiple>
+                                @foreach($email as $item)
+                                    <option value="{{ $item['email'] }}"
+                                            @if(old('emails') && in_array($item['email'],old('emails'))) selected @endif>{{ $item['email'] }}</option>
+                                @endforeach
+                            </select>
+                            @error('select_'.$key)
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                @endforeach
             </div>
             <div class="row">
                 <div class="col-12 col-md-6">

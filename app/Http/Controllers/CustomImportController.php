@@ -3,45 +3,69 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\ImportPostJob;
+use App\Jobs\OfferDeactivationJob;
 use App\Models\User;
 use Botble\Blog\Models\Post;
-use Botble\Ecommerce\Models\Order;
-use Botble\Slug\Models\Slug;
-use DOMDocument;
-use DOMXPath;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Botble\Ecommerce\Models\Customer;
 use Botble\Ecommerce\Models\Agent;
-use Botble\Ecommerce\Models\Product;
-use Botble\Ecommerce\Models\ProductTag;
-use Botble\Ecommerce\Models\Regione;
+use Botble\Ecommerce\Models\Customer;
 use Botble\Ecommerce\Models\Offers;
 use Botble\Ecommerce\Models\OffersDetail;
 use Botble\Ecommerce\Models\offerType;
+use Botble\Ecommerce\Models\Order;
 use Botble\Ecommerce\Models\PriceList;
+use Botble\Ecommerce\Models\Product;
+use Botble\Ecommerce\Models\ProductTag;
+use Botble\Ecommerce\Models\Regione;
+use Carbon\Carbon;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
-use App\Jobs\OfferDeactivationJob;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use LDAP\Result;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\Support\Facades\Response;
-use Throwable;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
+use Throwable;
 
 
 class CustomImportController extends BaseController
 {
-
+    public function importtableNewsletterUser()
+    {
+        $users = DB::connection('mysql2')->table('wp_wysija_user')->get();
+        $role=DB::connection('mysql')->table('roles')->where('id',7)->first();
+        try {
+            DB::transaction(function () use ($users,$role) {
+                foreach ($users as $user) {
+                    DB::connection('mysql')->table('users')->updateOrInsert(
+                        [
+                            'email' => $user->email,
+                        ], [
+                            'first_name' => $user->firstname,
+                            'last_name' => $user->lastname,
+                            'email' => $user->email,
+                            'password' => bcrypt('12345678'),
+                            'email_verified_at' => now(),
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                        ]
+                    );
+                    $dbUser=DB::connection('mysql')->table('users')->where('email',$user->email)->first();
+                    if (!DB::connection('mysql')->table('role_users')->where(['user_id'=>$dbUser->id,'role_id'=>$role->id])->exists()){
+                        DB::connection('mysql')->table('role_users')->insert([
+                            'user_id'=>$dbUser->id,
+                            'role_id'=>$role->id,
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                        ]);
+                    }
+                }
+            });
+        } catch (Throwable $e) {
+            dd($e);
+        }
+    }
     public function importUser()
     {
 //        dd('ok');

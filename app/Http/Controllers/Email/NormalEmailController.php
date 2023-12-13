@@ -28,12 +28,23 @@ class NormalEmailController extends Controller
 
     public function store(Request $request)
     {
+        if ($request->filled('emails')) {
+            $request->merge([
+                'emails' => collect($request->emails)->mapWithKeys(function ($item, $key) {
+                    return [$key => array_filter($item, 'strlen')];
+                })->toArray(),
+            ]);
+        }
         $this->validate($request, [
             'emails' => ['required', 'array', 'min:1'],
-            'emails.' => ['email', 'exists:' . User::class . ',email'],
+            'emails.*' => ['nullable', 'array'],
+            'emails.*.*' => ['email', 'exists:' . User::class . ',email'],
             'subject' => ['nullable', 'string'],
             'reply_to' => ['nullable', 'string'],
             'body' => ['required', 'string'],
+        ]);
+        $request->merge([
+            'emails' => collect($request->emails)->flatten()->toArray(),
         ]);
         try {
             return DB::transaction(function () use ($request) {
