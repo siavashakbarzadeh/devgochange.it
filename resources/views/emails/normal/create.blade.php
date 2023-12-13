@@ -4,6 +4,14 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
 @endpush
 @push('footer')
+    @php
+        Assets::addScriptsDirectly(config('core.base.general.editor.ckeditor.js'))
+            ->addScriptsDirectly('vendor/core/core/base/js/editor.js');
+
+        if (BaseHelper::getRichEditor() == 'ckeditor' && App::getLocale() != 'en') {
+            Assets::addScriptsDirectly('https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/translations/' . App::getLocale() . '.js');
+        }
+    @endphp
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function () {
@@ -67,9 +75,7 @@
             </div>
             <div class="form-group mb-3">
                 <label for="body" class="text-title-field">Body</label>
-
-                <textarea name="body" id="body" rows="10"
-                          class="form-control next-input @error('body') is-invalid @enderror">{{ old('body') }}</textarea>
+                <textarea name="body" id="body" rows="10" class="form-control editor-ckeditor ays-ignore @error('body') is-invalid @enderror">{{ old('body') }}</textarea>
                 @error('body')
                 <span class="text-danger">{{ $message }}</span>
                 @enderror
