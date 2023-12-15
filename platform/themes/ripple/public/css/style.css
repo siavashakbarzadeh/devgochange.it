@@ -1622,8 +1622,11 @@ body[dir=rtl] .header .header-wrap .nav-top .hi-icon-wrap a{
     line-height:42px;
     margin-right:25px
 }
-.header .header-wrap .nav-top ul li a:hover{
+.header .header-wrap  ul li a:hover{
     color:var(--color-1st)
+}
+.nav-top ul li a:hover{
+    color:#9d9d9d
 }
 .header .header-wrap .nav-top .hi-icon-wrap{
     margin-top:10px
