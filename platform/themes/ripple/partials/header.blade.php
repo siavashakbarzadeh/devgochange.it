@@ -44,10 +44,10 @@
                         @endif
                         <div class="col-sm-4 d-flex align-center justify-content-end">
                             <div>
-                                ghdgdjg
+                                <a href="https://dev.icoa.it/">Icoa</a>
                             </div>
                             <div>
-                                ghdgdjg
+                                <a href="https://cloud.icoa.it/">Cloud</a>
                             </div>
                         </div>
                         <div class="col-sm-4 d-flex align-center justify-content-end">
