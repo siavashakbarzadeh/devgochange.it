@@ -1640,12 +1640,12 @@ body[dir=rtl] .header .header-wrap .nav-top .hi-icon-wrap a{
 .header .header-wrap  ul li a:hover{
     color:var(--color-1st)
 }
-/*.nav-top ul li a:hover{*/
-/*    color:#9d9d9d*/
-/*}*/
-/*.nav-top  a:hover{*/
-/*    background-color:#9d9d9d*/
-/*}*/
+.nav-top ul li a:hover{
+    color:#9d9d9d
+}
+.nav-top  a:hover{
+    background-color:#9d9d9d
+}
 .header .header-wrap .nav-top .hi-icon-wrap{
     margin-top:10px
 }
@@ -1871,7 +1871,7 @@ body{
 .auth-form-wrapper .login-form a{
     color:var(--color-1st)
 }
-.nav-top ul li:hover {
+.nav-top ul:hover li {
     color:#9d9d9d !important;
     background-color: red !important;
 }
