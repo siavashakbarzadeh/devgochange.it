@@ -1877,5 +1877,5 @@ body{
     color:var(--color-1st)
 }
 .nav-top .aida li{
-    background: red;
+    background-color: red !important;
 }
