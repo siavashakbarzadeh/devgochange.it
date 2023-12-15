@@ -42,14 +42,17 @@
                                 </div>
                             </div>
                         @endif
-                        <div class="col-sm-8 d-flex align-center justify-content-end">
+                        <div class="col-sm-4 d-flex align-center justify-content-end">
+                            <div>
+                                ghdgdjg
+                            </div>
+                            <div>
+                                ghdgdjg
+                            </div>
+                        </div>
+                        <div class="col-sm-4 d-flex align-center justify-content-end">
 
-                            <div>
-                                ghdgdjg
-                            </div>
-                            <div>
-                                ghdgdjg
-                            </div>
+
 
                             @if (is_plugin_active('member'))
                                 <ul class="d-flex">
