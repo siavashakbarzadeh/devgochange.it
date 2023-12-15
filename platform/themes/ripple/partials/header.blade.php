@@ -24,7 +24,7 @@
     <!--[if IE 9]><body class="ie9 lt-ie10"><![endif]-->
     <body @if (BaseHelper::isRtlEnabled()) dir="rtl" @endif>
     {!! apply_filters(THEME_FRONT_BODY, null) !!}
-    <header class="header" id="header" style="width: 10%">
+    <header class="header" id="header" style="height: 10%">
         <div class="header-wrap d-none d-sm-block" style="background-color: #0a53be !important;">
             <nav class="nav-top ">
                 <div class="container">
