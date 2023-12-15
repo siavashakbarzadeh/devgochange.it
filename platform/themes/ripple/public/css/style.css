@@ -1876,6 +1876,6 @@ body{
 .auth-form-wrapper .login-form a{
     color:var(--color-1st)
 }
-.nav-top .aida li{
+.nav-top .aida li a{
     background-color: red !important;
 }
