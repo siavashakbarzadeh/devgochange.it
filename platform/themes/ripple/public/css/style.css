@@ -1876,7 +1876,7 @@ body{
 .auth-form-wrapper .login-form a{
     color:var(--color-1st)
 }
-.aida {
+#aida {
     background-color: red !important;
     width: 100px !important;
     height: 78px !important;
