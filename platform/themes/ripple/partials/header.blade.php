@@ -43,12 +43,15 @@
                             </div>
                         @endif
                         <div class="col-sm-4 d-flex align-center justify-content-end">
-                            <li>
-                                <a href="https://dev.icoa.it/">Icoa</a>
-                            </li>
-                            <li>
-                                <a href="https://cloud.icoa.it/">Cloud</a>
-                            </li>
+                            <ul>
+                                <li>
+                                    <a href="https://dev.icoa.it/">Icoa</a>
+                                </li>
+                                <li>
+                                    <a href="https://cloud.icoa.it/">Cloud</a>
+                                </li>
+                            </ul>
+
                         </div>
                         <div class="col-sm-4 d-flex align-center justify-content-end">
 
