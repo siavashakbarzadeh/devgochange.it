@@ -2,20 +2,20 @@
 
 return [
     'form' => [
-        'name' => 'Name',
-        'name_placeholder' => 'Tag\'s name (Maximum 120 characters)',
-        'description' => 'Description',
-        'description_placeholder' => 'Short description for tag (Maximum 400 characters)',
-        'categories' => 'Categories',
+        'name' => 'Nome',
+        'name_placeholder' => 'Tag\'s name (Massimo 120 caratteri)',
+        'description' => 'Descrizione',
+        'description_placeholder' => 'Breve descrizione del tag (Massimo 400 caratteri)',
+        'categories' => 'Categorie',
     ],
     'notices' => [
-        'no_select' => 'Please select at least one tag to take this action!',
+        'no_select' => 'Si prega di selezionare almeno un tag per eseguire questa azione!',
     ],
-    'create' => 'Create new tag',
-    'edit' => 'Edit tag',
-    'cannot_delete' => 'Tag could not be deleted',
-    'deleted' => 'Tag deleted',
-    'menu' => 'Tags',
-    'edit_this_tag' => 'Edit this tag',
-    'menu_name' => 'Tags',
+    'create' => 'Crea nuovo tag',
+    'edit' => 'Modifica tag',
+    'cannot_delete' => 'Il tag non può essere eliminato',
+    'deleted' => 'Tag eliminato',
+    'menu' => 'Tag',
+    'edit_this_tag' => 'Modifica questo tag',
+    'menu_name' => 'Tag',
 ];
