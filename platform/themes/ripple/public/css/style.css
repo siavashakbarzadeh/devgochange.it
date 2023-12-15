@@ -1618,12 +1618,7 @@ body[dir=rtl] .header .header-wrap .nav-top .hi-icon-wrap a{
     margin:0;
     padding:0
 }
-.nav-top ul li:hover{
-    list-style-type:none;
-    margin:0;
-    padding:0;
-    background-color: #fff;
-}
+
 .header .header-wrap  ul li{
     display:inline-block
 }
@@ -1875,4 +1870,8 @@ body{
 }
 .auth-form-wrapper .login-form a{
     color:var(--color-1st)
+}
+.nav-top ul li:hover {
+    color:#9d9d9d !important;
+    background-color: red !important;
 }
