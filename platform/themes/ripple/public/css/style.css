@@ -1673,6 +1673,7 @@ body[dir=rtl] .header .header-wrap .nav-top .hi-icon-wrap a{
 }
 .nav-top{
     background-color:#1b94df;
+    height: 75px;
     color:#666
 }
 .widget__tags .tag-link{
