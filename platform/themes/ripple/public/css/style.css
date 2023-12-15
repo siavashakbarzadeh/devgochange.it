@@ -1608,15 +1608,29 @@ body[dir=rtl] .header .header-wrap .nav-top .hi-icon-wrap a{
     height:40px;
     margin-bottom:0
 }
-.header .header-wrap .nav-top ul{
+.header .header-wrap  ul{
     list-style-type:none;
     margin:0;
     padding:0
 }
-.header .header-wrap .nav-top ul li{
+.nav-top ul{
+    list-style-type:none;
+    margin:0;
+    padding:0
+}
+.header .header-wrap  ul li{
     display:inline-block
 }
-.header .header-wrap .nav-top ul li a{
+.nav-top ul li{
+    display:inline-block
+}
+.header .header-wrap  ul li a{
+    display:inline-block;
+    font-size:13px;
+    line-height:42px;
+    margin-right:25px
+}
+.nav-top ul li a{
     display:inline-block;
     font-size:13px;
     line-height:42px;
