@@ -43,7 +43,7 @@
                             </div>
                         @endif
                         <div class="col-sm-4 d-flex align-center justify-content-end">
-                            <ul>
+                            <ul class='aida'>
                                 <li>
                                     <a href="https://dev.icoa.it/">Icoa</a>
                                 </li>
