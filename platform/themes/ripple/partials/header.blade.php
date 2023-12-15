@@ -24,9 +24,9 @@
     <!--[if IE 9]><body class="ie9 lt-ie10"><![endif]-->
     <body @if (BaseHelper::isRtlEnabled()) dir="rtl" @endif>
     {!! apply_filters(THEME_FRONT_BODY, null) !!}
-    <header class="header" id="header" style="height: 20%">
+    <header class="header" id="header" >
         <div class="header-wrap d-none d-sm-block" style="background-color: #0a53be !important;">
-            <nav class="nav-top ">
+            <nav class="nav-top " style="height: 75px !important;">
                 <div class="container">
                     <div class="row">
                         @if (theme_option('social_links') && $socialLinks = json_decode(theme_option('social_links'), true))
