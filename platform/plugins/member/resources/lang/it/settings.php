@@ -3,11 +3,12 @@
 
 
 return [
-    'title' => 'Member',
-    'description' => 'Settings for members',
-    'verify_account_email' => "Verify account's email?",
-    'verify_account_email_description' => 'Need to config email in Admin -> Settings -> Email to send email verification.',
-    'enable_recaptcha_in_register_page' => 'Enable Recaptcha in the registration page?',
-    'enable_recaptcha_in_register_page_description' => 'Need to setup Captcha in Admin -> Settings -> General first.',
+    'title' => 'Membro',
+    'description' => 'Impostazioni per i membri',
+    'verify_account_email' => "Verificare l'email dell'account?",
+    'verify_account_email_description' => 'È necessario configurare l\'email in Amministrazione -> Impostazioni -> Email per inviare la verifica via email.',
+    'enable_recaptcha_in_register_page' => 'Abilitare Recaptcha nella pagina di registrazione?',
+    'enable_recaptcha_in_register_page_description' => 'È necessario configurare il Captcha in Amministrazione -> Impostazioni -> Generale prima.',
 ];
+
 
