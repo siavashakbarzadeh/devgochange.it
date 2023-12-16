@@ -1,0 +1,43 @@
+<?php
+
+
+return [
+    'enabled' => 'Abilitato',
+    'deactivated' => 'Disattivato',
+    'activated' => 'Attivato',
+    'activate' => 'Attiva',
+    'deactivate' => 'Disattiva',
+    'author' => 'Di',
+    'update_plugin_status_success' => 'Aggiornamento del plugin riuscito',
+    'plugins' => 'Plugin',
+    'missing_required_plugins' => 'Per favore attiva il/i plugin: :plugins prima di attivare questo plugin!',
+    'remove' => 'Rimuovi',
+    'remove_plugin_success' => 'Rimozione del plugin riuscita!',
+    'remove_plugin' => 'Rimuovi plugin',
+    'remove_plugin_confirm_message' => 'Vuoi davvero rimuovere questo plugin?',
+    'remove_plugin_confirm_yes' => 'Sì, rimuovilo!',
+    'total_plugins' => 'Plugin totali',
+    'invalid_plugin' => 'Questo plugin non è un plugin valido, per favore controllalo di nuovo!',
+    'version' => 'Versione',
+    'invalid_json' => 'plugin.json non valido!',
+    'activate_success' => 'Attivazione del plugin riuscita!',
+    'activated_already' => 'Questo plugin è già attivato!',
+    'plugin_not_exist' => 'Questo plugin non esiste.',
+    'missing_json_file' => 'File plugin.json mancante!',
+    'plugin_invalid' => 'Plugin valido!',
+    'published_assets_success' => 'Pubblicazione delle risorse per il plugin :name riuscita!',
+    'plugin_removed' => 'Il plugin è stato rimosso!',
+    'deactivated_success' => 'Disattivazione del plugin riuscita!',
+    'deactivated_already' => 'Questo plugin è già disattivato!',
+    'folder_is_not_writeable' => 'Impossibile scrivere i file! La cartella :name non è scrivibile. Per favore imposta i permessi di scrittura!',
+    'plugin_is_not_ready' => 'Il plugin :name non è pronto per  uso',
+    'plugins_installed' => 'Plugin installati',
+    'plugins_add_new' => 'Aggiungi nuovo',
+    'update' => 'Aggiorna',
+    'requirement_not_met' => 'Il plugin :plugin richiede il/i plugin: :required_plugins. Vuoi installarli e attivare :plugin ora?',
+    'install' => 'Installa ora',
+    'install_plugin' => 'Installa Plugin',
+    'minimum_core_version_not_met' => 'Il plugin :plugin richiede la versione :minimum_core_version del core, ma la tua versione del core è :current_core_version. Per favore aggiorna il tuo core per utilizzare questo plugin!',
+];
+
+
