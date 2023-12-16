@@ -66,7 +66,7 @@ class NormalEmailController extends Controller
                     'subject' => $request->subject,
                     'reply_to' => $request->reply_to,
                     'body' => $request->body,
-                    'mailer' => "smtp_pec",
+                    'mailer' => "smtp",
                 ]);
                 if ($request->filled('emails') && count($request->emails)){
                     $email_obj->users()->attach(collect($request->emails)->map(function ($email) {
