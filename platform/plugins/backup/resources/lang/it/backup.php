@@ -1,0 +1,31 @@
+<?php
+
+return [
+    'name' => 'Backup',
+    'backup_description' => 'Backup del database e della cartella di upload.',
+    'create_backup_success' => 'Backup creato con successo!',
+    'delete_backup_success' => 'Backup eliminato con successo!',
+    'restore_backup_success' => 'Backup ripristinato con successo!',
+    'generate_btn' => 'Genera backup',
+    'create' => 'Crea un backup',
+    'restore' => 'Ripristina un backup',
+    'create_btn' => 'Crea',
+    'restore_btn' => 'Ripristina',
+    'restore_confirm_msg' => 'Vuoi davvero ripristinare questa revisione?',
+    'download_uploads_folder' => 'Scarica backup della cartella di upload',
+    'download_database' => 'Scarica backup del database',
+    'restore_tooltip' => 'Ripristina questo backup',
+    'demo_alert' => 'Ciao ospite, se vedi il sito demo distrutto, per favore aiutami <a href=":link">vai qui</a> e ripristina il sito demo all\'ultima revisione! Grazie mille!',
+    'menu_name' => 'Backup',
+    'size' => 'Dimensione',
+    'no_backups' => 'Non ci sono backup al momento!',
+    'proc_open_disabled_error' => 'La funzione <strong>proc_open()</strong> è stata disabilitata quindi il sistema non può fare il backup del database. Si prega di contattare il proprio fornitore di hosting per abilitarla.',
+    'database_backup_not_existed' => 'Il backup del database non esiste!',
+    'uploads_folder_backup_not_existed' => 'Il backup della cartella di upload non esiste!',
+    'important_message1' => 'Questa è una semplice funzione di backup, è una soluzione per te se il tuo sito ha < 1GB di dati e può essere utilizzata per fare rapidamente il backup del tuo sito.',
+    'important_message2' => 'Se hai più di 1GB di immagini/file nell\'archiviazione locale, dovresti utilizzare la funzione di backup del tuo hosting o VPS.',
+    'important_message3' => 'Per fare il backup del tuo database, la funzione <strong>proc_open()</strong> o <strong>system()</strong> deve essere abilitata. Contatta il tuo fornitore di hosting per abilitarla se è disabilitata.',
+    'important_message4' => 'Non è un backup completo, è solo un backup dei file caricati e del tuo database.',
+    'cannot_restore_database' => 'Impossibile ripristinare il database. Il backup del database manca!',
+];
+

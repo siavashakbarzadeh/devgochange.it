@@ -1,0 +1,31 @@
+<?php
+
+return [
+    'name' => 'Registri delle Attività',
+    'created' => 'creato',
+    'updated' => 'aggiornato',
+    'deleted' => 'eliminato',
+    'logged in' => 'acceduto',
+    'logged out' => 'uscito',
+    'changed password' => 'cambiato password',
+    'updated profile' => 'profilo aggiornato',
+    'attached' => 'allegato',
+    'shared' => 'condiviso',
+    'to the system' => 'al sistema',
+    'of the system' => 'del sistema',
+    'menu' => 'menu',
+    'post' => 'post',
+    'page' => 'pagina',
+    'category' => 'categoria',
+    'tag' => 'tag',
+    'user' => 'utente',
+    'contact' => 'contatto',
+    'backup' => 'backup',
+    'custom-field' => 'campo personalizzato',
+    'widget_audit_logs' => 'Registri delle Attività',
+    'action' => 'Azione',
+    'user_agent' => 'User Agent',
+    'system' => 'Sistema',
+    'delete_all' => 'Elimina tutti i record',
+];
+
