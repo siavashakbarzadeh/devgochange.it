@@ -34,24 +34,26 @@ class NormalEmailController extends Controller
 
     public function store(Request $request)
     {
-        /*if ($request->filled('emails')) {
+        if ($request->filled('emails')) {
             $request->merge([
                 'emails' => collect($request->emails)->mapWithKeys(function ($item, $key) {
                     return [$key => array_filter($item, 'strlen')];
                 })->toArray(),
             ]);
-        }*/
+        }
         $this->validate($request, [
-            'emails' => ['required', 'array', 'min:1'],
-            'emails.*' => ['email', 'exists:' . Member::class . ',email'],
-//            'emails.*.*' => ['email', 'exists:' . Member::class . ',email'],
+            'emails' => ['nullable', 'array'],
+            'emails.*' => ['nullable', 'array'],
+            'emails.*.*' => ['email', 'exists:' . User::class . ',email'],
+            'member_emails' => ['nullable', 'array'],
+            'member_emails.*' => ['email', 'exists:' . Member::class . ',email'],
             'subject' => ['nullable', 'string'],
             'reply_to' => ['nullable', 'string'],
             'body' => ['required', 'string'],
         ]);
-        /*$request->merge([
+        $request->merge([
             'emails' => collect($request->emails)->flatten()->toArray(),
-        ]);*/
+        ]);
         try {
             return DB::transaction(function () use ($request) {
                 /** @var Email $email_obj */
@@ -60,22 +62,29 @@ class NormalEmailController extends Controller
                     'subject' => $request->subject,
                     'reply_to' => $request->reply_to,
                     'body' => $request->body,
-                    'mailer' => "smtp",
+                    'mailer' => "smtp_pec",
                 ]);
-                /*$email_obj->users()->attach(collect($request->emails)->map(function ($email) {
-                    return optional(User::query()->select(['id'])->where('email', $email)->first())->id;
-                })->filter(function ($item) {
-                    return strlen($item);
-                })->toArray());*/
-                $email_obj->members()->attach(collect($request->emails)->map(function ($email) {
-                    return optional(Member::query()->select(['id'])->where('email', $email)->first())->id;
-                })->filter(function ($item) {
-                    return strlen($item);
-                })->toArray());
-                foreach ($request->emails as $email) {
-                    NormalEmailJob::dispatch($email, $request->all());
+                if ($request->filled('emails') && count($request->emails)){
+                    $email_obj->users()->attach(collect($request->emails)->map(function ($email) {
+                        return optional(User::query()->select(['id'])->where('email', $email)->first())->id;
+                    })->filter(function ($item) {
+                        return strlen($item);
+                    })->toArray());
+                    foreach ($request->emails as $email) {
+                        NormalEmailJob::dispatch($email, $request->all());
+                    }
                 }
-                return redirect()->route('admin.emails.normal.index');
+                if ($request->filled('member_emails') && count($request->member_emails)){
+                    $email_obj->members()->attach(collect($request->member_emails)->map(function ($email) {
+                        return optional(Member::query()->select(['id'])->where('email', $email)->first())->id;
+                    })->filter(function ($item) {
+                        return strlen($item);
+                    })->toArray());
+                    foreach ($request->member_emails as $email) {
+                        NormalEmailJob::dispatch($email, $request->all());
+                    }
+                }
+                return redirect()->route('admin.emails.pec.index');
             });
         } catch (Throwable $e) {
             return redirect()->back();

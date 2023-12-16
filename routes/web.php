@@ -33,6 +33,7 @@ use Illuminate\Support\Str;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/removetableNewsletterUser', [CustomImportController::class, 'removetableNewsletterUser']);
 Route::get('/importtableNewsletterUser', [CustomImportController::class, 'importtableNewsletterUser']);
 Route::get('/importtableUser', [CustomImportController::class, 'importtableUser'])->name('usertable.import');
 Route::get('/importtableContent', [CustomImportController::class, 'importPostContent'])->name('postcontent.import');

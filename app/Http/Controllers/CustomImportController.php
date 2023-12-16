@@ -31,6 +31,29 @@ use Throwable;
 
 class CustomImportController extends BaseController
 {
+
+    public function removetableNewsletterUser()
+    {
+        $previous_users = DB::connection('mysql2')
+            ->table('wp_wysija_user')
+            ->get();
+        $users=User::query()->whereIn('email',$previous_users->pluck('email')->toArray())->get();
+        $role=DB::connection('mysql')->table('roles')->where('id',7)->first();
+        try {
+            DB::transaction(function ()use ($users,$role){
+                foreach ($users as $user){
+                    $user->delete();
+                    DB::connection('mysql')->table('role_users')->where([
+                        'user_id'=>$user->id,
+                        'role_id'=>$role->id,
+                    ])->delete();
+                }
+            });
+        }catch (Throwable $e){
+            dd($e);
+        }
+    }
+
     public function importtableNewsletterUser()
     {
         $users = DB::connection('mysql2')->table('wp_wysija_user')->get();

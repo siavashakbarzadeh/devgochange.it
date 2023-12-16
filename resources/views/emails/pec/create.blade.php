@@ -26,16 +26,32 @@
         <form action="{{ route('admin.emails.pec.store') }}" method="post">
             @csrf
             <div class="row">
-                <div class="col-12">
+                @foreach($emails as $key=>$email)
+                    <div class="col-12 col-md-6">
+                        <div class="mb-3">
+                            <label for="select_{{ $key }}" class="text-title-field">{{ $key }}</label>
+                            <select name="emails[{{ $key }}][]" id="select_{{ $key }}" multiple>
+                                @foreach($email as $item)
+                                    <option value="{{ $item['email'] }}"
+                                            @if(old('emails') && in_array($item['email'],collect(old('emails'))->flatten()->toArray())) selected @endif>{{ $item['email'] }}</option>
+                                @endforeach
+                            </select>
+                            @error('select_'.$key)
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                @endforeach
+                <div class="col-12 col-md-6">
                     <div class="mb-3">
-                        <label for="select_members" class="text-title-field">Members</label>
-                        <select name="emails[]" id="select_members" multiple>
+                        <label for="select_members" class="text-title-field">News letter</label>
+                        <select name="member_emails[]" id="select_members" multiple>
                             @foreach($members as $item)
                                 <option value="{{ $item['email'] }}"
-                                        @if(old('emails') && in_array($item['email'],old('emails'))) selected @endif>{{ $item['email'] }}</option>
+                                        @if(old('member_emails') && in_array($item['email'],old('member_emails'))) selected @endif>{{ $item['email'] }}</option>
                             @endforeach
                         </select>
-                        @error('emails')
+                        @error('member_emails')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
