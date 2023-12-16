@@ -1,17 +1,18 @@
 <?php
 
 return [
-    'create_success_message' => 'Created successfully',
-    'update_success_message' => 'Updated successfully',
-    'delete_success_message' => 'Deleted successfully',
-    'success_header' => 'Success!',
-    'error_header' => 'Error!',
-    'no_select' => 'Please select at least one record to perform this action!',
-    'processing_request' => 'We are processing your request.',
-    'error' => 'Error!',
-    'success' => 'Success!',
-    'info' => 'Info!',
+    'create_success_message' => 'Creato con successo',
+    'update_success_message' => 'Aggiornato con successo',
+    'delete_success_message' => 'Eliminato con successo',
+    'success_header' => 'Successo!',
+    'error_header' => 'Errore!',
+    'no_select' => 'Seleziona almeno un record per eseguire questa azione!',
+    'processing_request' => 'Stiamo elaborando la tua richiesta.',
+    'error' => 'Errore!',
+    'success' => 'Successo!',
+    'info' => 'Informazioni!',
     'enum' => [
-        'validate_message' => 'The :attribute value you have entered is invalid.',
+        'validate_message' => 'Il valore di :attribute che hai inserito non è valido.',
     ],
 ];
+

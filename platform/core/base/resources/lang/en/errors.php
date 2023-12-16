@@ -1,25 +1,26 @@
 <?php
 
 return [
-    '401_title' => 'Permission Denied',
-    '401_msg' => '<li>You have not been granted access to the section by the administrator.</li>
-	                <li>You may have the wrong account type.</li>
-	                <li>You are not authorized to view the requested resource.</li>
-	                <li>Your subscription may have expired.</li>',
-    '404_title' => 'Page could not be found',
-    '404_msg' => '<li>The page you requested does not exist.</li>
-	                <li>The link you clicked is no longer.</li>
-	                <li>The page may have moved to a new location.</li>
-	                <li>An error may have occurred.</li>
-	                <li>You are not authorized to view the requested resource.</li>',
-    '500_title' => 'Page could not be loaded',
-    '500_msg' => '<li>The page you requested does not exist.</li>
-	                <li>The link you clicked is no longer.</li>
-	                <li>The page may have moved to a new location.</li>
-	                <li>An error may have occurred.</li>
-	                <li>You are not authorized to view the requested resource.</li>',
-    'reasons' => 'This may have occurred because of several reasons',
-    'try_again' => 'Please try again in a few minutes, or alternatively return to the homepage by <a href=":link">clicking here</a>.',
-    'not_found' => 'Not Found',
-    'results_not_found' => 'Results not found!',
+    '401_title' => 'Permesso Negato',
+    '401_msg' => '<li>Non ti è stato concesso l\'accesso a questa sezione dall\'amministratore.</li>
+	                <li>Potresti avere il tipo di account sbagliato.</li>
+	                <li>Non sei autorizzato a visualizzare la risorsa richiesta.</li>
+	                <li>Il tuo abbonamento potrebbe essere scaduto.</li>',
+    '404_title' => 'Pagina non trovata',
+    '404_msg' => '<li>La pagina richiesta non esiste.</li>
+	                <li>Il link cliccato non è più valido.</li>
+	                <li>La pagina potrebbe essere stata spostata in una nuova posizione.</li>
+	                <li>Si potrebbe essere verificato un errore.</li>
+	                <li>Non sei autorizzato a visualizzare la risorsa richiesta.</li>',
+    '500_title' => 'La pagina non può essere caricata',
+    '500_msg' => '<li>La pagina richiesta non esiste.</li>
+	                <li>Il link cliccato non è più valido.</li>
+	                <li>La pagina potrebbe essere stata spostata in una nuova posizione.</li>
+	                <li>Si potrebbe essere verificato un errore.</li>
+	                <li>Non sei autorizzato a visualizzare la risorsa richiesta.</li>',
+    'reasons' => 'Ciò potrebbe essere avvenuto a causa di diverse ragioni',
+    'try_again' => 'Si prega di riprovare tra qualche minuto, o in alternativa tornare alla homepage <a href=":link">cliccando qui</a>.',
+    'not_found' => 'Non Trovato',
+    'results_not_found' => 'Risultati non trovati!',
 ];
+

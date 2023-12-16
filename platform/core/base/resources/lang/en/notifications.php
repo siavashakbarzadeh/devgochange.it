@@ -1,13 +1,14 @@
 <?php
 
 return [
-    'notifications' => 'Notifications',
-    'mark_as_read' => 'Mark as read',
-    'clear' => 'Clear',
-    'no_notification_here' => 'No notifications here',
-    'please_check_again_later' => 'Please check again later',
-    'view_more' => 'View more...',
-    'view' => 'View',
-    'show_more' => 'Show more',
-    'show_less' => 'Show less',
+    'notifications' => 'Notifiche',
+    'mark_as_read' => 'Segna come letto',
+    'clear' => 'Pulisci',
+    'no_notification_here' => 'Nessuna notifica qui',
+    'please_check_again_later' => 'Si prega di controllare più tardi',
+    'view_more' => 'Vedi di più...',
+    'view' => 'Visualizza',
+    'show_more' => 'Mostra di più',
+    'show_less' => 'Mostra di meno',
 ];
+
