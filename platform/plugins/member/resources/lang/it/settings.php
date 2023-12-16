@@ -1,5 +1,7 @@
 <?php
 
+
+
 return [
     'title' => 'Member',
     'description' => 'Settings for members',
@@ -8,3 +10,4 @@ return [
     'enable_recaptcha_in_register_page' => 'Enable Recaptcha in the registration page?',
     'enable_recaptcha_in_register_page_description' => 'Need to setup Captcha in Admin -> Settings -> General first.',
 ];
+
