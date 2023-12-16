@@ -1,0 +1,177 @@
+<?php
+
+return [
+
+
+    'filter' => 'Filtro',
+    'everything' => 'Tutto',
+    'image' => 'Immagine',
+    'video' => 'Video',
+    'document' => 'Documento',
+    'view_in' => 'Visualizza in',
+    'all_media' => 'Tutti i media',
+    'trash' => 'Cestino',
+    'recent' => 'Recenti',
+    'favorites' => 'Preferiti',
+    'upload' => 'Carica',
+    'create_folder' => 'Crea cartella',
+    'refresh' => 'Aggiorna',
+    'empty_trash' => 'Svuota il cestino',
+    'search_file_and_folder' => 'Cerca nella cartella corrente',
+    'sort' => 'Ordina',
+    'file_name_asc' => 'Nome del file - ASC',
+    'file_name_desc' => 'Nome del file - DESC',
+    'uploaded_date_asc' => 'Data di caricamento - ASC',
+    'uploaded_date_desc' => 'Data di caricamento - DESC',
+    'size_asc' => 'Dimensione - ASC',
+    'size_desc' => 'Dimensione - DESC',
+    'actions' => 'Azioni',
+    'nothing_is_selected' => 'Nessun elemento selezionato',
+    'insert' => 'Inserisci',
+    'folder_name' => 'Nome cartella',
+    'create' => 'Crea',
+    'rename' => 'Rinomina',
+    'crop' => 'Ritaglia',
+    'close' => 'Chiudi',
+    'save_changes' => 'Salva modifiche',
+    'move_to_trash' => 'Sposta elementi nel cestino',
+    'confirm_trash' => 'Sei sicuro di voler spostare questi elementi nel cestino?',
+    'confirm' => 'Conferma',
+    'confirm_delete' => 'Elimina elemento/i',
+    'confirm_delete_description' => 'La tua richiesta non può essere annullata. Sei sicuro di voler eliminare questi elementi?',
+    'empty_trash_title' => 'Svuota il cestino',
+    'empty_trash_description' => 'La tua richiesta non può essere annullata. Sei sicuro di voler eliminare tutti gli elementi nel cestino?',
+    'up_level' => 'Livello superiore',
+    'upload_progress' => 'Progresso caricamento',
+    'alt_text' => 'Testo alternativo',
+
+    'folder_created' => 'Cartella creata con successo!',
+    'gallery' => 'Galleria media',
+
+    'trash_error' => 'Errore durante  eliminazione degli elementi',
+    'trash_success' => 'Elementi selezionati spostati nel cestino con successo!',
+    'restore_error' => 'Errore durante il ripristino degli elementi selezionati',
+    'restore_success' => 'Elementi selezionati ripristinati con successo!',
+    'copy_success' => 'Elementi selezionati copiati con successo!',
+    'delete_success' => 'Elementi selezionati eliminati con successo!',
+    'favorite_success' => 'Elementi selezionati aggiunti ai preferiti con successo!',
+    'remove_favorite_success' => 'Elementi selezionati rimossi dai preferiti con successo!',
+    'rename_error' => 'Errore durante il cambio nome degli elementi selezionati',
+    'rename_success' => 'Elementi selezionati rinominati con successo!',
+    'crop_success' => 'Immagine ritagliata con successo!',
+    'empty_trash_success' => 'Cestino svuotato con successo!',
+    'invalid_action' => 'Azione non valida!',
+    'file_not_exists' => 'Il file non esiste!',
+    'download_file_error' => 'Errore durante il download dei file!',
+    'missing_zip_archive_extension' => 'Abilita estensione ZipArchive per scaricare il file!',
+    'can_not_download_file' => 'Impossibile scaricare questo file!',
+    'invalid_request' => 'Richiesta non valida!',
+    'add_success' => 'Elemento aggiunto con successo!',
+    'file_too_big' => 'File troppo grande. La dimensione massima di caricamento è :size byte',
+    'file_too_big_readable_size' => 'File troppo grande. La dimensione massima di caricamento è :size.',
+    'can_not_detect_file_type' => 'Tipo di file non consentito o impossibile rilevare il tipo di file!',
+    'upload_failed' => 'Il file NON è stato caricato completamente. Il server consente una dimensione massima di caricamento di :size. Controlla la dimensione del file O riprova a caricare in caso di errori di rete',
+    'failed_to_crop_image' => 'Il ritaglio del file deve essere di tipo immagine',
+    'menu_name' => 'Media',
+    'add' => 'Aggiungi media',
+
+    'javascript' => [
+        'name' => 'Nome',
+        'url' => 'URL',
+        'full_url' => 'URL completo',
+        'alt' => 'Testo alternativo',
+        'size' => 'Dimensione',
+        'mime_type' => 'Tipo',
+        'created_at' => 'Caricato il',
+        'updated_at' => 'Modificato il',
+        'nothing_selected' => 'Nessun elemento selezionato',
+        'visit_link' => 'Apri link',
+
+        'no_item' => [
+            'all_media' => [
+                'icon' => 'fas fa-cloud-upload-alt',
+                'title' => 'Trascina file e cartelle qui',
+                'message' => 'Oppure usa il pulsante di caricamento qui sopra',
+            ],
+            'trash' => [
+                'icon' => 'fas fa-trash-alt',
+                'title' => 'Non cè nulla nel tuo cestino al momento',
+                'message' => 'Elimina i file per spostarli automaticamente nel cestino. Elimina i file dal cestino per rimuoverli definitivamente',
+            ],
+            'favorites' => [
+                'icon' => 'fas fa-star',
+                'title' => 'Non hai ancora aggiunto nulla ai preferiti',
+                'message' => 'Aggiungi file ai preferiti per trovarli facilmente in seguito',
+            ],
+            'recent' => [
+                'icon' => 'far fa-clock',
+                'title' => 'Non hai aperto nulla ancora',
+                'message' => 'Tutti i file recenti che hai aperto saranno visualizzati qui',
+            ],
+            'default' => [
+                'icon' => 'fas fa-sync',
+                'title' => 'Nessun elemento',
+                'message' => 'Questa directory non contiene elementi',
+            ],
+        ],
+
+        'clipboard' => [
+            'success' => 'Questi link ai file sono stati copiati negli appunti',
+        ],
+
+        'message' => [
+            'error_header' => 'Errore',
+            'success_header' => 'Successo',
+        ],
+
+        'download' => [
+            'error' => 'Nessun file selezionato o impossibile scaricare questi file',
+        ],
+
+        'actions_list' => [
+            'basic' => [
+                'preview' => 'Anteprima',
+                'crop' => 'Ritaglia',
+            ],
+            'file' => [
+                'copy_link' => 'Copia link',
+                'rename' => 'Rinomina',
+                'make_copy' => 'Crea una copia',
+                'alt_text' => 'Testo ALT',
+            ],
+            'user' => [
+                'favorite' => 'Aggiungi ai preferiti',
+                'remove_favorite' => 'Rimuovi dai preferiti',
+            ],
+            'other' => [
+                'download' => 'Scarica',
+                'trash' => 'Sposta nel cestino',
+                'delete' => 'Elimina definitivamente',
+                'restore' => 'Ripristina',
+            ],
+        ],
+        'change_image' => 'Cambia immagine',
+        'delete_image' => 'Elimina immagine',
+        'choose_image' => 'Scegli immagine',
+        'preview_image' => 'Anteprima immagine',
+    ],
+
+    'name_invalid' => 'Il nome della cartella contiene caratteri non validi.',
+    'url_invalid' => 'Fornisci un URL valido',
+    'path_invalid' => 'Fornisci un percorso valido',
+    'download_link' => 'Scarica',
+    'url' => 'URL',
+    'download_explain' => 'Inserisci un URL per riga.',
+    'downloading' => 'Download in corso...',
+    'prepare_file_to_download' => 'Preparazione del file per il download...',
+    'update_alt_text_success' => 'Aggiornamento del testo alternativo riuscito con successo!',
+
+    'cropper' => [
+        'height' => 'Altezza',
+        'width' => 'Larghezza',
+        'aspect_ratio' => 'Rapporto  aspetto?',
+    ],
+    'unable_to_write' => 'Impossibile scrivere il file. Modifica i permessi della cartella ":folder" per renderla scrivibile!',
+
+
+];
