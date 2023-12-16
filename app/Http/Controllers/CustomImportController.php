@@ -34,11 +34,11 @@ class CustomImportController extends BaseController
     public function importtableNewsletterUser()
     {
         $users = DB::connection('mysql2')->table('wp_wysija_user')->get();
-        $role=DB::connection('mysql')->table('roles')->where('id',7)->first();
+        /*$role=DB::connection('mysql')->table('roles')->where('id',7)->first();*/
         try {
-            DB::transaction(function () use ($users,$role) {
+            DB::transaction(function () use ($users) {
                 foreach ($users as $user) {
-                    DB::connection('mysql')->table('users')->updateOrInsert(
+                    DB::connection('mysql')->table('members')->updateOrInsert(
                         [
                             'email' => $user->email,
                         ], [
@@ -46,12 +46,12 @@ class CustomImportController extends BaseController
                             'last_name' => $user->lastname,
                             'email' => $user->email,
                             'password' => bcrypt('12345678'),
-                            'email_verified_at' => now(),
+                            'confirmed_at' => now(),
                             'created_at' => now(),
                             'updated_at' => now(),
                         ]
                     );
-                    $dbUser=DB::connection('mysql')->table('users')->where('email',$user->email)->first();
+                    /*$dbUser=DB::connection('mysql')->table('users')->where('email',$user->email)->first();
                     if (!DB::connection('mysql')->table('role_users')->where(['user_id'=>$dbUser->id,'role_id'=>$role->id])->exists()){
                         DB::connection('mysql')->table('role_users')->insert([
                             'user_id'=>$dbUser->id,
@@ -59,7 +59,7 @@ class CustomImportController extends BaseController
                             'created_at' => now(),
                             'updated_at' => now(),
                         ]);
-                    }
+                    }*/
                 }
             });
         } catch (Throwable $e) {

@@ -8,6 +8,7 @@ use Botble\Ecommerce\Jobs\SendQuestionnaireToCustomerJob;
 use Botble\Ecommerce\Mail\OrderConfirmed;
 use Botble\Ecommerce\Mail\SendQuestionnaireToCustomer;
 use Botble\Ecommerce\Models\Order;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -19,6 +20,7 @@ use App\Http\Controllers\SPCController;
 use App\Http\Controllers\strumentazioniFilterController;
 use Botble\Ecommerce\Http\Controllers\OfferTypeController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 /*
@@ -40,7 +42,18 @@ Route::get('/importposts', [CustomImportController::class, 'importPost'])->name(
 Route::get('/importusers', [CustomImportController::class, 'importUser'])->name('user.import');
 
 Route::get('/test', function () {
-    \Illuminate\Support\Facades\Artisan::call('storage:link');
+    Schema::create('email_member', function (Blueprint $table) {
+        $table->foreignId('member_id')
+            ->references('id')
+            ->on('members')
+            ->cascadeOnUpdate()
+            ->cascadeOnDelete();
+        $table->foreignId('email_id')
+            ->references('id')
+            ->on('emails')
+            ->cascadeOnUpdate()
+            ->cascadeOnDelete();
+    });
 });
 
 

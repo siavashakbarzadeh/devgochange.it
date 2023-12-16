@@ -8,6 +8,7 @@ use App\Mail\TestMail;
 use App\Models\Email;
 use App\Models\EmailTemplate;
 use App\Models\User;
+use Botble\Member\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -24,33 +25,32 @@ class PecEmailController extends Controller
 
     public function create()
     {
-        $emails = \Botble\ACL\Models\User::query()->with(['roles:name'])->select(['id', 'email'])->get()->map(function ($item) {
-            $item->role = $item->roles->pluck('name')->first() ?? "default";
-            return $item;
-        })->groupBy('role')->toArray();
-        return view('emails.pec.create', compact('emails'));
+        $members = Member::query()
+            ->select(['id', 'first_name', 'last_name', 'email'])
+            ->get();
+        return view('emails.pec.create', compact('members'));
     }
 
     public function store(Request $request)
     {
-        if ($request->filled('emails')) {
+        /*if ($request->filled('emails')) {
             $request->merge([
                 'emails' => collect($request->emails)->mapWithKeys(function ($item, $key) {
                     return [$key => array_filter($item, 'strlen')];
                 })->toArray(),
             ]);
-        }
+        }*/
         $this->validate($request, [
             'emails' => ['required', 'array', 'min:1'],
-            'emails.*' => ['nullable', 'array'],
-            'emails.*.*' => ['email', 'exists:' . \Botble\ACL\Models\User::class . ',email'],
+            'emails.*' => ['email', 'exists:' . Member::class . ',email'],
+//            'emails.*.*' => ['email', 'exists:' . Member::class . ',email'],
             'subject' => ['nullable', 'string'],
             'reply_to' => ['nullable', 'string'],
             'body' => ['required', 'string'],
         ]);
-        $request->merge([
+        /*$request->merge([
             'emails' => collect($request->emails)->flatten()->toArray(),
-        ]);
+        ]);*/
         try {
             return DB::transaction(function () use ($request) {
                 /** @var Email $email_obj */
@@ -61,8 +61,13 @@ class PecEmailController extends Controller
                     'body' => $request->body,
                     'mailer' => "smtp_pec",
                 ]);
-                $email_obj->users()->attach(collect($request->emails)->map(function ($email) {
+                /*$email_obj->users()->attach(collect($request->emails)->map(function ($email) {
                     return optional(User::query()->select(['id'])->where('email', $email)->first())->id;
+                })->filter(function ($item) {
+                    return strlen($item);
+                })->toArray());*/
+                $email_obj->members()->attach(collect($request->emails)->map(function ($email) {
+                    return optional(Member::query()->select(['id'])->where('email', $email)->first())->id;
                 })->filter(function ($item) {
                     return strlen($item);
                 })->toArray());

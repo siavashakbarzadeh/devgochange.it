@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Botble\Member\Models\Member;
 use Illuminate\Database\Eloquent\Model;
 
 class Email extends Model
@@ -18,5 +18,10 @@ class Email extends Model
     public function users()
     {
         return $this->belongsToMany(User::class);
+    }
+
+    public function members()
+    {
+        return $this->belongsToMany(Member::class);
     }
 }

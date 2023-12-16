@@ -26,22 +26,20 @@
         <form action="{{ route('admin.emails.normal.store') }}" method="post">
             @csrf
             <div class="row">
-                @foreach($emails as $key=>$email)
-                    <div class="col-12 col-md-6">
-                        <div class="mb-3">
-                            <label for="select_{{ $key }}" class="text-title-field">{{ $key }}</label>
-                            <select name="emails[{{ $key }}][]" id="select_{{ $key }}" multiple>
-                                @foreach($email as $item)
-                                    <option value="{{ $item['email'] }}"
-                                            @if(old('emails') && in_array($item['email'],old('emails'))) selected @endif>{{ $item['email'] }}</option>
-                                @endforeach
-                            </select>
-                            @error('select_'.$key)
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="select_members" class="text-title-field">Members</label>
+                        <select name="emails[]" id="select_members" multiple>
+                            @foreach($members as $item)
+                                <option value="{{ $item['email'] }}"
+                                        @if(old('emails') && in_array($item['email'],old('emails'))) selected @endif>{{ $item['email'] }}</option>
+                            @endforeach
+                        </select>
+                        @error('emails')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
-                @endforeach
+                </div>
             </div>
             <div class="row">
                 <div class="col-12 col-md-6">
