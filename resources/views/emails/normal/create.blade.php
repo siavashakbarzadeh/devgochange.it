@@ -42,7 +42,7 @@
                         </div>
                     </div>
                 @endforeach
-                <div class="col-12 col-md-6">
+                <div class="col-12">
                     <div class="mb-3">
                         <label for="select_members" class="text-title-field">News letter</label>
                         <select name="member_emails[]" id="select_members" multiple>
