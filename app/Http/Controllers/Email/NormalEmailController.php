@@ -28,18 +28,7 @@ class NormalEmailController extends Controller
 
     public function create()
     {
-        Schema::create('email_member', function (Blueprint $table) {
-            $table->foreignId('member_id')
-                ->references('id')
-                ->on('members')
-                ->cascadeOnUpdate()
-                ->cascadeOnDelete();
-            $table->foreignId('email_id')
-                ->references('id')
-                ->on('emails')
-                ->cascadeOnUpdate()
-                ->cascadeOnDelete();
-        });
+      
         $emails = \Botble\ACL\Models\User::query()->with(['roles:name'])->select(['id', 'email'])->get()->map(function ($item) {
             $item->role = $item->roles->pluck('name')->first() ?? "default";
             return $item;
