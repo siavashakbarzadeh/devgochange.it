@@ -28,7 +28,7 @@ class NormalEmailController extends Controller
 
     public function create()
     {
-      
+
         $emails = \Botble\ACL\Models\User::query()->with(['roles:name'])->select(['id', 'email'])->get()->map(function ($item) {
             $item->role = $item->roles->pluck('name')->first() ?? "default";
             return $item;
