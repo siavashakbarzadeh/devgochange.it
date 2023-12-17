@@ -88,9 +88,10 @@ class NormalEmailController extends Controller
                         NormalEmailJob::dispatch($email, $request->all());
                     }
                 }
-                return redirect()->route('admin.emails.pec.index');
+                return redirect()->route('admin.emails.normal.index');
             });
         } catch (Throwable $e) {
+            dd($e);
             return redirect()->back();
         }
     }
